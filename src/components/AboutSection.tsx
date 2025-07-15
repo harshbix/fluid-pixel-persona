@@ -33,9 +33,9 @@ export const AboutSection = () => {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-foreground">Bix Chen</h3>
+                  <h3 className="text-2xl font-bold text-foreground">Junior Jeconia</h3>
                   <p className="text-muted-foreground">Creative Designer & Developer</p>
-                  <p className="text-sm text-accent">San Francisco, CA</p>
+                  <p className="text-sm text-accent">Dar es Salaam, TZ</p>
                 </div>
               </div>
               

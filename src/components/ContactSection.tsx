@@ -31,19 +31,19 @@ export const ContactSection = () => {
     {
       icon: Mail,
       label: 'Email',
-      value: 'hello@bixchen.design',
-      href: 'mailto:hello@bixchen.design'
+      value: 'juniorjeconia@icloud.com',
+      href: 'mailto:juniorjeconia@icloud.com'
     },
     {
       icon: Phone,
       label: 'Phone',
-      value: '+1 (555) 123-4567',
-      href: 'tel:+15551234567'
+      value: '+255 (0) 755-063-711',
+      href: 'tel:+255755063711'
     },
     {
       icon: MapPin,
       label: 'Location',
-      value: 'San Francisco, CA',
+      value: 'Dar es Salaam, TZ',
       href: '#'
     }
   ];

@@ -32,7 +32,7 @@ export const HeroSection = () => {
           onClick={cycleSecretTheme}
         >
           <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-float">
-            Bix Chen
+            Junior Jeconia
           </span>
         </h1>
 
