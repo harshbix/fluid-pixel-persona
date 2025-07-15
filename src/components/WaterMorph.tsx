@@ -28,7 +28,7 @@ export const WaterMorph: React.FC<WaterMorphProps> = ({ className = '' }) => {
       ref={morphRef}
       className={`
         water-morph fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-        w-96 h-96 opacity-20 pointer-events-none z-0
+        w-[30rem] h-[30rem] opacity-50 pointer-events-none z-0
         ${className}
       `}
       style={{
