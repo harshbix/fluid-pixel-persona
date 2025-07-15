@@ -151,7 +151,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-border/50">
           <p className="text-muted-foreground text-sm mb-4 md:mb-0 flex items-center gap-2">
-            © {currentYear} Bix Chen. Made with 
+            © {currentYear} JuniorJeconia. Made with 
             <Heart className="w-4 h-4 text-red-500 animate-pulse" /> 
             and lots of 
             <Coffee className="w-4 h-4 text-amber-600" />
@@ -167,7 +167,7 @@ export const Footer = () => {
         {/* Fun Easter Egg */}
         <div className="text-center mt-8">
           <p className="text-xs text-muted-foreground/50">
-            🎨 Designed & built with attention to every pixel • Press 'W' for a surprise
+            🎨 Designed & built with attention to every pixel • Press 'W' for a surprise!
           </p>
         </div>
       </div>
