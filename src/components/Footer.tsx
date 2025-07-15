@@ -4,25 +4,25 @@ const socialLinks = [
   {
     name: 'GitHub',
     icon: Github,
-    href: 'https://github.com/bixchen',
+    href: 'https://github.com/harshbix',
     color: 'hover:text-gray-900 dark:hover:text-white'
   },
   {
     name: 'Dribbble',
     icon: Dribbble,
-    href: 'https://dribbble.com/bixchen',
+    href: 'https://dribbble.com/harshbix',
     color: 'hover:text-pink-500'
   },
   {
     name: 'LinkedIn',
     icon: Linkedin,
-    href: 'https://linkedin.com/in/bixchen',
+    href: 'https://www.linkedin.com/in/junior-jeconia-90710b265',
     color: 'hover:text-blue-600'
   },
   {
-    name: 'Twitter',
+    name: 'X || Twitter',
     icon: Twitter,
-    href: 'https://twitter.com/bixchen',
+    href: 'https://twitter.com/b1xson',
     color: 'hover:text-blue-400'
   }
 ];
@@ -46,7 +46,7 @@ export const Footer = () => {
           <div className="lg:col-span-2">
             <div className="glass-panel rounded-2xl p-6 glass-glow">
               <h3 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-4">
-                Bix Chen
+                Junior Jeconia
               </h3>
               <p className="text-muted-foreground mb-6 leading-relaxed">
                 A passionate designer crafting digital experiences that delight users and drive business success. 
@@ -92,9 +92,9 @@ export const Footer = () => {
           <div>
             <h4 className="font-bold mb-6 text-foreground">Get in Touch</h4>
             <div className="space-y-3 text-muted-foreground">
-              <p>hello@bixchen.design</p>
-              <p>+1 (555) 123-4567</p>
-              <p>San Francisco, CA</p>
+              <p>juniorjeconia@icloud.com</p>
+              <p>+255 (0) 755-063-711</p>
+              <p>Mbeya, TZ</p>
               
               <div className="pt-4">
                 <div className="flex items-center gap-2 text-green-600 text-sm">
