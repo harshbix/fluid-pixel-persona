@@ -40,3 +40,41 @@
 .read-the-docs {
   color: #888;
 }
+body::before {
+  content: attr(data-theme);
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  font-weight: bold;
+  z-index: 9999;
+  background: #000;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Test styles */
+body[data-theme="birthday"] {
+  background-color: #ffe4e1;
+}
+body[data-theme="christmas"] {
+  background-color: #d00000;
+  color: white;
+}
+body[data-theme="sunny"] {
+  background-color: #ffe66d;
+}
+body[data-theme="rainy"] {
+  background-color: #a0c4ff;
+}
+body[data-theme="retro"] {
+  background-color: #fca311;
+}
+body[data-theme="neon"] {
+  background-color: #0affef;
+  color: #0f0;
+}
+body[data-theme="pastel"] {
+  background-color: #f4cccc;
+}
