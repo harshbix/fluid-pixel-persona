@@ -1,4 +1,5 @@
 import { Code, Palette, Zap, Users, Coffee, Heart } from 'lucide-react';
+import { useCountAnimation } from '../hooks/useCountAnimation';
 
 const skills = [
   { name: 'UI/UX Design', icon: Palette, level: 95 },
@@ -62,53 +63,71 @@ export const AboutSection = () => {
           <div className="space-y-6">
             <h3 className="text-2xl font-bold mb-6">Skills & Expertise</h3>
             
-            {skills.map((skill, index) => (
-              <div 
-                key={skill.name}
-                className="glass-panel rounded-xl p-4 glass-glow transition-smooth hover:scale-[1.02]"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="flex items-center gap-4 mb-3">
-                  <skill.icon className="w-6 h-6 text-primary" />
-                  <span className="font-medium">{skill.name}</span>
-                  <span className="ml-auto text-sm text-muted-foreground">{skill.level}%</span>
+            {skills.map((skill, index) => {
+              const { count, elementRef } = useCountAnimation({
+                endValue: skill.level,
+                delay: index * 200,
+                duration: 2000
+              });
+
+              return (
+                <div 
+                  key={skill.name}
+                  ref={elementRef}
+                  className="glass-panel rounded-xl p-4 glass-glow transition-smooth hover:scale-[1.02]"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className="flex items-center gap-4 mb-3">
+                    <skill.icon className="w-6 h-6 text-primary" />
+                    <span className="font-medium">{skill.name}</span>
+                    <span className="ml-auto text-sm text-muted-foreground">{count}%</span>
+                  </div>
+                  
+                  <div className="w-full bg-secondary rounded-full h-2">
+                    <div 
+                      className="bg-gradient-to-r from-primary to-accent h-2 rounded-full transition-all duration-1000 ease-out"
+                      style={{ 
+                        width: `${count}%`,
+                        animationDelay: `${index * 0.2}s` 
+                      }}
+                    />
+                  </div>
                 </div>
-                
-                <div className="w-full bg-secondary rounded-full h-2">
-                  <div 
-                    className="bg-gradient-to-r from-primary to-accent h-2 rounded-full transition-all duration-1000 ease-out"
-                    style={{ 
-                      width: `${skill.level}%`,
-                      animationDelay: `${index * 0.2}s` 
-                    }}
-                  />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
         {/* Fun Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
           {[
-            { label: 'Projects Completed', value: '150+' },
-            { label: 'Happy Clients', value: '50+' },
-            { label: 'Cups of Coffee', value: '∞' },
-            { label: 'Years Experience', value: '5+' },
-          ].map((stat, index) => (
-            <div 
-              key={stat.label}
-              className="glass-panel rounded-xl p-6 text-center glass-glow animate-float"
-              style={{ animationDelay: `${index * 0.3}s` }}
-            >
-              <div className="text-2xl md:text-3xl font-bold text-primary mb-2">
-                {stat.value}
+            { label: 'Projects Completed', value: 150, suffix: '+' },
+            { label: 'Happy Clients', value: 50, suffix: '+' },
+            { label: 'Cups of Coffee', value: '∞', isInfinity: true },
+            { label: 'Years Experience', value: 5, suffix: '+' },
+          ].map((stat, index) => {
+            const { count, elementRef } = useCountAnimation({
+              endValue: stat.isInfinity ? 0 : (stat.value as number),
+              delay: index * 200,
+              duration: 2000
+            });
+
+            return (
+              <div 
+                key={stat.label}
+                ref={elementRef}
+                className="glass-panel rounded-xl p-6 text-center glass-glow animate-float"
+                style={{ animationDelay: `${index * 0.3}s` }}
+              >
+                <div className="text-2xl md:text-3xl font-bold text-primary mb-2">
+                  {stat.isInfinity ? '∞' : `${count}${stat.suffix}`}
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  {stat.label}
+                </div>
               </div>
-              <div className="text-sm text-muted-foreground">
-                {stat.label}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

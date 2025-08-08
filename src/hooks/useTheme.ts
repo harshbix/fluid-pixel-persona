@@ -80,6 +80,15 @@ export const useTheme = () => {
     setSecretTheme(secretThemes[nextIndex]);
   };
 
+  // Set specific theme
+  const setTheme = (themeId: string | null) => {
+    if (themeId === null || themeId === 'default') {
+      setSecretTheme(null);
+    } else {
+      setSecretTheme(themeId);
+    }
+  };
+
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === 'w') {
@@ -94,5 +103,6 @@ export const useTheme = () => {
     ...themeData,
     secretTheme,
     cycleSecretTheme,
+    setTheme,
   };
 };

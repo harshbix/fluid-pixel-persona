@@ -163,48 +163,105 @@
   }
 
   /* Secret theme classes */
-  .theme-retro {
+  body[data-theme="retro"] {
     --theme-bg: 35 100% 95%;
     --theme-accent: 25 85% 55%;
     --theme-glow: 25 75% 65%;
   }
 
-  .theme-neon {
+  body[data-theme="neon"] {
     --theme-bg: 270 15% 8%;
     --theme-accent: 300 100% 60%;
     --theme-glow: 300 90% 70%;
   }
 
-  .theme-pastel {
+  body[data-theme="pastel"] {
     --theme-bg: 320 30% 95%;
     --theme-accent: 320 60% 65%;
     --theme-glow: 320 50% 75%;
   }
 
   /* Holiday theme classes */
-  .theme-christmas {
+  body[data-theme="christmas"] {
     --theme-bg: 0 60% 95%;
     --theme-accent: 0 80% 55%;
     --theme-glow: 0 70% 65%;
   }
 
-  .theme-eid {
+  body[data-theme="eid"] {
     --theme-bg: 120 40% 95%;
     --theme-accent: 120 60% 40%;
     --theme-glow: 120 50% 50%;
   }
 
   /* Weather-based themes */
-  .theme-sunny {
+  body[data-theme="sunny"] {
     --theme-bg: 45 80% 95%;
     --theme-accent: 45 90% 55%;
     --theme-glow: 45 80% 65%;
   }
 
-  .theme-rainy {
+  body[data-theme="rainy"] {
     --theme-bg: 220 30% 85%;
     --theme-accent: 220 50% 45%;
     --theme-glow: 220 40% 55%;
+  }
+
+  /* Birthday theme */
+  body[data-theme="birthday"] {
+    --theme-bg: 350 80% 95%;
+    --theme-accent: 350 90% 65%;
+    --theme-glow: 350 80% 75%;
+  }
+
+  /* Apply theme colors to CSS variables */
+  body[data-theme="retro"] {
+    --background: var(--theme-bg);
+    --primary: var(--theme-accent);
+    --accent: var(--theme-glow);
+  }
+
+  body[data-theme="neon"] {
+    --background: var(--theme-bg);
+    --primary: var(--theme-accent);
+    --accent: var(--theme-glow);
+    --foreground: 300 100% 90%;
+  }
+
+  body[data-theme="pastel"] {
+    --background: var(--theme-bg);
+    --primary: var(--theme-accent);
+    --accent: var(--theme-glow);
+  }
+
+  body[data-theme="christmas"] {
+    --background: var(--theme-bg);
+    --primary: var(--theme-accent);
+    --accent: var(--theme-glow);
+  }
+
+  body[data-theme="eid"] {
+    --background: var(--theme-bg);
+    --primary: var(--theme-accent);
+    --accent: var(--theme-glow);
+  }
+
+  body[data-theme="sunny"] {
+    --background: var(--theme-bg);
+    --primary: var(--theme-accent);
+    --accent: var(--theme-glow);
+  }
+
+  body[data-theme="rainy"] {
+    --background: var(--theme-bg);
+    --primary: var(--theme-accent);
+    --accent: var(--theme-glow);
+  }
+
+  body[data-theme="birthday"] {
+    --background: var(--theme-bg);
+    --primary: var(--theme-accent);
+    --accent: var(--theme-glow);
   }
 }
 
@@ -291,5 +348,38 @@
 
   .transition-bounce {
     transition: var(--transition-bounce);
+  }
+
+  /* Theme navigation specific styles */
+  .theme-nav-glass {
+    background: hsl(var(--glass-bg) / 0.9);
+    backdrop-filter: blur(24px);
+    border: 1px solid hsl(var(--glass-border) / 0.5);
+    box-shadow: 
+      0 8px 32px hsl(var(--glass-shadow)),
+      0 4px 16px hsl(var(--primary) / 0.1),
+      inset 0 1px 0 hsl(var(--glass-border) / 0.2);
+  }
+
+  .theme-nav-glass:hover {
+    box-shadow: 
+      0 12px 40px hsl(var(--glass-shadow)),
+      0 6px 20px hsl(var(--primary) / 0.15),
+      inset 0 1px 0 hsl(var(--glass-border) / 0.3);
+    transform: translateY(-2px);
+  }
+
+  /* Theme button animations */
+  .theme-btn-active {
+    animation: theme-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes theme-pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 4px hsl(var(--primary) / 0.1);
+    }
   }
 }

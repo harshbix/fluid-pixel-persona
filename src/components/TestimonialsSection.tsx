@@ -1,4 +1,5 @@
 import { Quote, Star } from 'lucide-react';
+import { useCountAnimation } from '@/hooks/useCountAnimation';
 
 const testimonials = [
   {
@@ -122,25 +123,34 @@ export const TestimonialsSection = () => {
         <div className="glass-panel rounded-2xl p-8 glass-glow">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { label: 'Client Satisfaction', value: '98%', icon: '😊' },
-              { label: 'Projects Delivered', value: '150+', icon: '🚀' },
-              { label: 'Repeat Clients', value: '85%', icon: '🔄' },
-              { label: 'Average Rating', value: '4.9/5', icon: '⭐' },
-            ].map((stat, index) => (
-              <div 
-                key={stat.label}
-                className="animate-float"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <div className="text-3xl mb-2">{stat.icon}</div>
-                <div className="text-2xl md:text-3xl font-bold text-primary mb-2">
-                  {stat.value}
+              { label: 'Client Satisfaction', value: 98, suffix: '%', icon: '😊' },
+              { label: 'Projects Delivered', value: 150, suffix: '+', icon: '🚀' },
+              { label: 'Repeat Clients', value: 85, suffix: '%', icon: '🔄' },
+              { label: 'Average Rating', value: 4.9, suffix: '/5', icon: '⭐' },
+            ].map((stat, index) => {
+              const { count, elementRef } = useCountAnimation({
+                endValue: stat.value,
+                delay: index * 200,
+                duration: 2000
+              });
+
+              return (
+                <div 
+                  key={stat.label}
+                  ref={elementRef}
+                  className="animate-float"
+                  style={{ animationDelay: `${index * 0.2}s` }}
+                >
+                  <div className="text-3xl mb-2">{stat.icon}</div>
+                  <div className="text-2xl md:text-3xl font-bold text-primary mb-2">
+                    {count}{stat.suffix}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {stat.label}
+                  </div>
                 </div>
-                <div className="text-sm text-muted-foreground">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
