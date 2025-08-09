@@ -130,10 +130,11 @@
 
   /* Water-glass component styles */
   .glass-panel {
-    background: hsl(var(--glass-bg));
+    background: hsl(var(--card));
     backdrop-filter: blur(20px);
-    border: 1px solid hsl(var(--glass-border));
+    border: 1px solid hsl(var(--border));
     box-shadow: var(--shadow-glass);
+    color: hsl(var(--card-foreground));
   }
 
   .glass-glow {
@@ -164,104 +165,159 @@
 
   /* Secret theme classes */
   body[data-theme="retro"] {
-    --theme-bg: 35 100% 95%;
-    --theme-accent: 25 85% 55%;
-    --theme-glow: 25 75% 65%;
+    --theme-bg: 35 100% 98%;
+    --theme-accent: 25 85% 45%;
+    --theme-glow: 25 75% 55%;
   }
 
   body[data-theme="neon"] {
     --theme-bg: 270 15% 8%;
-    --theme-accent: 300 100% 60%;
-    --theme-glow: 300 90% 70%;
+    --theme-accent: 300 100% 70%;
+    --theme-glow: 300 90% 80%;
   }
 
   body[data-theme="pastel"] {
-    --theme-bg: 320 30% 95%;
-    --theme-accent: 320 60% 65%;
-    --theme-glow: 320 50% 75%;
+    --theme-bg: 320 30% 98%;
+    --theme-accent: 320 60% 55%;
+    --theme-glow: 320 50% 65%;
   }
 
   /* Holiday theme classes */
   body[data-theme="christmas"] {
-    --theme-bg: 0 60% 95%;
-    --theme-accent: 0 80% 55%;
-    --theme-glow: 0 70% 65%;
+    --theme-bg: 0 60% 98%;
+    --theme-accent: 0 80% 45%;
+    --theme-glow: 0 70% 55%;
   }
 
   body[data-theme="eid"] {
-    --theme-bg: 120 40% 95%;
-    --theme-accent: 120 60% 40%;
-    --theme-glow: 120 50% 50%;
+    --theme-bg: 120 40% 98%;
+    --theme-accent: 120 60% 35%;
+    --theme-glow: 120 50% 45%;
   }
 
   /* Weather-based themes */
   body[data-theme="sunny"] {
-    --theme-bg: 45 80% 95%;
-    --theme-accent: 45 90% 55%;
-    --theme-glow: 45 80% 65%;
+    --theme-bg: 45 80% 98%;
+    --theme-accent: 45 90% 45%;
+    --theme-glow: 45 80% 55%;
   }
 
   body[data-theme="rainy"] {
-    --theme-bg: 220 30% 85%;
-    --theme-accent: 220 50% 45%;
-    --theme-glow: 220 40% 55%;
+    --theme-bg: 220 30% 90%;
+    --theme-accent: 220 50% 40%;
+    --theme-glow: 220 40% 50%;
   }
 
   /* Birthday theme */
   body[data-theme="birthday"] {
-    --theme-bg: 350 80% 95%;
-    --theme-accent: 350 90% 65%;
-    --theme-glow: 350 80% 75%;
+    --theme-bg: 350 80% 98%;
+    --theme-accent: 350 90% 55%;
+    --theme-glow: 350 80% 65%;
   }
 
   /* Apply theme colors to CSS variables */
   body[data-theme="retro"] {
     --background: var(--theme-bg);
+    --foreground: 25 50% 15%;
     --primary: var(--theme-accent);
     --accent: var(--theme-glow);
+    --muted-foreground: 25 30% 35%;
+    --card: 35 100% 96%;
+    --card-foreground: 25 50% 15%;
+    --secondary: 35 25% 92%;
+    --secondary-foreground: 25 50% 15%;
+    --muted: 35 25% 92%;
+    --border: 35 25% 88%;
+    --input: 35 25% 92%;
+    --ring: 25 85% 45%;
   }
 
   body[data-theme="neon"] {
     --background: var(--theme-bg);
+    --foreground: 300 100% 98%;
     --primary: var(--theme-accent);
     --accent: var(--theme-glow);
-    --foreground: 300 100% 90%;
+    --muted-foreground: 300 60% 85%;
+    --card: 270 15% 15%;
+    --card-foreground: 300 100% 98%;
+    --secondary: 270 20% 18%;
+    --secondary-foreground: 300 100% 98%;
+    --muted: 270 20% 18%;
+    --border: 270 20% 25%;
+    --input: 270 20% 18%;
+    --ring: 300 100% 70%;
   }
 
   body[data-theme="pastel"] {
     --background: var(--theme-bg);
+    --foreground: 320 50% 20%;
     --primary: var(--theme-accent);
     --accent: var(--theme-glow);
+    --muted-foreground: 320 30% 40%;
+    --card: 320 30% 96%;
+    --card-foreground: 320 50% 20%;
+    --secondary: 320 25% 92%;
+    --secondary-foreground: 320 50% 20%;
+    --muted: 320 25% 92%;
+    --border: 320 25% 88%;
+    --input: 320 25% 92%;
+    --ring: 320 60% 55%;
   }
 
   body[data-theme="christmas"] {
     --background: var(--theme-bg);
+    --foreground: 0 50% 15%;
     --primary: var(--theme-accent);
     --accent: var(--theme-glow);
+    --muted-foreground: 0 30% 35%;
+    --card: 0 60% 96%;
+    --card-foreground: 0 50% 15%;
+    --secondary: 0 25% 92%;
+    --secondary-foreground: 0 50% 15%;
+    --muted: 0 25% 92%;
+    --border: 0 25% 88%;
+    --input: 0 25% 92%;
+    --ring: 0 80% 45%;
   }
 
   body[data-theme="eid"] {
     --background: var(--theme-bg);
+    --foreground: 120 50% 15%;
     --primary: var(--theme-accent);
     --accent: var(--theme-glow);
+    --muted-foreground: 120 30% 35%;
+    --card: 120 40% 96%;
+    --card-foreground: 120 50% 15%;
+    --secondary: 120 25% 92%;
+    --secondary-foreground: 120 50% 15%;
+    --muted: 120 25% 92%;
+    --border: 120 25% 88%;
+    --input: 120 25% 92%;
+    --ring: 120 60% 35%;
   }
 
   body[data-theme="sunny"] {
     --background: var(--theme-bg);
+    --foreground: 45 50% 15%;
     --primary: var(--theme-accent);
     --accent: var(--theme-glow);
+    --muted-foreground: 45 30% 35%;
   }
 
   body[data-theme="rainy"] {
     --background: var(--theme-bg);
+    --foreground: 220 50% 15%;
     --primary: var(--theme-accent);
     --accent: var(--theme-glow);
+    --muted-foreground: 220 30% 35%;
   }
 
   body[data-theme="birthday"] {
     --background: var(--theme-bg);
+    --foreground: 350 50% 15%;
     --primary: var(--theme-accent);
     --accent: var(--theme-glow);
+    --muted-foreground: 350 30% 35%;
   }
 }
 
