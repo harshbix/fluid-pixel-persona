@@ -116,9 +116,14 @@ export const AboutSection = () => {
                   className="absolute inset-0 rounded-full border-4 border-primary/30 animate-spin-slow"
                 />
                 <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-primary to-accent p-1">
-                  <div className="w-full h-full rounded-full bg-background flex items-center justify-center text-4xl">
-                    🎮
-                  </div>
+                    <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
+                    <img
+                      src="/assets/profile.jpg"
+                      alt="Profile"
+                      className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-full shadow-lg"
+                      style={{ borderRadius: '50%' }}
+                    />
+                    </div>
                 </div>
               </div>
               <div>
