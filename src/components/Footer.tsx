@@ -1,4 +1,4 @@
-import { Github, Dribbble, Linkedin, Twitter, Heart, Coffee } from 'lucide-react';
+import { Github, Dribbble, Linkedin, Twitter, Heart, Coffee, Instagram ,Play  } from 'lucide-react';
 
 const socialLinks = [
   {
@@ -21,13 +21,13 @@ const socialLinks = [
   },
   {
     name: 'Instagram',
-    icon: Dribbble, // Replace with Instagram icon if available
+    icon: Instagram, // Replace with Instagram icon if available
     href: 'https://instagram.com/bixx.tech',
     color: 'hover:text-pink-500'
   },
   {
     name: 'TikTok',
-    icon: Dribbble, // Replace with TikTok icon if available
+    icon: Play, // Replace with TikTok icon if available
     href: 'https://tiktok.com/@bixxtech',
     color: 'hover:text-black'
   }
