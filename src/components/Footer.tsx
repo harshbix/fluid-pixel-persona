@@ -8,12 +8,6 @@ const socialLinks = [
     color: 'hover:text-gray-900 dark:hover:text-white'
   },
   {
-    name: 'Dribbble',
-    icon: Dribbble,
-    href: 'https://dribbble.com/harshbix',
-    color: 'hover:text-pink-500'
-  },
-  {
     name: 'LinkedIn',
     icon: Linkedin,
     href: 'https://www.linkedin.com/in/junior-jeconia-90710b265',
@@ -24,6 +18,18 @@ const socialLinks = [
     icon: Twitter,
     href: 'https://twitter.com/b1xson',
     color: 'hover:text-blue-400'
+  },
+  {
+    name: 'Instagram',
+    icon: Dribbble, // Replace with Instagram icon if available
+    href: 'https://instagram.com/bixx.tech',
+    color: 'hover:text-pink-500'
+  },
+  {
+    name: 'TikTok',
+    icon: Dribbble, // Replace with TikTok icon if available
+    href: 'https://tiktok.com/@bixxtech',
+    color: 'hover:text-black'
   }
 ];
 
