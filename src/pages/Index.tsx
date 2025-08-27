@@ -9,7 +9,7 @@ import { ThemeNavigation } from '@/components/ThemeNavigation';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" style={{ position: "relative", zIndex: 1 }}>
       <HeroSection />
       <AboutSection />
       <ProjectsSection />

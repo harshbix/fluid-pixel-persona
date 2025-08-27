@@ -1,9 +1,7 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { useTheme } from '@/hooks/useTheme';
 import { useClock } from '@/hooks/useClock';
-import Particles from 'react-tsparticles';
 import { PartyPopper, MapPin, Thermometer, Wind, Droplets } from 'lucide-react';
-import { loadFull } from 'tsparticles';
 import Clock from 'react-clock';
 import 'react-clock/dist/Clock.css';
 
@@ -113,10 +111,7 @@ export const HeroSection = () => {
     return { primary, accent, muted };
   }, []);
 
-  // Enhanced tsparticles init
-  const particlesInit = useCallback(async (engine: any) => {
-    await loadFull(engine);
-  }, []);
+  // particles removed (global cinematic background is rendered at app root)
 
   // Mouse tracking for cinematic parallax
   const onMouseMove = (e: React.MouseEvent) => {
@@ -132,85 +127,7 @@ export const HeroSection = () => {
       onMouseMove={onMouseMove}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* 3D CINEMATIC PARTICLES with depth + parallax */}
-      <div className="absolute inset-0 -z-10">
-        <Particles
-          id="heroParticles3D"
-          init={particlesInit}
-          options={{
-            fullScreen: { enable: false },
-            detectRetina: true,
-            background: { color: { value: 'transparent' } },
-            fpsLimit: 90,
-            interactivity: {
-              detectsOn: 'canvas',
-              events: {
-                onHover: { enable: true, mode: ['slow', 'attract', 'bubble'] },
-                resize: true,
-              },
-              modes: {
-                slow: { factor: 0.8, radius: 150 },
-                attract: { distance: 200, duration: 0.4, factor: 3 },
-                bubble: { distance: 180, size: 8, duration: 2 },
-              },
-            },
-            particles: {
-              number: { value: 80, density: { enable: true, area: 1000 } },
-              color: { value: [themeColors.primary, themeColors.accent, '#ffffff'] },
-              links: {
-                enable: true,
-                distance: 150,
-                opacity: 0.4,
-                color: themeColors.muted || themeColors.primary,
-                width: 1.5,
-                triangles: { enable: true, opacity: 0.1 },
-              },
-              move: {
-                enable: true,
-                speed: { min: 0.2, max: 1.5 },
-                direction: 'none',
-                outModes: { default: 'out' },
-                random: true,
-                straight: false,
-              },
-              opacity: { 
-                value: { min: 0.2, max: 0.9 },
-                animation: { 
-                  enable: true, 
-                  speed: 0.8, 
-                  sync: false,
-                  startValue: 'random'
-                }
-              },
-              size: { 
-                value: { min: 1, max: 6 },
-                animation: { 
-                  enable: true, 
-                  speed: 1.2, 
-                  sync: false,
-                  startValue: 'random'
-                }
-              },
-              shape: { 
-                type: ['circle', 'triangle', 'polygon', 'star'],
-                polygon: { sides: 5 }
-              },
-              shadow: { 
-                enable: true, 
-                blur: 5, 
-                color: themeColors.primary,
-                offset: { x: 1, y: 1 }
-              },
-              rotate: {
-                value: { min: 0, max: 360 },
-                animation: { enable: true, speed: 2, sync: false }
-              },
-            },
-            motion: { reduce: { factor: 2 } },
-            pauseOnBlur: true,
-          }}
-        />
-      </div>
+      {/* particles handled globally */}
 
       {/* CINEMATIC PARALLAX LAYERS with enhanced 3D depth */}
       <div
