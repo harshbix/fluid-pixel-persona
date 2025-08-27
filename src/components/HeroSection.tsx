@@ -1,7 +1,3 @@
-// npm install react-tsparticles tsparticles react-clock
-// Optional (weather): set VITE_OPENWEATHER_KEY in .env for auto geolocation weather
-// Fonts: Add Montserrat to your index.html or CSS imports
-
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { useTheme } from '@/hooks/useTheme';
 import { useClock } from '@/hooks/useClock';
