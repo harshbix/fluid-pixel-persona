@@ -1,6 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.font-montserrat {
+  font-family: "Montserrat", sans-serif;
+}
 
 /* Water-glass portfolio design system with cool color palette */
 
