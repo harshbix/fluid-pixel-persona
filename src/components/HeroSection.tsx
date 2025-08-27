@@ -1,9 +1,7 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { useTheme } from '@/hooks/useTheme';
 import { useClock } from '@/hooks/useClock';
-import { Particles } from 'react-tsparticles';
 import { PartyPopper, MapPin, Thermometer, Wind, Droplets } from 'lucide-react';
-import { loadFull } from 'tsparticles';
 import Clock from 'react-clock';
 import 'react-clock/dist/Clock.css';
 
@@ -87,10 +85,7 @@ export const HeroSection = () => {
     return { primary, accent, muted };
   }, []);
 
-  // tsparticles init
-  const particlesInit = useCallback(async (engine: any) => {
-    await loadFull(engine);
-  }, []);
+  // particles removed (global cinematic background is rendered at app root)
 
   // Spotlight: only on dark theme
   const spotlight = (
@@ -121,58 +116,7 @@ export const HeroSection = () => {
       onMouseMove={onMouseMove}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Particles Layer (3D-like via depth: varying size/speed + parallax) */}
-      <div className="absolute inset-0 -z-10">
-        <Particles
-          id="heroParticles"
-          init={particlesInit}
-          options={{
-            fullScreen: { enable: false },
-            detectRetina: true,
-            background: { color: { value: 'transparent' } },
-            fpsLimit: 90,
-            interactivity: {
-              detectsOn: 'canvas',
-              events: {
-                onHover: { enable: true, mode: ['slow', 'attract'] },
-                resize: true,
-              },
-              modes: {
-                slow: { factor: 1, radius: 120 },
-                attract: { distance: 180, duration: 0.3, factor: 2 },
-              },
-            },
-            particles: {
-              number: { value: 60, density: { enable: true, area: 800 } },
-              color: { value: [themeColors.primary, themeColors.accent] },
-              links: {
-                enable: true,
-                distance: 140,
-                opacity: 0.35,
-                color: themeColors.muted || themeColors.primary,
-                width: 1,
-              },
-              move: {
-                enable: true,
-                speed: { min: 0.1, max: 0.6 },
-                direction: 'none',
-                outModes: 'out',
-                angle: { offset: 0, value: 90 },
-                trail: { enable: false },
-                vibrate: false,
-                random: true,
-              },
-              opacity: { value: { min: 0.3, max: 0.8 } },
-              size: { value: { min: 1.5, max: 4.5 } },
-              shape: { type: ['circle', 'triangle', 'polygon'] },
-              zIndex: { value: { min: 0, max: 5 } as any },
-              shadow: { enable: true, blur: 3, color: themeColors.primary },
-            },
-            motion: { reduce: { factor: 3 } },
-            pauseOnBlur: true,
-          }}
-        />
-      </div>
+      {/* particles handled globally */}
 
       {/* Cinematic Parallax Layers (soft, react to mouse) */}
       <div
