@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { useTheme } from '@/hooks/useTheme';
 import { useClock } from '@/hooks/useClock';
-import Particles from 'react-tsparticles';
+import { Particles } from 'react-tsparticles';
 import { PartyPopper, MapPin, Thermometer, Wind, Droplets } from 'lucide-react';
 import { loadFull } from 'tsparticles';
 import Clock from 'react-clock';
 import 'react-clock/dist/Clock.css';
 
-// Smart weather hook with location prompt and fallback
+// Simple weather hook (browser geolocation + OpenWeatherMap). Falls back gracefully when no key.
 function useWeather() {
   const [data, setData] = useState<null | {
     name: string;
@@ -17,73 +17,46 @@ function useWeather() {
     description: string;
     icon: string; // openweather icon code
   }>(null);
-  const [locationDenied, setLocationDenied] = useState(false);
-  const [showLocationPrompt, setShowLocationPrompt] = useState(false);
-
-  const requestLocation = useCallback(async () => {
-    const KEY = import.meta.env.VITE_OPENWEATHER_KEY;
-    if (!KEY) return;
-
-    try {
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          timeout: 10000,
-          enableHighAccuracy: false
-        });
-      });
-
-      const { latitude, longitude } = position.coords;
-      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${KEY}&units=metric`;
-      const res = await fetch(url);
-      if (!res.ok) return;
-      const json = await res.json();
-      setData({
-        name: json.name,
-        temp: Math.round(json.main.temp),
-        wind: json.wind.speed,
-        humidity: json.main.humidity,
-        description: json.weather?.[0]?.main ?? '—',
-        icon: json.weather?.[0]?.icon ?? '01d',
-      });
-      setLocationDenied(false);
-      setShowLocationPrompt(false);
-    } catch (error) {
-      setLocationDenied(true);
-      setShowLocationPrompt(false);
-    }
-  }, []);
 
   useEffect(() => {
     const KEY = import.meta.env.VITE_OPENWEATHER_KEY;
-    if (!KEY || typeof window === 'undefined' || !navigator.geolocation) return;
+    if (!KEY || typeof window === 'undefined' || !navigator.geolocation) return; // silent no-op
 
-    // Show location prompt after a delay
-    const timer = setTimeout(() => {
-      setShowLocationPrompt(true);
-    }, 2000);
-
-    return () => clearTimeout(timer);
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      try {
+        const { latitude, longitude } = pos.coords;
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${KEY}&units=metric`;
+        const res = await fetch(url);
+        if (!res.ok) return;
+        const json = await res.json();
+        setData({
+          name: json.name,
+          temp: Math.round(json.main.temp),
+          wind: json.wind.speed,
+          humidity: json.main.humidity,
+          description: json.weather?.[0]?.main ?? '—',
+          icon: json.weather?.[0]?.icon ?? '01d',
+        });
+      } catch (_) {}
+    });
   }, []);
 
-  return { data, locationDenied, showLocationPrompt, requestLocation };
+  return data;
 }
 
-// Rotating dramatic taglines
+// Rotating taglines
 const TAGLINES = [
   'Designer by day. Pixel perfectionist by night.',
   'Crafting interfaces that feel like magic.',
   'Shipping audacious UI with calm code.',
   'Drama, motion, and delightful micro-interactions.',
   'Where frontend engineering meets cinema.',
-  'Building digital experiences that make hearts race.',
-  'Code is poetry. UI is the stage where it performs.',
-  'Turning complex problems into elegant solutions.',
 ];
 
 export const HeroSection = () => {
   const { isBirthday, cycleSecretTheme } = useTheme();
   const { formattedTime, formattedDate } = useClock();
-  const { data: weather, locationDenied, showLocationPrompt, requestLocation } = useWeather();
+  const weather = useWeather();
 
   // Cinematic parallax state
   const rootRef = useRef<HTMLElement | null>(null);
@@ -92,33 +65,49 @@ export const HeroSection = () => {
   // Random clock mode: true = analog, false = digital
   const [analogMode, setAnalogMode] = useState<boolean>(() => Math.random() > 0.5);
 
-  // Rotating tagline (every 4 seconds)
+  // Rotating tagline
   const [taglineIndex, setTaglineIndex] = useState<number>(0);
 
   useEffect(() => {
     const id = setInterval(() => {
       setAnalogMode(Math.random() > 0.5);
       setTaglineIndex((i) => (i + 1) % TAGLINES.length);
-    }, 4000); // change every 4s for dramatic effect
+    }, 10000); // change every 10s
     return () => clearInterval(id);
   }, []);
 
-  // Theme color extraction for 3D particles
+  // Theme color extraction for particles (reads Tailwind CSS variables)
   const themeColors = useMemo(() => {
     if (typeof window === 'undefined') return { primary: '#8884d8', accent: '#8884d8' };
     const rs = getComputedStyle(document.documentElement);
+    // Expecting CSS variables like --primary and --accent to be defined by the theme
     const primary = rs.getPropertyValue('--primary').trim() || '#8884d8';
     const accent = rs.getPropertyValue('--accent').trim() || '#a78bfa';
     const muted = rs.getPropertyValue('--muted-foreground').trim() || '#94a3b8';
     return { primary, accent, muted };
   }, []);
 
-  // Enhanced tsparticles init
+  // tsparticles init
   const particlesInit = useCallback(async (engine: any) => {
     await loadFull(engine);
   }, []);
 
-  // Mouse tracking for cinematic parallax
+  // Spotlight: only on dark theme
+  const spotlight = (
+    <div
+      className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,white,transparent_60%)] dark:opacity-100 opacity-0 transition-opacity duration-700"
+      style={{ mixBlendMode: 'soft-light' }}
+    />
+  );
+
+  // Vignette for cinematic feel (subtle)
+  const vignette = (
+    <div className="pointer-events-none absolute inset-0 rounded-none">
+      <div className="absolute inset-0 shadow-[inset_0_0_120px_60px] shadow-background/60" />
+    </div>
+  );
+
+  // Mouse tracking for parallax on layers
   const onMouseMove = (e: React.MouseEvent) => {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
@@ -132,10 +121,10 @@ export const HeroSection = () => {
       onMouseMove={onMouseMove}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* 3D CINEMATIC PARTICLES with depth + parallax */}
+      {/* Particles Layer (3D-like via depth: varying size/speed + parallax) */}
       <div className="absolute inset-0 -z-10">
         <Particles
-          id="heroParticles3D"
+          id="heroParticles"
           init={particlesInit}
           options={{
             fullScreen: { enable: false },
@@ -145,129 +134,75 @@ export const HeroSection = () => {
             interactivity: {
               detectsOn: 'canvas',
               events: {
-                onHover: { enable: true, mode: ['slow', 'attract', 'bubble'] },
+                onHover: { enable: true, mode: ['slow', 'attract'] },
                 resize: true,
               },
               modes: {
-                slow: { factor: 0.8, radius: 150 },
-                attract: { distance: 200, duration: 0.4, factor: 3 },
-                bubble: { distance: 180, size: 8, duration: 2 },
+                slow: { factor: 1, radius: 120 },
+                attract: { distance: 180, duration: 0.3, factor: 2 },
               },
             },
             particles: {
-              number: { value: 80, density: { enable: true, area: 1000 } },
-              color: { value: [themeColors.primary, themeColors.accent, '#ffffff'] },
+              number: { value: 60, density: { enable: true, area: 800 } },
+              color: { value: [themeColors.primary, themeColors.accent] },
               links: {
                 enable: true,
-                distance: 150,
-                opacity: 0.4,
+                distance: 140,
+                opacity: 0.35,
                 color: themeColors.muted || themeColors.primary,
-                width: 1.5,
-                triangles: { enable: true, opacity: 0.1 },
+                width: 1,
               },
               move: {
                 enable: true,
-                speed: { min: 0.2, max: 1.5 },
+                speed: { min: 0.1, max: 0.6 },
                 direction: 'none',
-                outModes: { default: 'out' },
+                outModes: 'out',
+                angle: { offset: 0, value: 90 },
+                trail: { enable: false },
+                vibrate: false,
                 random: true,
-                straight: false,
               },
-              opacity: { 
-                value: { min: 0.2, max: 0.9 },
-                animation: { 
-                  enable: true, 
-                  speed: 0.8, 
-                  sync: false,
-                  startValue: 'random'
-                }
-              },
-              size: { 
-                value: { min: 1, max: 6 },
-                animation: { 
-                  enable: true, 
-                  speed: 1.2, 
-                  sync: false,
-                  startValue: 'random'
-                }
-              },
-              shape: { 
-                type: ['circle', 'triangle', 'polygon', 'star'],
-                polygon: { sides: 5 }
-              },
-              shadow: { 
-                enable: true, 
-                blur: 5, 
-                color: themeColors.primary,
-                offset: { x: 1, y: 1 }
-              },
-              rotate: {
-                value: { min: 0, max: 360 },
-                animation: { enable: true, speed: 2, sync: false }
-              },
+              opacity: { value: { min: 0.3, max: 0.8 } },
+              size: { value: { min: 1.5, max: 4.5 } },
+              shape: { type: ['circle', 'triangle', 'polygon'] },
+              zIndex: { value: { min: 0, max: 5 } as any },
+              shadow: { enable: true, blur: 3, color: themeColors.primary },
             },
-            motion: { reduce: { factor: 2 } },
+            motion: { reduce: { factor: 3 } },
             pauseOnBlur: true,
           }}
         />
       </div>
 
-      {/* CINEMATIC PARALLAX LAYERS with enhanced 3D depth */}
+      {/* Cinematic Parallax Layers (soft, react to mouse) */}
       <div
         className="absolute inset-0 -z-5 will-change-transform"
         style={{
-          transform: `translate3d(${mouse.x * 25}px, ${mouse.y * 25}px, 0)`,
-          transition: 'transform 80ms ease-out',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-background/5 via-background/0 to-background/30" />
-      </div>
-
-      <div
-        className="absolute inset-0 -z-5 will-change-transform"
-        style={{
-          transform: `translate3d(${mouse.x * -18}px, ${mouse.y * -18}px, 0)`,
+          transform: `translate3d(${mouse.x * 12}px, ${mouse.y * 12}px, 0)`,
           transition: 'transform 120ms ease-out',
         }}
       >
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/8 blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/5 right-1/5 w-80 h-80 rounded-full bg-accent/12 blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }} />
-        <div className="absolute top-1/2 right-1/3 w-64 h-64 rounded-full bg-primary/6 blur-2xl animate-pulse" style={{ animationDelay: '3s' }} />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/0 to-background/40" />
       </div>
 
       <div
         className="absolute inset-0 -z-5 will-change-transform"
         style={{
-          transform: `translate3d(${mouse.x * 10}px, ${mouse.y * 10}px, 0)`,
-          transition: 'transform 180ms ease-out',
+          transform: `translate3d(${mouse.x * -8}px, ${mouse.y * -8}px, 0)`,
+          transition: 'transform 160ms ease-out',
         }}
       >
-        <div className="absolute top-1/3 left-1/2 w-48 h-48 rounded-full bg-accent/8 blur-xl animate-pulse" style={{ animationDelay: '0.8s' }} />
-        <div className="absolute bottom-1/3 left-1/4 w-56 h-56 rounded-full bg-primary/6 blur-2xl animate-pulse" style={{ animationDelay: '2.2s' }} />
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full bg-primary/10 blur-3xl" />
+        <div className="absolute bottom-1/5 right-1/5 w-80 h-80 rounded-full bg-accent/10 blur-3xl" />
       </div>
 
-      {/* ENHANCED DARK THEME SPOTLIGHT (only visible in dark) */}
+      {/* Dark theme spotlight */}
       <div className="dark:block hidden absolute inset-0 -z-5">
-        <div
-          className="pointer-events-none absolute inset-0 transition-all duration-1000"
-          style={{
-            background: `radial-gradient(ellipse 70% 60% at ${50 + mouse.x * 12}% ${50 + mouse.y * 12}%, transparent 0%, rgba(0,0,0,0.1) 25%, rgba(0,0,0,0.4) 65%, rgba(0,0,0,0.9) 100%)`,
-            mixBlendMode: 'multiply',
-          }}
-        />
-        <div
-          className="pointer-events-none absolute inset-0 opacity-70 transition-all duration-500"
-          style={{
-            background: `radial-gradient(circle at ${50 + mouse.x * 20}% ${50 + mouse.y * 20}%, rgba(138, 132, 216, 0.15) 0%, rgba(167, 139, 250, 0.08) 30%, transparent 60%)`,
-            mixBlendMode: 'screen',
-          }}
-        />
+        {spotlight}
       </div>
 
       {/* Subtle vignette for cinema feel */}
-      <div className="pointer-events-none absolute inset-0 rounded-none -z-5">
-        <div className="absolute inset-0 shadow-[inset_0_0_120px_60px] shadow-background/60" />
-      </div>
+      {vignette}
 
       {/* Birthday Banner */}
       {isBirthday && (
@@ -303,12 +238,10 @@ export const HeroSection = () => {
                 </h1>
               </div>
 
-              {/* DRAMATIC ROTATING TAGLINE with animation */}
+              {/* Tagline (rotating) */}
               <div className="relative">
-                <p className="relative text-lg xl:text-xl text-muted-foreground py-4 px-4 italic transition-all duration-700 ease-in-out transform">
-                  <span className="inline-block animate-pulse text-primary/80">
-                    ✨ {TAGLINES[taglineIndex]}
-                  </span>
+                <p className="relative text-lg xl:text-xl text-muted-foreground py-4 px-4 italic">
+                  {TAGLINES[taglineIndex]}
                   <br />
                   <span className="text-base text-muted-foreground/80 font-normal">
                     Currently making interfaces that don't make users cry.
@@ -322,10 +255,12 @@ export const HeroSection = () => {
               {/* iPhone-like Clock Card */}
               <div className="relative">
                 <div className="relative border border-primary/20 bg-background/80 backdrop-blur-xl rounded-3xl p-6 shadow-2xl">
+                  {/* Clock header */}
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-xs uppercase tracking-widest text-muted-foreground">Time</span>
                     <span className="text-xs text-muted-foreground">{formattedDate}</span>
                   </div>
+                  {/* Clock body */}
                   {analogMode ? (
                     <div className="flex justify-center">
                       <Clock value={new Date()} renderNumbers={true} className="[--clr:theme(colors.primary.DEFAULT)]" />
@@ -343,83 +278,37 @@ export const HeroSection = () => {
                 </div>
               </div>
 
-              {/* SMART WEATHER WIDGET with location prompt + fallback */}
+              {/* Weather Widget (auto if env key) */}
               <div className="relative">
                 <div className="relative border border-accent/20 bg-background/80 backdrop-blur-xl rounded-3xl p-6 shadow-2xl">
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-xs uppercase tracking-widest text-muted-foreground">Weather</span>
-                    <span className="text-xs text-muted-foreground flex items-center gap-1">
-                      <MapPin className="w-3 h-3" />
-                      {weather?.name ?? (locationDenied ? 'Location denied' : 'Unknown')}
-                    </span>
+                    <span className="text-xs text-muted-foreground flex items-center gap-1"><MapPin className="w-3 h-3" />{weather?.name ?? 'Unknown'}</span>
                   </div>
-                  
-                  {/* Location Prompt */}
-                  {showLocationPrompt && !weather && !locationDenied && (
-                    <div className="text-center py-4">
-                      <div className="text-2xl mb-2">🌤️</div>
-                      <p className="text-sm text-muted-foreground mb-3">
-                        Enable location for local weather
-                      </p>
-                      <button
-                        onClick={requestLocation}
-                        className="px-6 py-2 bg-accent/20 hover:bg-accent/30 text-accent rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105"
-                      >
-                        Allow Location
-                      </button>
-                    </div>
-                  )}
-                  
-                  {/* Location Denied Fallback */}
-                  {locationDenied && !weather && (
-                    <div className="text-center py-4">
-                      <div className="text-2xl mb-2">📍</div>
-                      <p className="text-sm text-muted-foreground mb-3">
-                        Location access needed for weather
-                      </p>
-                      <button
-                        onClick={requestLocation}
-                        className="px-6 py-2 bg-primary/20 hover:bg-primary/30 text-primary rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105"
-                      >
-                        Try Again
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Weather Data Display */}
-                  {weather && (
-                    <div className="flex items-center gap-4">
-                      <div className="shrink-0 w-16 h-16 rounded-2xl bg-primary/10 grid place-items-center">
+                  <div className="flex items-center gap-4">
+                    {/* Icon */}
+                    <div className="shrink-0 w-16 h-16 rounded-2xl bg-primary/10 grid place-items-center">
+                      {/* Simple icon via emoji fallback if no image */}
+                      {weather ? (
                         <img
                           alt={weather.description}
                           className="w-10 h-10"
                           src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
                         />
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-3xl font-semibold text-primary">{weather.temp}°C</div>
-                        <div className="text-sm text-muted-foreground">{weather.description}</div>
-                        <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
-                          <span className="inline-flex items-center gap-1"><Wind className="w-3 h-3" /> {weather.wind} m/s</span>
-                          <span className="inline-flex items-center gap-1"><Droplets className="w-3 h-3" /> {weather.humidity}%</span>
-                          <span className="inline-flex items-center gap-1"><Thermometer className="w-3 h-3" /> Feels like {weather.temp}°</span>
-                        </div>
+                      ) : (
+                        <span className="text-2xl">⛅</span>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-3xl font-semibold text-primary">{weather?.temp ?? '—'}{typeof weather?.temp === 'number' ? '°C' : ''}</div>
+                      <div className="text-sm text-muted-foreground">{weather?.description ?? 'Enable location for local weather'}</div>
+                      <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
+                        <span className="inline-flex items-center gap-1"><Wind className="w-3 h-3" /> {weather?.wind ?? '—'} m/s</span>
+                        <span className="inline-flex items-center gap-1"><Droplets className="w-3 h-3" /> {weather?.humidity ?? '—'}%</span>
+                        <span className="inline-flex items-center gap-1"><Thermometer className="w-3 h-3" /> Feels like {weather?.temp ?? '—'}°</span>
                       </div>
                     </div>
-                  )}
-
-                  {/* Loading State */}
-                  {!weather && !showLocationPrompt && !locationDenied && (
-                    <div className="flex items-center gap-4">
-                      <div className="shrink-0 w-16 h-16 rounded-2xl bg-primary/10 grid place-items-center">
-                        <div className="animate-spin text-2xl">🌀</div>
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-3xl font-semibold text-primary">—</div>
-                        <div className="text-sm text-muted-foreground">Loading weather...</div>
-                      </div>
-                    </div>
-                  )}
+                  </div>
                 </div>
               </div>
 
@@ -456,10 +345,8 @@ export const HeroSection = () => {
             </div>
 
             <div className="relative mb-8">
-              <p className="relative text-xl md:text-2xl text-muted-foreground py-6 px-4 italic transition-all duration-700 ease-in-out">
-                <span className="inline-block animate-pulse text-primary/80">
-                  ✨ {TAGLINES[taglineIndex]}
-                </span>
+              <p className="relative text-xl md:text-2xl text-muted-foreground py-6 px-4 italic">
+                {TAGLINES[taglineIndex]}
                 <br />
                 <span className="text-lg text-muted-foreground/80 font-normal">
                   Currently making interfaces that don't make users cry.

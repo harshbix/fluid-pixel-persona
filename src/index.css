@@ -54,12 +54,12 @@
     --glass-bg: 210 30% 96% / 0.8;
     --glass-border: 210 40% 80% / 0.3;
     --glass-shadow: 210 50% 20% / 0.1;
-    
+
     /* Gradients for water effects */
     --gradient-water: linear-gradient(135deg, hsl(210 80% 60% / 0.1), hsl(200 70% 65% / 0.15));
     --gradient-glass: linear-gradient(145deg, hsl(210 40% 98% / 0.9), hsl(210 30% 92% / 0.7));
     --gradient-glow: radial-gradient(circle at 50% 50%, hsl(210 80% 65% / 0.3), transparent 70%);
-    
+
     /* Shadows for depth */
     --shadow-glass: 0 8px 32px hsl(210 50% 20% / 0.1), 0 4px 16px hsl(210 40% 30% / 0.05);
     --shadow-glow: 0 0 40px hsl(210 80% 60% / 0.3);
@@ -493,13 +493,13 @@
 
   @keyframes scroll-glow {
     0%, 100% {
-      box-shadow: 
+      box-shadow:
         0 0 20px hsl(var(--primary) / 0.3),
         0 0 40px hsl(var(--primary) / 0.1),
         inset 0 0 20px hsl(var(--primary) / 0.1);
     }
     50% {
-      box-shadow: 
+      box-shadow:
         0 0 30px hsl(var(--primary) / 0.5),
         0 0 60px hsl(var(--primary) / 0.2),
         inset 0 0 30px hsl(var(--primary) / 0.2);
@@ -761,11 +761,11 @@
     .water-scroll-container {
       scroll-snap-type: x mandatory;
     }
-    
+
     .water-card {
       min-width: 280px;
     }
-    
+
     .water-card:hover {
       transform: translateY(-2px) scale(1.01);
     }
@@ -782,7 +782,7 @@
     backdrop-filter: blur(40px) saturate(180%);
     -webkit-backdrop-filter: blur(40px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 
+    box-shadow:
       0 8px 32px rgba(0, 0, 0, 0.1),
       0 4px 16px rgba(0, 0, 0, 0.05),
       inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -848,7 +848,7 @@
 
   .ios-theme-active {
     background: rgba(255, 255, 255, 0.25) !important;
-    box-shadow: 
+    box-shadow:
       0 4px 16px rgba(0, 0, 0, 0.1),
       0 2px 8px rgba(0, 0, 0, 0.05),
       inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -861,7 +861,7 @@
   /* iOS 26 hover effects */
   .ios-theme-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 
+    box-shadow:
       0 6px 20px rgba(0, 0, 0, 0.15),
       0 3px 10px rgba(0, 0, 0, 0.1);
   }
