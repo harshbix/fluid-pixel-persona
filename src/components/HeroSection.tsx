@@ -251,83 +251,19 @@ export const HeroSection = () => {
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-col items-center mt-6">
-              <div className="relative w-full max-w-sm">
-              {/* Elevated pill to visually separate CTAs on mobile and give better position */}
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-28 h-1 rounded-full bg-gradient-to-r from-primary to-accent opacity-30 blur-xl" />
-              <div className="relative bg-background/70 backdrop-blur-md border border-background/30 rounded-3xl p-4 shadow-2xl flex flex-col sm:flex-row items-center gap-4 justify-center">
-                {/* Primary CTA - solid gradient with shine */}
-                <button
-                className="group relative inline-flex items-center justify-center px-8 py-3 rounded-2xl bg-gradient-to-r from-primary to-accent text-white font-bold uppercase tracking-wide shadow-lg transform transition duration-300 hover:scale-[1.035] active:scale-95 focus:outline-none focus:ring-4 focus:ring-primary/25 overflow-hidden"
-                aria-label="View my work"
-                >
-                {/* subtle moving shine */}
-                <span
-                  aria-hidden
-                  className="absolute left-0 top-0 h-full w-10 bg-white/10 blur-lg -translate-x-10 group-hover:translate-x-40 transition-transform duration-700"
-                />
-                <svg
-                  className="w-4 h-4 mr-3 transform transition-transform duration-300 group-hover:translate-x-1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                  <path d="M12 5l7 7-7 7" />
-                </svg>
-                <span className="relative z-10 flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-4 h-4 mr-3"
-                    viewBox="0 0 24 24"
-                    fill="white"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                    <polyline points="7 10 12 15 17 10" />
-                    <line x1="12" y1="15" x2="12" y2="3" />
-                  </svg>
-                  <span>Resume</span>
-                </span>
-                </button>
-
-                {/* Secondary CTA - glass outline with subtle hover pop and accent glow */}
-                <button
-                className="group relative inline-flex items-center justify-center px-8 py-3 rounded-2xl border-2 border-accent text-accent bg-transparent backdrop-blur-sm font-bold uppercase tracking-wide shadow-sm transform transition duration-300 hover:scale-[1.02] active:scale-95 focus:outline-none focus:ring-4 focus:ring-accent/20 overflow-hidden"
-                aria-label="Get in touch"
-                >
-                <span
-                  aria-hidden
-                  className="absolute inset-0 bg-gradient-to-r from-accent/6 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"
-                />
-                <svg
-                  className="w-4 h-4 mr-3 transform rotate-0 transition-transform duration-300 group-hover:-rotate-12"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M21 10v6a2 2 0 0 1-2 2H7l-4 4V6a2 2 0 0 1 2-2h6" />
-                </svg>
-                <span className="relative z-10">Get In Touch</span>
-                </button>
-              </div>
-
-              {/* micro hint under CTAs */}
-              <div className="mt-3 text-center">
-                <span className="text-xs text-muted-foreground/70">Tap a button or swipe to explore — animated for delight ✨</span>
-              </div>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <button className="relative group rounded-2xl overflow-hidden">
+                <div className="absolute inset-0 bg-primary/10 group-hover:bg-primary/20 transition-colors" />
+                <div className="relative border-2 border-primary bg-background/80 backdrop-blur-md px-8 py-4 text-primary hover:text-primary-foreground font-bold uppercase tracking-wide transition-all duration-300 rounded-2xl shadow-xl">
+                  View My Work
+                </div>
+              </button>
+              <button className="relative group rounded-2xl overflow-hidden">
+                <div className="absolute inset-0 bg-accent/10 group-hover:bg-accent/20 transition-colors" />
+                <div className="relative border-2 border-accent bg-background/80 backdrop-blur-md px-8 py-4 text-muted-foreground hover:text-primary font-bold uppercase tracking-wide transition-all duration-300 rounded-2xl shadow-xl">
+                  Get In Touch
+                </div>
+              </button>
             </div>
           </div>
 
