@@ -1,46 +1,9 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { useTheme } from '@/hooks/useTheme';
 import { useClock } from '@/hooks/useClock';
-import { PartyPopper, MapPin, Thermometer, Wind, Droplets } from 'lucide-react';
+import { PartyPopper } from 'lucide-react';
 import Clock from 'react-clock';
 import 'react-clock/dist/Clock.css';
-
-// Simple weather hook (browser geolocation + OpenWeatherMap). Falls back gracefully when no key.
-function useWeather() {
-  const [data, setData] = useState<null | {
-    name: string;
-    temp: number; // °C
-    wind: number; // m/s
-    humidity: number; // %
-    description: string;
-    icon: string; // openweather icon code
-  }>(null);
-
-  useEffect(() => {
-    const KEY = import.meta.env.VITE_OPENWEATHER_KEY;
-    if (!KEY || typeof window === 'undefined' || !navigator.geolocation) return; // silent no-op
-
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      try {
-        const { latitude, longitude } = pos.coords;
-        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${KEY}&units=metric`;
-        const res = await fetch(url);
-        if (!res.ok) return;
-        const json = await res.json();
-        setData({
-          name: json.name,
-          temp: Math.round(json.main.temp),
-          wind: json.wind.speed,
-          humidity: json.main.humidity,
-          description: json.weather?.[0]?.main ?? '—',
-          icon: json.weather?.[0]?.icon ?? '01d',
-        });
-      } catch (_) {}
-    });
-  }, []);
-
-  return data;
-}
 
 // Rotating taglines
 const TAGLINES = [
@@ -54,7 +17,6 @@ const TAGLINES = [
 export const HeroSection = () => {
   const { isBirthday, cycleSecretTheme } = useTheme();
   const { formattedTime, formattedDate } = useClock();
-  const weather = useWeather();
 
   // Cinematic parallax state
   const rootRef = useRef<HTMLElement | null>(null);
@@ -219,40 +181,6 @@ export const HeroSection = () => {
                       </div>
                     </div>
                   )}
-                </div>
-              </div>
-
-              {/* Weather Widget (auto if env key) */}
-              <div className="relative">
-                <div className="relative border border-accent/20 bg-background/80 backdrop-blur-xl rounded-3xl p-6 shadow-2xl">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs uppercase tracking-widest text-muted-foreground">Weather</span>
-                    <span className="text-xs text-muted-foreground flex items-center gap-1"><MapPin className="w-3 h-3" />{weather?.name ?? 'Unknown'}</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    {/* Icon */}
-                    <div className="shrink-0 w-16 h-16 rounded-2xl bg-primary/10 grid place-items-center">
-                      {/* Simple icon via emoji fallback if no image */}
-                      {weather ? (
-                        <img
-                          alt={weather.description}
-                          className="w-10 h-10"
-                          src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
-                        />
-                      ) : (
-                        <span className="text-2xl">⛅</span>
-                      )}
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-3xl font-semibold text-primary">{weather?.temp ?? '—'}{typeof weather?.temp === 'number' ? '°C' : ''}</div>
-                      <div className="text-sm text-muted-foreground">{weather?.description ?? 'Enable location for local weather'}</div>
-                      <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
-                        <span className="inline-flex items-center gap-1"><Wind className="w-3 h-3" /> {weather?.wind ?? '—'} m/s</span>
-                        <span className="inline-flex items-center gap-1"><Droplets className="w-3 h-3" /> {weather?.humidity ?? '—'}%</span>
-                        <span className="inline-flex items-center gap-1"><Thermometer className="w-3 h-3" /> Feels like {weather?.temp ?? '—'}°</span>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
 

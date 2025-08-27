@@ -91,7 +91,7 @@ export const useTheme = () => {
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === 'w') {
+      if (e.key.toLowerCase() === 'w') { 
         cycleSecretTheme();
       }
     };
