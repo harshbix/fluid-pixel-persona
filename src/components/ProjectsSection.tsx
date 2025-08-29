@@ -41,14 +41,6 @@ const projects = [
     tags: ['Healthcare', 'UX Research', 'Accessibility'],
     featured: false,
   },
-  {
-    id: 6,
-    title: 'AR Shopping Experience',
-    description: 'Augmented reality shopping platform allowing customers to visualize products in their space.',
-    image: 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=600&h=400',
-    tags: ['AR/VR', 'E-commerce', 'Innovation'],
-    featured: true,
-  },
 ];
 
 export const ProjectsSection = () => {
