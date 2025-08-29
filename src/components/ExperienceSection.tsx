@@ -20,7 +20,7 @@ const experiences = [
     id: 2,
     role: 'IT consultant',
     company: 'Tanzania Posts Corporation',
-    location: 'Mbeya, Tanzania',
+    location: 'Mbeya, Tanzania', 
     period: '2023 - 2025',
     description: 'Provided IT consultancy services to improve internal systems and customer-facing applications.',
     achievements: [
@@ -28,7 +28,7 @@ const experiences = [
       'Online Application for client services',
       'Developed training materials and conducted workshops for staff on new technologies'
     ],
-    logo: '💡',
+    logo: <img src="/assets/posta.png" alt="TPC Logo" className="w-8 h-8" />,
     current: false,
   },
   {
