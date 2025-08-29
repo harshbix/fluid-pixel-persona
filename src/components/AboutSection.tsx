@@ -1,285 +1,267 @@
-import { Code, Palette, Zap, Users, Coffee, Heart } from 'lucide-react';
-import { useCountAnimation } from '../hooks/useCountAnimation';
-import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { Star, Check } from "lucide-react";
+import { motion } from "framer-motion";
 
 const skills = [
-  { name: 'Frontend Development', icon: Code, level: 90, category: 'Development' },
-  { name: 'Full-Stack Development', icon: Zap, level: 90, category: 'Development' },
-  { name: 'Backend Development', icon: Code, level: 70, category: 'Development' },
-  { name: 'Data Structures & C', icon: Code, level: 75, category: 'Development' },
-  { name: 'React & TypeScript', icon: Code, level: 85, category: 'Development' },
-  { name: 'Node.js & Express', icon: Code, level: 80, category: 'Development' },
-  { name: 'UI/UX Design', icon: Palette, level: 95, category: 'Creative' },
-  { name: 'Video Editing', icon: Palette, level: 60, category: 'Creative' },
-  { name: 'Graphic Design', icon: Palette, level: 85, category: 'Creative' },
-  { name: 'Prototyping', icon: Palette, level: 90, category: 'Creative' },
-  { name: 'Design Systems', icon: Palette, level: 88, category: 'Creative' },
-  { name: 'Embedded Systems', icon: Zap, level: 70, category: 'Technical' },
-  { name: 'IoT Development', icon: Zap, level: 75, category: 'Technical' },
-  { name: 'Database Design', icon: Zap, level: 80, category: 'Technical' },
-  { name: 'API Development', icon: Zap, level: 85, category: 'Technical' },
-  { name: 'DevOps & CI/CD', icon: Zap, level: 65, category: 'Technical' },
-  { name: 'Marketing Strategy', icon: Users, level: 80, category: 'Business' },
-  { name: 'Business Management', icon: Users, level: 75, category: 'Business' },
-  { name: 'Gaming Analysis', icon: Heart, level: 80, category: 'Business' },
-  { name: 'Project Management', icon: Users, level: 85, category: 'Business' },
-  { name: 'Client Relations', icon: Users, level: 90, category: 'Business' },
-  { name: 'Coffee Making', icon: Coffee, level: 100, category: 'Fun' },
-  { name: 'Gaming', icon: Heart, level: 95, category: 'Fun' },
-  { name: 'Photography', icon: Palette, level: 70, category: 'Fun' },
+  "Frontend Development",
+  "UI/UX Design",
+  "Full-Stack Development",
+  "Prototyping",
+  "Marketing Strategy",
+  "Project Management",
 ];
 
-const categories = [
-  { id: 'Development', name: 'Development', icon: Code, color: 'from-blue-500 to-cyan-500' },
-  { id: 'Creative', name: 'Creative & Design', icon: Palette, color: 'from-purple-500 to-pink-500' },
-  { id: 'Technical', name: 'Technical', icon: Zap, color: 'from-yellow-500 to-orange-500' },
-  { id: 'Business', name: 'Business & Marketing', icon: Users, color: 'from-green-500 to-emerald-500' },
-  { id: 'Fun', name: 'Fun & Personal', icon: Coffee, color: 'from-red-500 to-rose-500' },
+const pricingTiers = [
+  {
+    name: "Basic",
+    price: 150,
+    duration: "2-3 weeks",
+    description: "Perfect for simple projects",
+    features: [
+      "Basic UI/UX Design",
+      "Responsive Design",
+      "3 Revisions",
+      "Source Files Included",
+    ],
+    popular: false,
+  },
+  {
+    name: "Standard",
+    price: 350,
+    duration: "3-7 weeks",
+    description: "Great for complete solutions",
+    features: [
+      "Advanced UI/UX Design",
+      "Frontend Development",
+      "Interactive Prototypes",
+      "5 Revisions",
+      "API Integration",
+      "Performance Optimization",
+    ],
+    popular: true,
+  },
+  {
+    name: "Premium",
+    price: 750,
+    duration: "5-8 weeks",
+    description: "Complete project with backend",
+    features: [
+      "Full-Stack Development",
+      "Database Design",
+      "Authentication System",
+      "Admin Dashboard",
+      "Unlimited Revisions",
+      "30 Days Support",
+      "SEO Optimization",
+      "Deployment Assistance",
+    ],
+    popular: false,
+  },
 ];
 
 export const AboutSection = () => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [isScrolling, setIsScrolling] = useState(false);
-
-  const handleScroll = () => {
-    if (scrollContainerRef.current) {
-      const scrollLeft = scrollContainerRef.current.scrollLeft;
-      setScrollPosition(scrollLeft);
-      setIsScrolling(true);
-      scrollContainerRef.current.classList.add('scrolling');
-      setTimeout(() => {
-        setIsScrolling(false);
-        scrollContainerRef.current?.classList.remove('scrolling');
-      }, 500);
-    }
-  };
-
-  const scrollToCategory = (index: number) => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      const itemWidth = container.scrollWidth / categories.length;
-      const targetScroll = itemWidth * index;
-
-      container.scrollTo({
-        left: targetScroll,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.addEventListener('scroll', handleScroll);
-      return () => container.removeEventListener('scroll', handleScroll);
-    }
-  }, []);
-
   return (
-    <section className="py-16 px-4 relative sm:px-6 overflow-hidden">
-      {/* subtle moving particles in background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute w-full h-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:24px_24px] animate-[pulse_6s_ease-in-out_infinite]" />
-      </div>
+    <section className="py-24 px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto space-y-24">
+        {/* About Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative w-full rounded-3xl backdrop-blur-2xl bg-card/60 border border-border/30 shadow-2xl p-12 space-y-10 overflow-hidden"
+        >
+          {/* Subtle gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 rounded-3xl pointer-events-none"></div>
 
-      <div className="max-w-6xl mx-auto relative">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl sm:text-5xl font-extrabold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-tight">
-            About Me
-          </h2>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-            A passionate designer who believes great design should feel like magic, not frustration.
-          </p>
-        </div>
-
-        <div className="space-y-12">
-          {/* Profile Section */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="glass-panel rounded-3xl p-8 glass-glow relative overflow-hidden"
-          >
-            {/* animated glowing ring */}
-            <motion.div 
-              className="absolute -inset-2 rounded-full bg-gradient-to-r from-primary to-accent opacity-30 blur-3xl"
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-            />
-            <div className="flex items-center gap-6 relative z-10 mb-6">
-              <div className="relative">
-                <motion.div
-                  className="absolute inset-0 rounded-full border-4 border-primary/30 animate-spin-slow"
+          <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16 max-w-6xl mx-auto relative z-10">
+            {/* Avatar with glow */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="relative"
+            >
+              <div className="absolute inset-0 rounded-full bg-primary/30 blur-3xl animate-pulse-slow"></div>
+              <div className="relative w-32 h-32 rounded-full overflow-hidden ring-4 ring-primary/40 shadow-lg shadow-primary/30">
+                <img
+                  src="/assets/profile.jpg"
+                  alt="Profile"
+                  className="w-full h-full object-cover"
                 />
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-primary to-accent p-1">
-                    <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
-                    <img
-                      src="/assets/profile.jpg"
-                      alt="Profile"
-                      className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-full shadow-lg"
-                      style={{ borderRadius: '50%' }}
-                    />
-                    </div>
-                </div>
               </div>
-              <div>
-                <h3 className="text-2xl sm:text-3xl font-bold text-foreground">Junior Jeconia</h3>
-                <p className="text-base sm:text-lg text-muted-foreground">Creative Designer & Developer</p>
-                <p className="text-sm text-accent">Dar es Salaam, TZ</p>
-              </div>
-            </div>
-            <p className="text-base text-muted-foreground leading-relaxed mb-6 relative z-10">
-              With over 5 years of experience crafting digital experiences, I specialize in creating 
-              interfaces that users actually enjoy using. I believe in the power of thoughtful design 
-              to solve real problems and create meaningful connections.
-            </p>
-            <div className="flex flex-wrap gap-2 relative z-10">
-              {['Design Systems', 'React', 'Figma', 'TypeScript', 'Prototyping'].map((tag) => (
-                <span 
-                  key={tag}
-                  className="px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {/* Skills Section */}
-          <div>
-            <h3 className="text-2xl sm:text-3xl font-bold mb-6">Skills & Expertise</h3>
-            <div className="relative">
-              <div 
-                ref={scrollContainerRef}
-                className="flex gap-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory"
-              >
-                {categories.map((category, categoryIndex) => {
-                  const categorySkills = skills.filter(skill => skill.category === category.id);
+            {/* About text */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              className="flex-1 space-y-6"
+            >
+              <h2 className="text-5xl font-extrabold tracking-tight text-foreground">
+                About Me
+              </h2>
+              <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl">
+                A passionate designer and developer with over{" "}
+                <span className="text-primary font-semibold">5 years</span> of
+                experience crafting digital experiences. I specialize in
+                creating interfaces that users actually enjoy using, believing
+                in the power of thoughtful design to solve real problems.
+              </p>
+            </motion.div>
+          </div>
 
-                  return (
-                    <motion.div
-                      whileHover={{ rotateY: 6, rotateX: -3, scale: 1.03 }}
-                      transition={{ type: "spring", stiffness: 200 }}
-                      key={category.id}
-                      className="flex-shrink-0 w-[280px] sm:w-[320px] snap-start"
-                    >
-                      <div className="glass-panel rounded-2xl p-6 glass-glow relative overflow-hidden">
-                        {/* subtle reflection */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-white/5 to-transparent opacity-20" />
-                        <div className="flex items-center gap-3 mb-4 relative z-10">
-                          <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${category.color} p-0.5`}>
-                            <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
-                              <category.icon className="w-6 h-6 text-primary" />
-                            </div>
-                          </div>
-                          <div>
-                            <h4 className="text-lg font-bold">{category.name}</h4>
-                            <p className="text-sm text-muted-foreground">{categorySkills.length} skills</p>
-                          </div>
-                        </div>
-                        <div className="space-y-4 relative z-10">
-                          {categorySkills.map((skill, index) => {
-                            const { count, elementRef } = useCountAnimation({
-                              endValue: skill.level,
-                              delay: index * 120,
-                              duration: 2000
-                            });
-                            return (
-                              <div 
-                                key={skill.name}
-                                ref={elementRef}
-                                className="flex items-center gap-3 p-3 rounded-xl bg-secondary/30"
-                              >
-                                <skill.icon className="w-5 h-5 text-primary" />
-                                <div className="flex-1">
-                                  <div className="flex justify-between mb-1">
-                                    <span className="text-sm font-medium">{skill.name}</span>
-                                    <span className="text-xs text-muted-foreground">{count}%</span>
-                                  </div>
-                                  <div className="w-full bg-secondary rounded-full h-2 overflow-hidden relative">
-                                    <motion.div
-                                      initial={{ width: 0 }}
-                                      animate={{ width: `${count}%` }}
-                                      transition={{ duration: 1.2, delay: index * 0.1 }}
-                                      className={`bg-gradient-to-r ${category.color} h-2 rounded-full`}
-                                    >
-                                      <div className="absolute right-0 top-0 h-2 w-2 rounded-full bg-white/70 animate-pulse" />
-                                    </motion.div>
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-              {/* Scroll Indicators */}
-              <div className="flex justify-center gap-3 mt-4">
-                {categories.map((cat, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={() => scrollToCategory(index)}
-                    animate={{
-                      width: scrollPosition > (index * 280) - 140 && scrollPosition < (index * 280) + 140 ? 24 : 8
-                    }}
-                    className={`h-2 rounded-full transition-all ${
-                      scrollPosition > (index * 280) - 140 && scrollPosition < (index * 280) + 140
-                        ? 'bg-primary shadow-lg shadow-primary/40'
-                        : 'bg-primary/30 hover:bg-primary/50'
-                    }`}
-                    aria-label={`Go to ${cat.name}`}
-                  />
+          {/* Reviews */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="flex items-center justify-center gap-6 pt-10 border-t border-border/30 relative z-10"
+          >
+            <div className="flex items-center gap-2">
+              <div className="flex">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 fill-primary text-primary" />
                 ))}
               </div>
+              <span className="font-semibold text-foreground text-lg">4.9</span>
             </div>
+            <span className="text-base text-muted-foreground">
+              (127 reviews)
+            </span>
+          </motion.div>
+
+          {/* Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.7 }}
+            className="grid grid-cols-3 gap-8 pt-6 max-w-3xl mx-auto relative z-10"
+          >
+            <div className="text-center">
+              <div className="text-3xl font-bold text-foreground">150+</div>
+              <div className="text-base text-muted-foreground">Projects</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-foreground">5+</div>
+              <div className="text-base text-muted-foreground">Years</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-foreground">50+</div>
+              <div className="text-base text-muted-foreground">Clients</div>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Skills */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="space-y-8"
+        >
+          <h3 className="text-3xl font-bold text-foreground text-center">
+            Skills & Expertise
+          </h3>
+          <div className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto">
+            {skills.map((skill, index) => (
+              <motion.span
+                key={index}
+                whileHover={{ scale: 1.1 }}
+                className="px-5 py-2 bg-secondary/70 rounded-full text-sm font-medium text-foreground shadow-sm hover:bg-primary hover:text-primary-foreground transition-colors cursor-default"
+              >
+                {skill}
+              </motion.span>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Pricing */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="space-y-12"
+        >
+          <div className="text-center space-y-4">
+            <h3 className="text-3xl font-bold text-foreground">
+              Service Packages
+            </h3>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              From simple designs to complete applications, choose the package
+              that fits your needs
+            </p>
           </div>
 
-          {/* Fun Stats */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-12">
-            {[
-              { label: 'Projects Completed', value: 150, suffix: '+' },
-              { label: 'Happy Clients', value: 50, suffix: '+' },
-              { label: 'Cups of Coffee', value: '∞', isInfinity: true },
-              { label: 'Years Experience', value: 5, suffix: '+' },
-            ].map((stat, index) => {
-              const { count, elementRef } = useCountAnimation({
-                endValue: stat.isInfinity ? 0 : (stat.value as number),
-                delay: index * 200,
-                duration: 2000
-              });
-              return (
-                <motion.div 
-                  key={stat.label}
-                  ref={elementRef}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.2 }}
-                  viewport={{ once: true }}
-                  className="glass-panel rounded-xl p-6 text-center glass-glow hover:scale-105 transition-transform"
-                >
-                  <div className="text-2xl font-bold text-primary mb-2">
-                    {stat.isInfinity ? (
-                      <motion.span 
-                        animate={{ opacity: [0.5, 1, 0.5] }}
-                        transition={{ repeat: Infinity, duration: 2 }}
-                      >
-                        ∞
-                      </motion.span>
-                    ) : `${count}${stat.suffix}`}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {pricingTiers.map((tier, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                className={`relative flex flex-col border rounded-2xl p-8 backdrop-blur-xl transition-all duration-500 ${
+                  tier.popular
+                    ? "border-primary/60 shadow-xl bg-primary/5"
+                    : "border-border bg-card/60 hover:border-primary/40"
+                }`}
+              >
+                {tier.popular && (
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium shadow-md">
+                      Most Popular
+                    </span>
                   </div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
-                </motion.div>
-              );
-            })}
+                )}
+
+                <div className="flex-1 space-y-6">
+                  <div className="text-center space-y-2">
+                    <h4 className="text-xl font-bold text-foreground">
+                      {tier.name}
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      {tier.description}
+                    </p>
+                    <div className="space-y-1">
+                      <div className="text-3xl font-bold text-foreground">
+                        ${tier.price}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {tier.duration} delivery
+                      </div>
+                    </div>
+                  </div>
+
+                  <ul className="space-y-3 text-sm">
+                    {tier.features.map((feature, featureIndex) => (
+                      <li
+                        key={featureIndex}
+                        className="flex items-start gap-3"
+                      >
+                        <Check className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                        <span className="text-muted-foreground">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* CTA */}
+                <div className="pt-6">
+                  <button
+                    className={`w-full py-3 px-4 rounded-lg font-medium transition-colors shadow-md ${
+                      tier.popular
+                        ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                        : "bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground"
+                    }`}
+                  >
+                    Get Started - ${tier.price}
+                  </button>
+                </div>
+              </motion.div>
+            ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
