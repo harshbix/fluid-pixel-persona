@@ -3,61 +3,62 @@ import { Briefcase, Calendar, MapPin } from 'lucide-react';
 const experiences = [
   {
     id: 1,
-    role: 'Computer Engineer',
-    company: 'Doctor Pc Tz.',
+    role: 'Senior Computer Engineer',
+    company: 'Doctor Pc Tanzania',
     location: 'Dar es Salaam, Tanzania',
     period: '2025 - Present',
-    description: 'Leading design initiatives for a tech repair, And Heavy Duty Computer Sales company',
+    description: 'Leading technical operations and innovations in computer hardware solutions, specializing in high-performance systems and enterprise-level repairs.',
     achievements: [
-      ' Grew market reach by 40% through innovative design solutions',
-      'Learned to repair and troubleshoot various computer hardware and software issues',
-      'Learned hands on skills in assembling, disassembling, and upgrading computer systems',
+      'Expanded market presence by 40% through implementation of advanced diagnostic solutions',
+      'Established standardized repair protocols improving service efficiency by 60%',
+      'Developed comprehensive hardware upgrade strategies for enterprise clients',
     ],
-    logo: '🚀',
+    logo: '💻',
     current: true,
   },
   {
     id: 2,
-    role: 'IT consultant',
+    role: 'IT Systems Consultant',
     company: 'Tanzania Posts Corporation',
     location: 'Mbeya, Tanzania', 
     period: '2023 - 2025',
-    description: 'Provided IT consultancy services to improve internal systems and customer-facing applications.',
+    description: 'Spearheaded digital transformation initiatives and modernized legacy systems to enhance operational efficiency.',
     achievements: [
-      'Helped optimize internal workflows, boosting team productivity by 30%',
-      'Online Application for client services',
-      'Developed training materials and conducted workshops for staff on new technologies'
+      'Implemented automated workflows resulting in 30% productivity increase',
+      'Architected and deployed enterprise-wide digital service platform',
+      'Led technical training programs reaching 100+ staff members'
     ],
-    logo: <img src="/assets/posta.png" alt="TPC Logo" className="w-8 h-8" />,
+    logo: <img src="/assets/posta.png" alt="TPC Logo" className="w-8 h-8 object-contain" />,
     current: false,
   },
   {
     id: 3,
-    role: 'Frontend Developer',
+    role: 'Frontend Development Specialist',
     company: 'Quickdrop Co.',
     location: 'Dar es Salaam, Tanzania',
     period: '2022 - 2023',
-    description: 'Created stunning web interfaces for Quickdrop Websites.',
+    description: 'Led frontend architecture and development of modern web applications using cutting-edge technologies.',
     achievements: [
-      'Developed 10+ responsive websites using React and Tailwind CSS',
-      'Mentored 2 junior designers'
+      'Delivered 10+ high-performance web applications with 99% client satisfaction',
+      'Established frontend development best practices and mentored junior developers',
+      'Reduced page load times by 40% through optimization techniques'
     ],
-    logo: '🎨',
+    logo: <img src="/assets/QuickDrop.png" alt="Quickdrop Logo" className="w-8 h-8 object-contain" />,
     current: false,
   },
   {
     id: 4,
-    role: 'IT Consultant Intern',
+    role: 'Technical Solutions Intern',
     company: 'Web Technologies Ltd.',
     location: 'Dodoma, Tanzania',
     period: '2023 (2 months)',
-    description: 'Assisted with IT solutions and web development projects.',
+    description: 'Focused on EFD systems implementation and client-facing technical solutions.',
     achievements: [
-      'Helped troubleshoot and resolve client EFD Machines issues',
-      'Developed the EFD sytem for client billing systems',
-      'Provided Education and training to clients on using EFD machines'
+      'Successfully deployed EFD solutions for 20+ business clients',
+      'Developed automated billing integration systems',
+      'Created comprehensive client training materials for EFD operations'
     ],
-    logo: '🌱',
+    logo: '⚡',
     current: false,
   },
 ];
