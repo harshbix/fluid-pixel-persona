@@ -3,30 +3,30 @@ import { Briefcase, Calendar, MapPin } from 'lucide-react';
 const experiences = [
   {
     id: 1,
-    role: 'Senior UI/UX Designer',
-    company: 'TechFlow Inc.',
-    location: 'San Francisco, CA',
-    period: '2022 - Present',
-    description: 'Leading design for next-generation fintech products, managing a team of 3 designers, and establishing design systems that improved development velocity by 40%.',
+    role: 'Computer Engineer',
+    company: 'Doctor Pc Tz.',
+    location: 'Dar es Salaam, Tanzania',
+    period: '2025 - Present',
+    description: 'Leading design initiatives for a tech repair, And Heavy Duty Computer Sales company',
     achievements: [
-      'Redesigned core platform increasing user engagement by 65%',
-      'Built comprehensive design system used across 12 products',
-      'Led user research initiatives resulting in 30% reduction in support tickets'
+      ' Grew market reach by 40% through innovative design solutions',
+      'Learned to repair and troubleshoot various computer hardware and software issues',
+      'Learned hands on skills in assembling, disassembling, and upgrading computer systems',
     ],
     logo: '🚀',
     current: true,
   },
   {
     id: 2,
-    role: 'Product Designer',
-    company: 'StartupXYZ',
-    location: 'Remote',
-    period: '2020 - 2022',
-    description: 'End-to-end product design for a B2B SaaS platform, from initial concept to post-launch optimization.',
+    role: 'IT consultant',
+    company: 'Tanzania Posts Corporation',
+    location: 'Mbeya, Tanzania',
+    period: '2023 - 2025',
+    description: 'Provided IT consultancy services to improve internal systems and customer-facing applications.',
     achievements: [
-      'Designed MVP that secured $2M in Series A funding',
-      'Increased user onboarding completion by 85%',
-      'Established user testing framework still in use today'
+      'Helped optimize internal workflows, boosting team productivity by 30%',
+      'Online Application for client services',
+      'Developed training materials and conducted workshops for staff on new technologies'
     ],
     logo: '💡',
     current: false,
