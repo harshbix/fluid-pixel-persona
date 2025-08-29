@@ -33,14 +33,13 @@ const experiences = [
   },
   {
     id: 3,
-    role: 'UI Designer',
-    company: 'Digital Agency Co.',
-    location: 'New York, NY',
-    period: '2019 - 2020',
-    description: 'Created stunning web and mobile interfaces for Fortune 500 clients across various industries.',
+    role: 'Frontend Developer',
+    company: 'Quickdrop Co.',
+    location: 'Dar es Salaam, Tanzania',
+    period: '2022 - 2023',
+    description: 'Created stunning web interfaces for Quickdrop Websites.',
     achievements: [
-      'Delivered 25+ successful client projects',
-      'Won "Best Digital Experience" award for e-commerce redesign',
+      'Developed 10+ responsive websites using React and Tailwind CSS',
       'Mentored 2 junior designers'
     ],
     logo: '🎨',
@@ -48,15 +47,15 @@ const experiences = [
   },
   {
     id: 4,
-    role: 'Junior Designer',
-    company: 'Creative Studio',
-    location: 'Los Angeles, CA',
-    period: '2018 - 2019',
-    description: 'Started my design journey creating brand identities and marketing materials for small businesses.',
+    role: 'IT Consultant Intern',
+    company: 'Web Technologies Ltd.',
+    location: 'Dodoma, Tanzania',
+    period: '2023 (2 months)',
+    description: 'Assisted with IT solutions and web development projects.',
     achievements: [
-      'Completed 50+ branding projects',
-      'Developed design skills in print and digital media',
-      'Built foundation in user-centered design thinking'
+      'Helped troubleshoot and resolve client EFD Machines issues',
+      'Developed the EFD sytem for client billing systems',
+      'Provided Education and training to clients on using EFD machines'
     ],
     logo: '🌱',
     current: false,
