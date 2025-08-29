@@ -156,12 +156,12 @@ export const ExperienceSection = () => {
           <div className="glass-panel rounded-2xl p-8 glass-glow">
             <h3 className="text-2xl font-bold mb-6">Skills Evolution</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { skill: 'Design Tools', years: '6+' },
-                { skill: 'User Research', years: '4+' },
-                { skill: 'Prototyping', years: '5+' },
-                { skill: 'Frontend', years: '3+' },
-              ].map((item, index) => (
+                {[
+                { skill: 'Computer Repair', years: '3+' },
+                { skill: 'IT Consultancy', years: '2+' },
+                { skill: 'Frontend Dev', years: '2+' },
+                { skill: 'EFD Systems', years: '1+' },
+                ].map((item, index) => (
                 <div 
                   key={item.skill}
                   className="text-center animate-float"
@@ -170,7 +170,7 @@ export const ExperienceSection = () => {
                   <div className="text-2xl font-bold text-primary mb-2">{item.years}</div>
                   <div className="text-sm text-muted-foreground">{item.skill}</div>
                 </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>
