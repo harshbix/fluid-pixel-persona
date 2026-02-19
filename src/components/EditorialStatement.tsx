@@ -31,39 +31,40 @@ export const EditorialStatement = () => {
         </motion.div>
 
         {/* Big editorial lines */}
-        <div className="space-y-0 mb-14">
+        <div className="space-y-2 md:space-y-4 mb-14">
           {lines.map((line) => (
             <div
               key={line.words.join("-")}
-              className="flex flex-wrap leading-none overflow-hidden"
+              className="flex flex-wrap leading-[1.1]"
               style={{ gap: "0 0.22em" }}
             >
               {line.words.map((word) => {
                 const delay = wordCounter++ * 0.11;
                 return (
-                  <motion.span
-                    key={word + delay}
-                    initial={{ opacity: 0, y: 70 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-60px" }}
-                    transition={{
-                      duration: 0.85,
-                      delay,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    className={[
-                      "block font-black tracking-tight font-montserrat",
-                      "text-[clamp(3.5rem,9.5vw,8rem)] leading-[1.06]",
-                      line.style === "outline" ? "text-stroke-primary" : "",
-                      line.style === "gradient"
-                        ? "bg-gradient-to-br from-primary via-accent to-primary bg-clip-text text-transparent"
-                        : "",
-                    ]
-                      .filter(Boolean)
-                      .join(" ")}
-                  >
-                    {word}
-                  </motion.span>
+                  <span key={word + delay} className="overflow-hidden pb-4 md:pb-6 -mb-4 md:-mb-6 relative block">
+                    <motion.span
+                      initial={{ opacity: 0, y: "100%" }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-10%" }}
+                      transition={{
+                        duration: 0.85,
+                        delay,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      className={[
+                        "block font-black tracking-tight font-montserrat",
+                        "text-[clamp(2.5rem,10vw,8rem)] md:text-[clamp(4.5rem,9.5vw,8rem)] leading-[inherit] py-2",
+                        line.style === "outline" ? "text-stroke-primary text-transparent" : "",
+                        line.style === "gradient"
+                          ? "bg-gradient-to-br from-primary via-accent to-primary bg-clip-text text-transparent"
+                          : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                    >
+                      {word}
+                    </motion.span>
+                  </span>
                 );
               })}
             </div>
