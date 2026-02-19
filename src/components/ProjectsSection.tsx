@@ -3,42 +3,42 @@ import { ExternalLink, Github, Eye } from 'lucide-react';
 const projects = [
   {
     id: 1,
-    title: 'EcoTrack Dashboard',
-    description: 'A comprehensive sustainability tracking platform for businesses to monitor their environmental impact.',
+    title: 'EcoTrack Analytics Dashboard',
+    description: 'Engineered a scalable data visualization platform enabling enterprise clients to monitor and reduce their environmental footprint in real-time.',
     image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400',
-    tags: ['UI/UX', 'React', 'TypeScript', 'D3.js'],
+    tags: ['React', 'TypeScript', 'D3.js', 'System Architecture'],
     featured: true,
   },
   {
     id: 2,
-    title: 'MindSpace App',
-    description: 'Mobile meditation app designed to reduce stress and improve mental wellbeing.',
+    title: 'MindSpace Mobile App',
+    description: 'Designed and prototyped a cross-platform mobile application utilizing proactive UX research to optimize user retention and mental wellbeing.',
     image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=400',
-    tags: ['Mobile Design', 'Prototyping', 'User Research'],
+    tags: ['Mobile Development', 'Prototyping', 'User Research'],
     featured: false,
   },
   {
     id: 3,
-    title: 'FinTech Redesign',
-    description: 'Complete redesign of a cryptocurrency trading platform focusing on user safety and clarity.',
+    title: 'FinTech Trading Platform',
+    description: 'Spearheaded the UX/UI overhaul of a high-volume cryptocurrency trading platform, standardizing design systems and improving transaction clarity.',
     image: 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=600&h=400',
-    tags: ['Web Design', 'Design System', 'Figma'],
+    tags: ['Frontend Architecture', 'Design Systems', 'Figma'],
     featured: true,
   },
   {
     id: 4,
-    title: 'Smart Home Interface',
-    description: 'Intuitive control panel for IoT devices with voice integration and predictive automation.',
+    title: 'IoT Smart Infrastructure',
+    description: 'Developed an intuitive centralized control interface for interconnected IoT devices, integrating predictive automation algorithms.',
     image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=600&h=400',
-    tags: ['IoT', 'UI Design', 'Smart Tech'],
+    tags: ['IoT Integration', 'UI Engineering', 'Predictive Systems'],
     featured: false,
   },
   {
     id: 5,
-    title: 'Healthcare Portal',
-    description: 'Patient management system streamlining appointments, records, and telehealth consultations.',
+    title: 'Enterprise Healthcare Portal',
+    description: 'Architected a secure patient management console that streamlined clinical appointments, digital records, and secure telehealth routing.',
     image: 'https://images.unsplash.com/photo-1487887235947-a955ef187fcc?w=600&h=400',
-    tags: ['Healthcare', 'UX Research', 'Accessibility'],
+    tags: ['Full-Stack', 'Accessibility (WCAG)', 'Data Security'],
     featured: false,
   },
 ];
@@ -52,10 +52,10 @@ export const ProjectsSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center md:text-left mb-16 md:mb-24 md:max-w-2xl">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 tracking-tight text-foreground">
-            Featured Work.
+            Featured Engineering.
           </h2>
           <p className="text-xl text-muted-foreground leading-relaxed">
-            A curated selection of projects that showcase my approach to solving complex design challenges.
+            A curated selection of technical projects showcasing my ability to architect scalable systems and craft intuitive user experiences.
           </p>
         </div>
 

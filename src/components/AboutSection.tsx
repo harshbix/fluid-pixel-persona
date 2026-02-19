@@ -3,12 +3,12 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 const skills = [
-  "Frontend Development",
-  "UI/UX Design",
-  "Full-Stack Development",
-  "Prototyping",
-  "Marketing Strategy",
-  "Project Management",
+  "Frontend Architecture (React/TS)",
+  "Full-Stack Development (Node.js)",
+  "UI/UX Systems & Prototyping",
+  "Database Management (SQL/NoSQL)",
+  "Hardware & Systems Infrastructure",
+  "Technical Project Management",
 ];
 
 export const AboutSection = () => {
@@ -110,14 +110,13 @@ export const AboutSection = () => {
               </h2>
               <div className="space-y-6 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
                 <p>
-                  A passionate designer and developer with over{" "}
+                  A versatile Software Engineer and Technical Consultant with over{" "}
                   <span className="text-foreground font-semibold">5 years</span> of
-                  experience crafting digital experiences.
+                  experience delivering high-impact digital solutions.
                 </p>
                 <p>
-                  I specialize in
-                  creating interfaces that users actually enjoy using, believing
-                  in the power of thoughtful, invisible design to solve real problems.
+                  I specialize in bridging the gap between elegant design and robust system architecture,
+                  leveraging modern web technologies to solve complex business challenges securely and efficiently.
                 </p>
               </div>
             </motion.div>

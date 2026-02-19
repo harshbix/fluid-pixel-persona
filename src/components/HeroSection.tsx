@@ -137,7 +137,7 @@ export const HeroSection = () => {
           <div className="absolute -right-4 md:-right-12 top-1/2 w-24 h-24 border border-foreground/10 rounded-full animate-float-organic mix-blend-difference z-[-1] hidden md:block" />
 
           <p className="mt-8 md:mt-12 text-xl md:text-2xl lg:text-3xl text-muted-foreground/90 font-medium max-w-2xl leading-relaxed lg:ml-24 animate-text-reveal" style={{ animationDelay: "0.4s" }}>
-            Currently directing digital experiences, crafting interfaces that don't make users cry.
+            Crafting digital experiences that feel less like software and more like magic.
           </p>
         </div>
 
