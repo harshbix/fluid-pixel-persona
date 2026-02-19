@@ -50,77 +50,74 @@ export const ProjectsSection = () => {
   return (
     <section className="py-20 px-6 relative">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            Featured Work
+        <div className="text-center md:text-left mb-16 md:mb-24 md:max-w-2xl">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 tracking-tight text-foreground">
+            Featured Work.
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground leading-relaxed">
             A curated selection of projects that showcase my approach to solving complex design challenges.
           </p>
         </div>
 
         {/* Featured Projects */}
-        <div className="space-y-16 mb-20">
+        <div className="space-y-24 md:space-y-32 mb-32">
           {featuredProjects.map((project, index) => (
-            <div 
+            <div
               key={project.id}
-              className={`grid lg:grid-cols-2 gap-12 items-center ${
-                index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
-              }`}
+              className={`flex flex-col gap-8 md:gap-16 ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'
+                } items-center`}
             >
-              <div className={index % 2 === 1 ? 'lg:col-start-2' : ''}>
-                <div className="glass-panel rounded-2xl p-8 space-y-6 glass-glow">
-                  <div className="flex items-center gap-3">
-                    <span className="px-3 py-1 rounded-full bg-primary/20 text-primary text-sm font-medium">
-                      Featured
+              <div className="w-full lg:w-5/12 flex flex-col items-start text-left space-y-6 lg:px-4">
+                <div className="flex items-center gap-3">
+                  <span className="px-3 py-1 bg-secondary/80 text-foreground text-xs font-semibold uppercase tracking-widest rounded-full">
+                    Featured
+                  </span>
+                  <div className="h-px bg-border flex-1" />
+                </div>
+
+                <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">{project.title}</h3>
+
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  {project.description}
+                </p>
+
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1 rounded-full border border-border/50 text-muted-foreground text-sm font-medium"
+                    >
+                      {tag}
                     </span>
-                    <div className="h-px bg-border flex-1" />
-                  </div>
-                  
-                  <h3 className="text-2xl md:text-3xl font-bold">{project.title}</h3>
-                  
-                  <p className="text-muted-foreground text-lg leading-relaxed">
-                    {project.description}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <span 
-                        key={tag}
-                        className="px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-sm"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <div className="flex gap-4 pt-4">
-                    <button className="glass-panel px-6 py-3 rounded-full text-primary hover:bg-primary hover:text-primary-foreground transition-smooth flex items-center gap-2 ripple-effect">
-                      <Eye className="w-4 h-4" />
-                      View Project
-                    </button>
-                    <button className="glass-panel px-6 py-3 rounded-full text-muted-foreground hover:text-primary transition-smooth flex items-center gap-2 ripple-effect">
-                      <Github className="w-4 h-4" />
-                      Code
-                    </button>
-                  </div>
+                  ))}
+                </div>
+
+                <div className="flex gap-4 pt-6 w-full sm:w-auto">
+                  <button className="flex-1 sm:flex-none px-6 py-3 rounded-xl bg-foreground text-background font-medium hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
+                    <Eye className="w-4 h-4" />
+                    View Case
+                  </button>
+                  <button className="flex-1 sm:flex-none px-6 py-3 rounded-xl border border-border bg-card/40 hover:bg-card/80 text-foreground font-medium transition-colors flex items-center justify-center gap-2">
+                    <Github className="w-4 h-4" />
+                    Code
+                  </button>
                 </div>
               </div>
-              
-              <div className={index % 2 === 1 ? 'lg:col-start-1' : ''}>
-                <div className="glass-panel rounded-2xl p-4 glass-glow group cursor-pointer">
-                  <div className="relative overflow-hidden rounded-xl">
-                    <img 
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-80 object-cover transition-smooth group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-smooth" />
-                    <button className="absolute top-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-smooth ripple-effect">
-                      <ExternalLink className="w-5 h-5 text-white" />
-                    </button>
-                  </div>
+
+              <div className="w-full lg:w-7/12 relative group">
+                {/* Asymmetric offset block for human touch */}
+                <div className="absolute -inset-4 bg-primary/5 rounded-[2rem] -z-10 translate-y-4 translate-x-4 mix-blend-multiply opacity-50 dark:hidden" />
+                <div className="relative overflow-hidden rounded-[2rem] bg-muted/20 border border-border/40 shadow-xl">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full aspect-[4/3] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
+                  <a href="#" className="absolute top-4 right-4 md:top-6 md:right-6 w-12 h-12 bg-background/90 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 text-foreground hover:bg-foreground hover:text-background shadow-lg">
+                    <ExternalLink className="w-5 h-5" />
+                  </a>
                 </div>
               </div>
             </div>
@@ -130,56 +127,47 @@ export const ProjectsSection = () => {
         {/* Other Projects Grid */}
         <div>
           <h3 className="text-2xl font-bold text-center mb-12">Other Projects</h3>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {otherProjects.map((project, index) => (
-              <div 
+              <div
                 key={project.id}
-                className="glass-panel rounded-xl overflow-hidden glass-glow group cursor-pointer transition-smooth hover:scale-[1.02]"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="group flex flex-col bg-card/30 rounded-2xl border border-border/40 overflow-hidden hover:bg-card/60 transition-colors"
               >
-                <div className="relative">
-                  <img 
+                <div className="relative aspect-[16/10] overflow-hidden bg-muted/30">
+                  <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-48 object-cover transition-smooth group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-smooth" />
-                  <button className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-smooth ripple-effect">
-                    <ExternalLink className="w-4 h-4 text-white" />
-                  </button>
+                  <div className="absolute inset-0 border border-black/5 rounded-t-2xl pointer-events-none" />
                 </div>
-                
-                <div className="p-6">
-                  <h4 className="text-xl font-bold mb-3">{project.title}</h4>
-                  <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+
+                <div className="p-6 flex flex-col flex-1">
+                  <h4 className="text-xl font-bold tracking-tight text-foreground mb-2">{project.title}</h4>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-1">
                     {project.description}
                   </p>
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
+
+                  <div className="flex flex-wrap gap-2 mb-6">
                     {project.tags.slice(0, 2).map((tag) => (
-                      <span 
+                      <span
                         key={tag}
-                        className="px-2 py-1 rounded-full bg-primary/10 text-primary text-xs"
+                        className="text-xs font-medium text-muted-foreground bg-muted/50 px-2 py-1 rounded-md"
                       >
                         {tag}
                       </span>
                     ))}
-                    {project.tags.length > 2 && (
-                      <span className="px-2 py-1 rounded-full bg-muted text-muted-foreground text-xs">
-                        +{project.tags.length - 2} more
-                      </span>
-                    )}
                   </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <button className="text-primary hover:text-primary/80 transition-smooth font-medium text-sm">
-                      View Details
-                    </button>
-                    <button className="text-muted-foreground hover:text-primary transition-smooth">
+
+                  <div className="flex justify-between items-center pt-4 border-t border-border/40 mt-auto">
+                    <a href="#" className="text-sm font-semibold text-foreground hover:text-primary transition-colors flex items-center gap-1">
+                      Details <ExternalLink className="w-3 h-3" />
+                    </a>
+                    <a href="#" className="p-2 -mr-2 text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-muted/50">
                       <Github className="w-4 h-4" />
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>

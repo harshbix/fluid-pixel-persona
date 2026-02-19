@@ -1,372 +1,170 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useTheme } from "@/hooks/useTheme";
+import { useEffect, useRef, useState } from "react";
 import { useClock } from "@/hooks/useClock";
-import { PartyPopper, Download, Eye, ArrowDown } from "lucide-react";
-import Clock from "react-clock";
-import "react-clock/dist/Clock.css";
-
-// Rotating taglines
-const TAGLINES = [
-  "Designer by day. Pixel perfectionist by night.",
-  "Crafting interfaces that feel like magic.",
-  "Shipping audacious UI with calm code.",
-  "Drama, motion, and delightful micro-interactions.",
-  "Where frontend engineering meets cinema.",
-];
+import { ArrowRight, PlayCircle } from "lucide-react";
 
 export const HeroSection = () => {
-  const { isBirthday, cycleSecretTheme } = useTheme();
-  const { formattedTime, formattedDate } = useClock();
+  const { formattedTime } = useClock();
 
-  // Cinematic parallax state
-  const rootRef = useRef<HTMLElement | null>(null);
-  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  // Cinematic parallax & magnetic state
+  const sectionRef = useRef<HTMLElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [smoothMouse, setSmoothMouse] = useState({ x: 0, y: 0 });
 
-  // Random clock mode: true = analog, false = digital
-  const [analogMode, setAnalogMode] = useState<boolean>(
-    () => Math.random() > 0.5
-  );
+  // Store magnet targets
+  const buttonVars = useRef({
+    btn1: { x: 0, y: 0 },
+    btn2: { x: 0, y: 0 },
+  });
 
-  // Rotating tagline
-  const [taglineIndex, setTaglineIndex] = useState<number>(0);
-
+  // Smooth out mouse tracking via requestAnimationFrame
   useEffect(() => {
-    const id = setInterval(() => {
-      setAnalogMode(Math.random() > 0.5);
-      setTaglineIndex((i) => (i + 1) % TAGLINES.length);
-    }, 10000); // change every 10s
-    return () => clearInterval(id);
-  }, []);
+    let animationFrameId: number;
 
-  // Mouse tracking for parallax on layers
+    const smoothInterpolation = () => {
+      setSmoothMouse((prev) => {
+        // LERP for buttery smooth parallax
+        const x = prev.x + (mousePos.x - prev.x) * 0.05;
+        const y = prev.y + (mousePos.y - prev.y) * 0.05;
+        return { x, y };
+      });
+      animationFrameId = requestAnimationFrame(smoothInterpolation);
+    };
+
+    animationFrameId = requestAnimationFrame(smoothInterpolation);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [mousePos]);
+
   const onMouseMove = (e: React.MouseEvent) => {
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMouse({ x, y });
+
+    // Core parallax tracking
+    setMousePos({ x, y });
+  };
+
+  // Magnetic button logic
+  const handleMagnetMove = (e: React.MouseEvent<HTMLButtonElement>, btnKey: 'btn1' | 'btn2') => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    e.currentTarget.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+  };
+
+  const handleMagnetLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.style.transform = `translate(0px, 0px)`;
   };
 
   return (
     <section
-      ref={rootRef as any}
+      ref={sectionRef}
       onMouseMove={onMouseMove}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-background/95 to-background"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background"
     >
-      {/* Enhanced Background Layers */}
-      <div className="absolute inset-0 -z-10">
-        {/* Animated gradient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-gradient-to-r from-accent/15 to-primary/15 blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-        
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-[0.02] bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.15)_1px,transparent_0)] bg-[length:50px_50px]" />
-      </div>
+      {/* =========================================
+          1. LIQUID COSMOS BACKGROUND (Animated)
+          ========================================= */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        {/* Deepest Layer - Star noise mapped globally in CSS */}
+        <div className="absolute inset-0 mix-blend-overlay opacity-30 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.1)_0%,transparent_100%)]" />
 
-      {/* Cinematic Parallax Layers (enhanced) */}
-      <div
-        className="absolute inset-0 -z-5 will-change-transform"
-        style={{
-          transform: `translate3d(${mouse.x * 15}px, ${mouse.y * 15}px, 0)`,
-          transition: "transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-accent/5" />
-      </div>
-
-      <div
-        className="absolute inset-0 -z-5 will-change-transform"
-        style={{
-          transform: `translate3d(${mouse.x * -10}px, ${mouse.y * -10}px, 0)`,
-          transition: "transform 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-        }}
-      >
-        <div className="absolute top-1/3 left-1/5 w-72 h-72 rounded-full bg-primary/8 blur-3xl" />
-        <div className="absolute bottom-1/3 right-1/5 w-80 h-80 rounded-full bg-accent/8 blur-3xl" />
-      </div>
-
-      {/* Dynamic spotlight effect */}
-      <div className="absolute inset-0 -z-5">
+        {/* Parallax Depth Layer 1 - Slow Liquid Blobs */}
         <div
-          className="absolute w-96 h-96 rounded-full bg-gradient-radial from-primary/10 to-transparent blur-2xl transition-all duration-1000"
+          className="absolute inset-0 will-change-transform"
+          style={{ transform: `translate3d(${smoothMouse.x * 30}px, ${smoothMouse.y * 30}px, 0)` }}
+        >
+          <div className="absolute top-[10%] left-[20%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-primary/10 rounded-full blur-3xl animate-liquid-morph mix-blend-multiply dark:mix-blend-screen opacity-70" />
+          <div className="absolute bottom-[0%] right-[10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-accent/20 rounded-full blur-[100px] animate-liquid-morph mix-blend-multiply dark:mix-blend-screen opacity-60" style={{ animationDelay: '-5s', animationDuration: '20s' }} />
+        </div>
+
+        {/* Parallax Depth Layer 2 - Faster, smaller accents */}
+        <div
+          className="absolute inset-0 will-change-transform"
+          style={{ transform: `translate3d(${smoothMouse.x * -60}px, ${smoothMouse.y * -60}px, 0)` }}
+        >
+          <div className="absolute top-[40%] right-[30%] w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-float-organic opacity-50" />
+          <div className="absolute top-[60%] left-[40%] w-48 h-48 bg-foreground/5 rounded-full blur-2xl animate-float-organic" style={{ animationDelay: '-3s' }} />
+        </div>
+
+        {/* Cursor tracking spotlight mask */}
+        <div
+          className="absolute inset-0 opacity-40 mix-blend-overlay transition-opacity duration-1000 hidden md:block"
           style={{
-            left: `${50 + mouse.x * 20}%`,
-            top: `${50 + mouse.y * 20}%`,
-            transform: 'translate(-50%, -50%)',
+            background: `radial-gradient(circle 800px at ${50 + smoothMouse.x * 100}% ${50 + smoothMouse.y * 100}%, hsl(var(--foreground)/0.15), transparent 100%)`
           }}
         />
       </div>
 
-      {/* Birthday Banner - Enhanced */}
-      {isBirthday && (
-        <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20">
-          <div className="relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-3xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse" />
-            <div className="relative border border-primary/30 bg-background/90 backdrop-blur-xl px-8 py-4 flex items-center gap-3 shadow-2xl rounded-2xl">
-              <PartyPopper className="w-6 h-6 text-primary animate-bounce" />
-              <span className="text-primary font-bold tracking-wide uppercase text-sm">
-                🎉 Happy Birthday, Bix!
+      {/* =========================================
+          2. CINEMATIC FOREGROUND CONTENT
+          ========================================= */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col justify-center h-full pt-20 pb-16">
+
+        {/* Artistic Time Indicator */}
+        <div className="mb-12 md:mb-16 animate-text-reveal" style={{ animationDelay: "0.1s" }}>
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-border/40 bg-card/20 backdrop-blur-md">
+            <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            <span className="text-xs uppercase tracking-[0.3em] font-medium text-muted-foreground">
+              Local Time // {formattedTime}
+            </span>
+          </div>
+        </div>
+
+        {/* Massive Typography - Asymmetric Layout */}
+        <div className="max-w-5xl relative">
+          <h1 className="text-[12vw] sm:text-[10vw] md:text-[8vw] lg:text-[7rem] leading-[0.9] font-extrabold tracking-tighter text-foreground selection:bg-primary selection:text-white">
+            <div className="overflow-hidden">
+              <span className="block animate-text-reveal text-shadow-cinematic" style={{ animationDelay: "0.2s" }}>
+                Junior
               </span>
-              <PartyPopper
-                className="w-6 h-6 text-primary animate-bounce"
-                style={{ animationDelay: "0.15s" }}
-              />
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Main Content */}
-      <div className="relative z-10 text-center max-w-7xl mx-auto px-6 w-full">
-        <div className="relative">
-          {/* Desktop Layout */}
-          <div className="hidden lg:flex items-center justify-between gap-12 px-8">
-            {/* Left: Name and Tagline */}
-            <div className="flex-1 text-left space-y-6">
-              <div className="relative">
-                <h1
-                  className="font-montserrat text-5xl xl:text-7xl font-extrabold cursor-pointer select-none [text-wrap:balance] hover:scale-[1.02] transition-transform duration-300"
-                  onClick={cycleSecretTheme}
-                  style={{ letterSpacing: "0.02em" }}
-                >
-                  <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x bg-[length:200%_auto]">
-                    Junior Jeconia
-                  </span>
-                </h1>
-                {/* Subtle underline accent */}
-                <div className="mt-2 h-1 w-24 bg-gradient-to-r from-primary to-accent rounded-full opacity-60" />
-              </div>
-
-              {/* Enhanced Tagline */}
-              <div className="relative bg-gradient-to-r from-background/80 to-background/40 backdrop-blur-sm rounded-2xl p-6 border border-primary/10">
-                <p className="text-xl xl:text-2xl text-foreground font-medium leading-relaxed">
-                  {TAGLINES[taglineIndex]}
-                </p>
-                <p className="text-base text-muted-foreground/80 font-normal mt-3 leading-relaxed">
-                  Currently making interfaces that don't make users cry.
-                </p>
-                {/* Decorative elements */}
-                <div className="absolute top-2 right-2 w-2 h-2 bg-primary/30 rounded-full" />
-                <div className="absolute bottom-2 left-2 w-1 h-1 bg-accent/40 rounded-full" />
-              </div>
-            </div>
-
-            {/* Right: Widget Stack */}
-            <div className="flex-1 max-w-md space-y-8">
-              {/* Enhanced Clock Card */}
-              <div className="relative group">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 to-accent/20 rounded-3xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
-                <div className="relative border border-primary/20 bg-background/90 backdrop-blur-xl rounded-3xl p-8 shadow-2xl hover:shadow-primary/10 transition-all duration-300">
-                  {/* Clock header */}
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">
-                      Local Time
-                    </span>
-                    <span className="text-xs text-muted-foreground bg-primary/5 px-2 py-1 rounded-full">
-                      {formattedDate}
-                    </span>
-                  </div>
-                  {/* Clock body */}
-                  {analogMode ? (
-                    <div className="flex justify-center">
-                      <div className="p-4 bg-gradient-to-br from-primary/5 to-accent/5 rounded-full">
-                        <Clock
-                          value={new Date()}
-                          renderNumbers={true}
-                          className="[--clr:theme(colors.primary.DEFAULT)]"
-                        />
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="text-center">
-                      <div className="text-4xl xl:text-5xl font-mono mb-2 tracking-wider bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent">
-                        {formattedTime}
-                      </div>
-                      <div className="text-sm text-muted-foreground uppercase tracking-widest font-bold opacity-80">
-                        Digital Display
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Enhanced CTA Buttons */}
-              <div className="flex flex-col gap-4">
-                <style>{`
-                  @keyframes gradient-x {
-                    0%, 100% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                  }
-                  .animate-gradient-x {
-                    animation: gradient-x 3s ease infinite;
-                  }
-                  
-                  .btn-glow {
-                    position: relative;
-                    overflow: hidden;
-                  }
-                  .btn-glow::before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: -100%;
-                    width: 100%;
-                    height: 100%;
-                    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-                    transition: left 0.5s;
-                  }
-                  .btn-glow:hover::before {
-                    left: 100%;
-                  }
-                  
-                  .btn-float {
-                    transform: translateY(0px);
-                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                  }
-                  .btn-float:hover {
-                    transform: translateY(-2px);
-                  }
-                  .btn-float:active {
-                    transform: translateY(0px);
-                  }
-                `}</style>
-
-                {/* Primary CTA - Resume */}
-                <a
-                  href="/resume.pdf"
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Download Resume"
-                  className="relative group btn-glow btn-float"
-                >
-                  {/* Glowing background */}
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl blur opacity-0 group-hover:opacity-75 transition duration-300 animate-gradient-x bg-[length:200%_auto]" />
-                  
-                  <div className="relative flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-primary to-accent text-primary-foreground font-bold uppercase tracking-wide rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
-                    <Download className="w-5 h-5" />
-                    <span>Download Resume</span>
-                  </div>
-                </a>
-
-                {/* Secondary CTA - My Work */}
-                <button
-                  aria-label="View My Work"
-                  className="relative group btn-glow btn-float"
-                >
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-accent/50 via-primary/50 to-accent/50 rounded-2xl blur opacity-0 group-hover:opacity-50 transition duration-300" />
-                  
-                  <div className="relative flex items-center justify-center gap-3 px-8 py-4 border-2 border-accent bg-background/80 backdrop-blur-sm text-accent hover:text-accent-foreground hover:bg-accent font-bold uppercase tracking-wide rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
-                    <Eye className="w-5 h-5" />
-                    <span>View My Work</span>
-                  </div>
-                </button>
-
-                {/* Subtle accent line */}
-                <div className="h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent mt-4" />
-              </div>
-            </div>
-          </div>
-
-          {/* Enhanced Mobile Layout */}
-          <div className="lg:hidden text-center space-y-8">
-            <div className="relative">
-              <h1
-                className="font-montserrat text-5xl md:text-7xl font-extrabold cursor-pointer select-none [text-wrap:balance] hover:scale-[1.02] transition-transform duration-300"
-                onClick={cycleSecretTheme}
-                style={{ letterSpacing: "0.02em" }}
-              >
-                <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient-x bg-[length:200%_auto]">
-                  Junior Jeconia
-                </span>
-              </h1>
-              <div className="mt-4 h-1 w-32 bg-gradient-to-r from-primary to-accent rounded-full opacity-60 mx-auto" />
-            </div>
-
-            <div className="relative bg-gradient-to-r from-background/80 to-background/40 backdrop-blur-sm rounded-2xl p-6 border border-primary/10 mx-4">
-              <p className="text-xl md:text-2xl text-foreground font-medium leading-relaxed">
-                {TAGLINES[taglineIndex]}
-              </p>
-              <p className="text-lg text-muted-foreground/80 font-normal mt-3 leading-relaxed">
-                Currently making interfaces that don't make users cry.
-              </p>
-            </div>
-
-            {/* Mobile Clock */}
-            <div className="relative group mx-4">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 to-accent/20 rounded-3xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
-              <div className="relative border border-primary/20 bg-background/90 backdrop-blur-xl rounded-3xl p-6 shadow-2xl">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">
-                    Local Time
-                  </span>
-                  <span className="text-xs text-muted-foreground bg-primary/5 px-2 py-1 rounded-full">
-                    {formattedDate}
-                  </span>
-                </div>
-                {analogMode ? (
-                  <div className="flex justify-center">
-                    <div className="p-4 bg-gradient-to-br from-primary/5 to-accent/5 rounded-full">
-                      <Clock value={new Date()} renderNumbers={true} />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center">
-                    <div className="text-3xl md:text-4xl font-mono mb-1 tracking-wider bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent">
-                      {formattedTime}
-                    </div>
-                    <div className="text-sm text-muted-foreground uppercase tracking-widest font-bold opacity-80">
-                      Digital Display
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Mobile CTAs */}
-            <div className="flex flex-col gap-4 px-4">
-              <a
-                href="/resume.pdf"
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative group btn-glow btn-float"
-              >
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl blur opacity-0 group-hover:opacity-75 transition duration-300 animate-gradient-x bg-[length:200%_auto]" />
-                <div className="relative flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-primary to-accent text-primary-foreground font-bold uppercase tracking-wide rounded-2xl shadow-lg">
-                  <Download className="w-5 h-5" />
-                  <span>Download Resume</span>
-                </div>
-              </a>
-
-              <button className="relative group btn-glow btn-float">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-accent/50 via-primary/50 to-accent/50 rounded-2xl blur opacity-0 group-hover:opacity-50 transition duration-300" />
-                <div className="relative flex items-center justify-center gap-3 px-8 py-4 border-2 border-accent bg-background/80 backdrop-blur-sm text-accent hover:text-accent-foreground hover:bg-accent font-bold uppercase tracking-wide rounded-2xl shadow-lg transition-all duration-300">
-                  <Eye className="w-5 h-5" />
-                  <span>View My Work</span>
-                </div>
-              </button>
-            </div>
-          </div>
-
-          {/* Enhanced Easter Egg Hint */}
-          <div className="mt-12 text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-background/60 backdrop-blur-sm border border-primary/10 rounded-full">
-              <span className="text-xs text-muted-foreground/60 uppercase tracking-wider font-mono">
-                Psst... try pressing "W" or clicking my name
+            <div className="overflow-hidden">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground/80 to-primary animate-text-reveal text-shadow-cinematic lg:ml-24" style={{ animationDelay: "0.3s" }}>
+                Jeconia.
               </span>
-              <span className="text-sm">🎨</span>
             </div>
-          </div>
-        </div>
-      </div>
+          </h1>
 
-      {/* Enhanced Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-        <div className="relative group cursor-pointer">
-          <div className="w-8 h-12 border-2 border-primary/40 bg-background/30 backdrop-blur-sm flex justify-center rounded-2xl shadow-lg group-hover:border-primary/60 transition-colors duration-300">
-            <ArrowDown className="w-4 h-4 text-primary mt-2 animate-bounce opacity-60 group-hover:opacity-100 transition-opacity" />
-          </div>
+          {/* Floating abstract element near text */}
+          <div className="absolute -right-4 md:-right-12 top-1/2 w-24 h-24 border border-foreground/10 rounded-full animate-float-organic mix-blend-difference z-[-1] hidden md:block" />
+
+          <p className="mt-8 md:mt-12 text-xl md:text-2xl lg:text-3xl text-muted-foreground/90 font-medium max-w-2xl leading-relaxed lg:ml-24 animate-text-reveal" style={{ animationDelay: "0.4s" }}>
+            Currently directing digital experiences—crafting interfaces that don't make users cry.
+          </p>
         </div>
+
+        {/* Magnetic CTA Buttons */}
+        <div className="mt-16 md:mt-24 flex flex-col sm:flex-row gap-6 lg:ml-24 animate-text-reveal" style={{ animationDelay: "0.5s" }}>
+
+          <a href="/resume.pdf" download target="_blank" className="contents">
+            <button
+              className="btn-magnetic btn-magnetic-hover group relative px-8 py-5 flex items-center justify-center sm:justify-start gap-4 text-background bg-foreground shadow-2xl overflow-hidden rounded-2xl"
+              onMouseMove={(e) => handleMagnetMove(e, 'btn1')}
+              onMouseLeave={handleMagnetLeave}
+            >
+              <span className="relative z-10 font-bold uppercase tracking-widest text-sm">Download Resume</span>
+              <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </a>
+
+          <button
+            className="btn-magnetic group relative px-8 py-5 flex items-center justify-center sm:justify-start gap-4 text-foreground bg-transparent border border-border/50 hover:border-foreground/30 hover:bg-card/30 backdrop-blur-sm rounded-2xl overflow-hidden"
+            onMouseMove={(e) => handleMagnetMove(e, 'btn2')}
+            onMouseLeave={handleMagnetLeave}
+          >
+            <PlayCircle className="w-5 h-5 opacity-70 group-hover:scale-110 transition-transform" />
+            <span className="font-bold uppercase tracking-widest text-sm">View Reel</span>
+          </button>
+
+        </div>
+
+        {/* Scroll Indicator - Bottom Right */}
+        <div className="absolute bottom-12 right-6 lg:right-12 flex flex-col items-center gap-4 opacity-50 animate-text-reveal hidden md:flex" style={{ animationDelay: "0.8s" }}>
+          <span className="text-[10px] uppercase tracking-[0.4em] font-semibold rotate-90 translate-y-8">Scroll</span>
+          <div className="w-[1px] h-16 bg-gradient-to-b from-transparent via-foreground to-transparent animate-pulse" />
+        </div>
+
       </div>
     </section>
   );

@@ -134,27 +134,23 @@
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "San Francisco", system-ui, sans-serif;
   }
 
-  /* Water-glass component styles — real liquid glass */
+  /* Water-glass component styles — refined liquid glass */
   .glass-panel {
     /* Two-layer background: top specular sheen + semi-transparent base */
     background:
-      linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0.18) 0%,
-        rgba(255, 255, 255, 0.00) 50%
-      ),
-      hsl(var(--card) / 0.58);
-    backdrop-filter: blur(32px) saturate(200%) brightness(1.04);
-    -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(1.04);
+      linear-gradient(to bottom,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.00) 50%),
+      hsl(var(--card) / 0.75);
+    backdrop-filter: blur(16px) saturate(150%) brightness(1.02);
+    -webkit-backdrop-filter: blur(16px) saturate(150%) brightness(1.02);
     /* Top-edge specular rim + bottom shadow rim + layered depth shadows */
-    border: 1px solid rgba(255, 255, 255, 0.24);
-    border-bottom-color: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom-color: rgba(255, 255, 255, 0.05);
     box-shadow:
-      inset 0 1.5px 0 rgba(255, 255, 255, 0.55),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.05),
-      0 16px 48px rgba(0, 0, 0, 0.10),
-      0 4px 16px rgba(0, 0, 0, 0.06),
-      0 1px 3px rgba(0, 0, 0, 0.04);
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 8px 32px rgba(0, 0, 0, 0.06),
+      0 2px 8px rgba(0, 0, 0, 0.04);
     color: hsl(var(--card-foreground));
   }
 
@@ -174,7 +170,8 @@
   }
 
   .glass-glow:hover::before {
-    opacity: 1;
+    opacity: 0.6;
+    /* Reduced intensity */
   }
 
   /* Water morphing animation */
@@ -367,6 +364,7 @@
 }
 
 @layer components {
+
   /* Interactive ripple effect */
   .ripple-effect {
     position: relative;
@@ -395,20 +393,26 @@
 }
 
 @layer utilities {
+
   /* Water flow animation */
   @keyframes water-flow {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translateX(-50%) translateY(-50%) scale(1) rotate(0deg);
       border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
     }
+
     25% {
       transform: translateX(-50%) translateY(-50%) scale(1.1) rotate(90deg);
       border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
     }
+
     50% {
       transform: translateX(-50%) translateY(-50%) scale(0.9) rotate(180deg);
       border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%;
     }
+
     75% {
       transform: translateX(-50%) translateY(-50%) scale(1.05) rotate(270deg);
       border-radius: 60% 40% 60% 30% / 60% 30% 60% 40%;
@@ -417,9 +421,12 @@
 
   /* Floating animation */
   @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translateY(0px);
     }
+
     50% {
       transform: translateY(-10px);
     }
@@ -427,9 +434,12 @@
 
   /* Glow pulse animation */
   @keyframes glow-pulse {
-    0%, 100% {
+
+    0%,
+    100% {
       box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
     }
+
     50% {
       box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
     }
@@ -440,6 +450,7 @@
     from {
       width: 0%;
     }
+
     to {
       width: var(--skill-level);
     }
@@ -450,6 +461,7 @@
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -462,10 +474,12 @@
       transform: scale(1);
       opacity: 0.8;
     }
+
     50% {
       transform: scale(1.05);
       opacity: 0.6;
     }
+
     100% {
       transform: scale(1);
       opacity: 0.8;
@@ -473,18 +487,23 @@
   }
 
   @keyframes fish-eye-reflection {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: scale(1) rotate(0deg);
       border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
     }
+
     25% {
       transform: scale(1.1) rotate(5deg);
       border-radius: 60% 40% 40% 60% / 40% 60% 60% 40%;
     }
+
     50% {
       transform: scale(0.95) rotate(-3deg);
       border-radius: 40% 60% 60% 40% / 60% 40% 40% 60%;
     }
+
     75% {
       transform: scale(1.05) rotate(2deg);
       border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
@@ -492,27 +511,35 @@
   }
 
   @keyframes water-wave {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translateX(0) translateY(0) scale(1);
     }
+
     25% {
       transform: translateX(-2px) translateY(-1px) scale(1.02);
     }
+
     50% {
       transform: translateX(1px) translateY(-2px) scale(0.98);
     }
+
     75% {
       transform: translateX(-1px) translateY(1px) scale(1.01);
     }
   }
 
   @keyframes scroll-glow {
-    0%, 100% {
+
+    0%,
+    100% {
       box-shadow:
         0 0 20px hsl(var(--primary) / 0.3),
         0 0 40px hsl(var(--primary) / 0.1),
         inset 0 0 20px hsl(var(--primary) / 0.1);
     }
+
     50% {
       box-shadow:
         0 0 30px hsl(var(--primary) / 0.5),
@@ -573,9 +600,12 @@
   }
 
   @keyframes category-pulse {
-    0%, 100% {
+
+    0%,
+    100% {
       box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4);
     }
+
     50% {
       box-shadow: 0 0 0 4px hsl(var(--primary) / 0.1);
     }
@@ -605,13 +635,11 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(var(--primary) / 0.5),
-      hsl(var(--accent) / 0.5),
-      transparent
-    );
+    background: linear-gradient(90deg,
+        transparent,
+        hsl(var(--primary) / 0.5),
+        hsl(var(--accent) / 0.5),
+        transparent);
     animation: water-wave 3s ease-in-out infinite;
     z-index: 10;
   }
@@ -623,13 +651,11 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(var(--accent) / 0.3),
-      hsl(var(--primary) / 0.3),
-      transparent
-    );
+    background: linear-gradient(90deg,
+        transparent,
+        hsl(var(--accent) / 0.3),
+        hsl(var(--primary) / 0.3),
+        transparent);
     animation: water-wave 3s ease-in-out infinite reverse;
     z-index: 10;
   }
@@ -650,12 +676,10 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--primary) / 0.1) 0%,
-      transparent 50%,
-      hsl(var(--accent) / 0.1) 100%
-    );
+    background: linear-gradient(135deg,
+        hsl(var(--primary) / 0.1) 0%,
+        transparent 50%,
+        hsl(var(--accent) / 0.1) 100%);
     border-radius: inherit;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -667,12 +691,10 @@
 
   /* Fish-eye reflection effect */
   .water-reflection {
-    background: radial-gradient(
-      ellipse at center,
-      hsl(var(--primary) / 0.3) 0%,
-      hsl(var(--primary) / 0.1) 40%,
-      transparent 70%
-    );
+    background: radial-gradient(ellipse at center,
+        hsl(var(--primary) / 0.3) 0%,
+        hsl(var(--primary) / 0.1) 40%,
+        transparent 70%);
     animation: fish-eye-reflection 4s ease-in-out infinite;
     pointer-events: none;
   }
@@ -687,12 +709,10 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      45deg,
-      transparent 30%,
-      hsl(var(--primary) / 0.3) 50%,
-      transparent 70%
-    );
+    background: linear-gradient(45deg,
+        transparent 30%,
+        hsl(var(--primary) / 0.3) 50%,
+        transparent 70%);
     animation: water-wave 2s ease-in-out infinite;
     pointer-events: none;
   }
@@ -710,12 +730,10 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(var(--primary) / 0.1),
-      transparent
-    );
+    background: linear-gradient(90deg,
+        transparent,
+        hsl(var(--primary) / 0.1),
+        transparent);
     transition: left 0.5s ease;
   }
 
@@ -736,12 +754,10 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(var(--primary-foreground) / 0.3),
-      transparent
-    );
+    background: linear-gradient(90deg,
+        transparent,
+        hsl(var(--primary-foreground) / 0.3),
+        transparent);
     animation: water-wave 2s ease-in-out infinite;
   }
 
@@ -809,12 +825,10 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0.05) 50%,
-      rgba(255, 255, 255, 0.1) 100%
-    );
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0.1) 100%);
     border-radius: inherit;
     pointer-events: none;
   }
@@ -826,12 +840,10 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.3),
-      transparent
-    );
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent);
     border-radius: inherit;
   }
 
@@ -846,12 +858,10 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0.05) 50%,
-      rgba(255, 255, 255, 0.1) 100%
-    );
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0.1) 100%);
     border-radius: inherit;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -916,6 +926,7 @@ body::after {
     transform: translateY(48px);
     filter: blur(6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -928,15 +939,33 @@ body::after {
 }
 
 /* Staggered children cosmos reveal */
-.cosmos-stagger > * {
+.cosmos-stagger>* {
   animation: cosmos-reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.cosmos-stagger > *:nth-child(1) { animation-delay: 0.05s; }
-.cosmos-stagger > *:nth-child(2) { animation-delay: 0.15s; }
-.cosmos-stagger > *:nth-child(3) { animation-delay: 0.25s; }
-.cosmos-stagger > *:nth-child(4) { animation-delay: 0.35s; }
-.cosmos-stagger > *:nth-child(5) { animation-delay: 0.45s; }
-.cosmos-stagger > *:nth-child(6) { animation-delay: 0.55s; }
+
+.cosmos-stagger>*:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.cosmos-stagger>*:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.cosmos-stagger>*:nth-child(3) {
+  animation-delay: 0.25s;
+}
+
+.cosmos-stagger>*:nth-child(4) {
+  animation-delay: 0.35s;
+}
+
+.cosmos-stagger>*:nth-child(5) {
+  animation-delay: 0.45s;
+}
+
+.cosmos-stagger>*:nth-child(6) {
+  animation-delay: 0.55s;
+}
 
 /* ============================================================
    Liquid Glass — realistic floating glass (theme bar, modals)
@@ -945,11 +974,9 @@ body::after {
 /* Primary floating glass surface */
 .liquid-glass {
   background:
-    linear-gradient(
-      to bottom,
+    linear-gradient(to bottom,
       rgba(255, 255, 255, 0.22) 0%,
-      rgba(255, 255, 255, 0.00) 55%
-    ),
+      rgba(255, 255, 255, 0.00) 55%),
     rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(52px) saturate(220%) brightness(1.14);
   -webkit-backdrop-filter: blur(52px) saturate(220%) brightness(1.14);
@@ -973,9 +1000,10 @@ body::after {
   box-shadow: none;
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .liquid-glass-btn:hover {
   background:
-    linear-gradient(to bottom, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.00) 60%),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.00) 60%),
     rgba(255, 255, 255, 0.13);
   border-color: rgba(255, 255, 255, 0.28);
   border-bottom-color: rgba(255, 255, 255, 0.10);
@@ -989,7 +1017,7 @@ body::after {
 /* Individual glass button — active/selected */
 .liquid-glass-btn-active {
   background:
-    linear-gradient(to bottom, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.00) 55%),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.00) 55%),
     rgba(255, 255, 255, 0.20);
   border: 1px solid rgba(255, 255, 255, 0.42);
   border-bottom-color: rgba(255, 255, 255, 0.14);
@@ -1000,9 +1028,122 @@ body::after {
     0 1px 4px rgba(0, 0, 0, 0.07);
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .liquid-glass-btn-active:hover {
   background:
-    linear-gradient(to bottom, rgba(255,255,255,0.36) 0%, rgba(255,255,255,0.00) 55%),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.36) 0%, rgba(255, 255, 255, 0.00) 55%),
     rgba(255, 255, 255, 0.26);
   transform: translateY(-1px);
+}
+
+/* ============================================================
+   Cinematic Hero - Liquid & Magnetic Effects
+   ============================================================ */
+
+/* Advanced Liquid Morphing Background */
+@keyframes liquid-morph {
+  0% {
+    border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
+    transform: rotate(0deg) scale(1);
+  }
+
+  34% {
+    border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
+    transform: rotate(12deg) scale(1.05);
+  }
+
+  67% {
+    border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+    transform: rotate(-10deg) scale(0.95);
+  }
+
+  100% {
+    border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.animate-liquid-morph {
+  animation: liquid-morph 15s ease-in-out infinite alternate;
+}
+
+/* Deep Parallax Shadow for Text */
+.text-shadow-cinematic {
+  text-shadow: 0 10px 40px hsl(var(--foreground) / 0.15), 0 4px 15px hsl(var(--foreground) / 0.1);
+}
+
+/* Text Reveal Animation */
+@keyframes text-reveal-up {
+  0% {
+    opacity: 0;
+    transform: translateY(100%) skewY(5deg);
+    filter: blur(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) skewY(0);
+    filter: blur(0);
+  }
+}
+
+.animate-text-reveal {
+  animation: text-reveal-up 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Organic Float for Elements */
+@keyframes float-organic {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(-8px) rotate(-1deg);
+  }
+
+  50% {
+    transform: translateY(-15px) rotate(1deg);
+  }
+
+  75% {
+    transform: translateY(-5px) rotate(-0.5deg);
+  }
+}
+
+.animate-float-organic {
+  animation: float-organic 8s ease-in-out infinite;
+}
+
+/* Magnetic Button Hover State (Liquid interaction) */
+.btn-magnetic {
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  will-change: transform;
+}
+
+.btn-magnetic-hover {
+  background: radial-gradient(circle at center, hsl(var(--foreground) / 0.9) 0%, hsl(var(--foreground)) 100%);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.btn-magnetic-hover::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(circle, hsl(var(--background) / 0.2) 0%, transparent 60%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.btn-magnetic-hover:hover::before {
+  transform: translate(-50%, -50%) scale(1);
 }

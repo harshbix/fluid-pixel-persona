@@ -4,15 +4,15 @@ import { Sparkles, Sun, CloudRain, Gift, PartyPopper, Snowflake, Palette, Monito
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const themes = [
-  { name: "default",   icon: <Monitor className="w-4 h-4" />,    label: "System" },
-  { name: "retro",     icon: <Palette className="w-4 h-4" />,     label: "Retro" },
-  { name: "neon",      icon: <Sparkles className="w-4 h-4" />,    label: "Neon" },
-  { name: "pastel",    icon: <Palette className="w-4 h-4" />,     label: "Pastel" },
-  { name: "sunny",     icon: <Sun className="w-4 h-4" />,         label: "Sunny" },
-  { name: "rainy",     icon: <CloudRain className="w-4 h-4" />,   label: "Rainy" },
-  { name: "christmas", icon: <Snowflake className="w-4 h-4" />,   label: "Snow" },
-  { name: "birthday",  icon: <PartyPopper className="w-4 h-4" />, label: "Bday" },
-  { name: "gift",      icon: <Gift className="w-4 h-4" />,        label: "Gift" },
+  { name: "default", icon: <Monitor className="w-4 h-4" />, label: "System" },
+  { name: "retro", icon: <Palette className="w-4 h-4" />, label: "Retro" },
+  { name: "neon", icon: <Sparkles className="w-4 h-4" />, label: "Neon" },
+  { name: "pastel", icon: <Palette className="w-4 h-4" />, label: "Pastel" },
+  { name: "sunny", icon: <Sun className="w-4 h-4" />, label: "Sunny" },
+  { name: "rainy", icon: <CloudRain className="w-4 h-4" />, label: "Rainy" },
+  { name: "christmas", icon: <Snowflake className="w-4 h-4" />, label: "Snow" },
+  { name: "birthday", icon: <PartyPopper className="w-4 h-4" />, label: "Bday" },
+  { name: "gift", icon: <Gift className="w-4 h-4" />, label: "Gift" },
 ];
 
 export const ThemeNavigation = () => {
@@ -28,13 +28,13 @@ export const ThemeNavigation = () => {
 
   if (isMobile) {
     return (
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+      <div className="fixed bottom-6 right-6 z-50">
         <button
           onClick={handleRandom}
-          className="liquid-glass rounded-2xl p-4 hover:scale-105 active:scale-95 transition-transform duration-150"
+          className="liquid-glass rounded-full w-14 h-14 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform duration-150 shadow-2xl"
           title="Change Theme"
         >
-          <Sparkles className="w-5 h-5 text-foreground/80 drop-shadow" />
+          <Sparkles className="w-6 h-6 text-foreground/80 drop-shadow" />
         </button>
       </div>
     );
@@ -64,9 +64,8 @@ export const ThemeNavigation = () => {
                 className={`relative p-2.5 rounded-xl ${isActive ? "liquid-glass-btn-active" : "liquid-glass-btn"}`}
               >
                 {React.cloneElement(icon, {
-                  className: `w-4 h-4 transition-all duration-150 ${
-                    isActive ? "text-foreground drop-shadow" : "text-foreground/40"
-                  }`,
+                  className: `w-4 h-4 transition-all duration-150 ${isActive ? "text-foreground drop-shadow" : "text-foreground/40"
+                    }`,
                 })}
                 {isActive && (
                   <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 rounded-full bg-primary/90 shadow-sm" />
