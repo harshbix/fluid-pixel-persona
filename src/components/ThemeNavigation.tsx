@@ -4,89 +4,80 @@ import { Sparkles, Sun, CloudRain, Gift, PartyPopper, Snowflake, Palette, Monito
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const themes = [
-  { name: "default", icon: <Monitor className="w-5 h-5" />, isLight: false },
-  { name: "retro", icon: <Palette className="w-5 h-5" />, isLight: true },
-  { name: "neon", icon: <Sparkles className="w-5 h-5" />, isLight: false },
-  { name: "pastel", icon: <Palette className="w-5 h-5" />, isLight: true },
-  { name: "sunny", icon: <Sun className="w-5 h-5" />, isLight: true },
-  { name: "rainy", icon: <CloudRain className="w-5 h-5" />, isLight: false },
-  { name: "christmas", icon: <Snowflake className="w-5 h-5" />, isLight: true },
-  { name: "birthday", icon: <PartyPopper className="w-5 h-5" />, isLight: true },
-  { name: "gift", icon: <Gift className="w-5 h-5" />, isLight: true },
+  { name: "default",   icon: <Monitor className="w-4 h-4" />,    label: "System" },
+  { name: "retro",     icon: <Palette className="w-4 h-4" />,     label: "Retro" },
+  { name: "neon",      icon: <Sparkles className="w-4 h-4" />,    label: "Neon" },
+  { name: "pastel",    icon: <Palette className="w-4 h-4" />,     label: "Pastel" },
+  { name: "sunny",     icon: <Sun className="w-4 h-4" />,         label: "Sunny" },
+  { name: "rainy",     icon: <CloudRain className="w-4 h-4" />,   label: "Rainy" },
+  { name: "christmas", icon: <Snowflake className="w-4 h-4" />,   label: "Snow" },
+  { name: "birthday",  icon: <PartyPopper className="w-4 h-4" />, label: "Bday" },
+  { name: "gift",      icon: <Gift className="w-4 h-4" />,        label: "Gift" },
 ];
 
 export const ThemeNavigation = () => {
   const { secretTheme, setTheme } = useTheme();
   const isMobile = useIsMobile();
+  const current = secretTheme || "default";
 
-  const getCurrentTheme = () => secretTheme || "default";
-
-  const handleRandomTheme = () => {
-    let available = themes.filter((t) => t.name !== getCurrentTheme());
-    let randomTheme = available[Math.floor(Math.random() * available.length)];
-    setTheme(randomTheme.name === "default" ? null : randomTheme.name);
+  const handleRandom = () => {
+    const available = themes.filter((t) => t.name !== current);
+    const pick = available[Math.floor(Math.random() * available.length)];
+    setTheme(pick.name === "default" ? null : pick.name);
   };
 
-  const glassClass = `
-    relative rounded-3xl
-    bg-white/10 backdrop-blur-xl
-    border border-white/20
-    shadow-2xl shadow-white/20
-    hover:bg-white/20 transition-all duration-300
-  `;
-
-  const rippleEffect = `
-    relative overflow-hidden
-    before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-r 
-    before:from-white/30 before:to-white/10 before:opacity-50 
-    before:animate-water-ripple
-  `;
+  if (isMobile) {
+    return (
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+        <button
+          onClick={handleRandom}
+          className="liquid-glass rounded-2xl p-4 hover:scale-105 active:scale-95 transition-transform duration-150"
+          title="Change Theme"
+        >
+          <Sparkles className="w-5 h-5 text-foreground/80 drop-shadow" />
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-      {isMobile ? (
-        <button
-          onClick={handleRandomTheme}
-          className={`${glassClass} ${rippleEffect} p-4 flex items-center justify-center`}
-          title="Change Theme"
-        >
-          <Sparkles className="w-6 h-6 text-white drop-shadow-md" />
-        </button>
-      ) : (
-        <div className={`${glassClass} flex items-center gap-4 p-4 ${rippleEffect}`}>
-          <div className="text-sm font-medium px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white shadow-md drop-shadow-md">
-            Theme
-          </div>
-          <div className="flex gap-2">
-            {themes.map(({ name, icon, isLight }) => {
-              const isActive = getCurrentTheme() === name;
-              const iconColor = isActive ? (isLight ? "text-black" : "text-white") : isLight ? "text-black/70" : "text-white/70";
-              return (
-                <button
-                  key={name}
-                  onClick={() => setTheme(name === "default" ? null : name)}
-                  className={`relative p-3 rounded-2xl flex items-center justify-center ${glassClass} transition-all duration-300 ${rippleEffect}`}
-                  title={name}
-                >
-                  {React.cloneElement(icon, { className: `w-5 h-5 ${iconColor} drop-shadow-md` })}
-                  {isActive && (
-                    <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-lg" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
+      <div className="liquid-glass rounded-[28px] flex items-center gap-1.5 px-3 py-2.5">
+
+        {/* Label */}
+        <span className="text-[10px] font-extrabold tracking-[0.24em] uppercase text-foreground/40 pl-1.5 pr-1 select-none whitespace-nowrap">
+          Theme
+        </span>
+
+        {/* Divider */}
+        <div className="w-px h-5 bg-white/18 flex-shrink-0 mx-1" />
+
+        {/* Theme buttons */}
+        <div className="flex gap-0.5">
+          {themes.map(({ name, icon }) => {
+            const isActive = current === name;
+            return (
+              <button
+                key={name}
+                onClick={() => setTheme(name === "default" ? null : name)}
+                title={name}
+                className={`relative p-2.5 rounded-xl ${isActive ? "liquid-glass-btn-active" : "liquid-glass-btn"}`}
+              >
+                {React.cloneElement(icon, {
+                  className: `w-4 h-4 transition-all duration-150 ${
+                    isActive ? "text-foreground drop-shadow" : "text-foreground/40"
+                  }`,
+                })}
+                {isActive && (
+                  <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 rounded-full bg-primary/90 shadow-sm" />
+                )}
+              </button>
+            );
+          })}
         </div>
-      )}
-      <style>{`
-        @keyframes water-ripple {
-          0%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
-          50% { transform: translateY(2px) scale(1.05); opacity: 0.7; }
-        }
-        .animate-water-ripple {
-          animation: water-ripple 4s ease-in-out infinite;
-        }
-      `}</style>
+
+      </div>
     </div>
   );
 };
+
