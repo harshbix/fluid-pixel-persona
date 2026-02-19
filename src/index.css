@@ -870,3 +870,55 @@
     transform: translateY(-1px) scale(1.05);
   }
 }
+
+/* ============================================================
+   Cosmos-inspired artistic layer
+   ============================================================ */
+
+/* Film grain — subtle analog noise overlay across entire page */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* Outlined editorial text — used in the statement section */
+.text-stroke-primary {
+  -webkit-text-stroke: 2px hsl(var(--primary) / 0.45);
+  color: transparent;
+}
+
+/* Cosmos scroll-reveal — use on any element for a cinematic entrance */
+@keyframes cosmos-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(48px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.cosmos-reveal {
+  animation: cosmos-reveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Staggered children cosmos reveal */
+.cosmos-stagger > * {
+  animation: cosmos-reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.cosmos-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.cosmos-stagger > *:nth-child(2) { animation-delay: 0.15s; }
+.cosmos-stagger > *:nth-child(3) { animation-delay: 0.25s; }
+.cosmos-stagger > *:nth-child(4) { animation-delay: 0.35s; }
+.cosmos-stagger > *:nth-child(5) { animation-delay: 0.45s; }
+.cosmos-stagger > *:nth-child(6) { animation-delay: 0.55s; }

@@ -113,7 +113,7 @@ export const ExperienceSection = () => {
                 )}
 
                 {/* Content Card */}
-                <div className="md:ml-16 glass-panel rounded-2xl p-8 glass-glow transition-smooth hover:scale-[1.01]">
+                <div className={`md:ml-16 glass-panel rounded-2xl p-8 glass-glow transition-all duration-500 hover:scale-[1.01] hover:rotate-0 ${index % 2 === 0 ? 'rotate-[0.4deg]' : '-rotate-[0.4deg]'}`}>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-2xl">
