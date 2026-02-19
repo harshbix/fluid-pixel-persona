@@ -1,4 +1,4 @@
-import { Star, Check } from "lucide-react";
+import { Star } from "lucide-react";
 import { motion } from "framer-motion";
 
 const skills = [
@@ -10,53 +10,6 @@ const skills = [
   "Project Management",
 ];
 
-const pricingTiers = [
-  {
-    name: "Basic",
-    price: 150,
-    duration: "2-3 weeks",
-    description: "Perfect for simple projects",
-    features: [
-      "Basic UI/UX Design",
-      "Responsive Design",
-      "3 Revisions",
-      "Source Files Included",
-    ],
-    popular: false,
-  },
-  {
-    name: "Standard",
-    price: 350,
-    duration: "3-7 weeks",
-    description: "Great for complete solutions",
-    features: [
-      "Advanced UI/UX Design",
-      "Frontend Development",
-      "Interactive Prototypes",
-      "5 Revisions",
-      "API Integration",
-      "Performance Optimization",
-    ],
-    popular: true,
-  },
-  {
-    name: "Premium",
-    price: 750,
-    duration: "5-8 weeks",
-    description: "Complete project with backend",
-    features: [
-      "Full-Stack Development",
-      "Database Design",
-      "Authentication System",
-      "Admin Dashboard",
-      "Unlimited Revisions",
-      "30 Days Support",
-      "SEO Optimization",
-      "Deployment Assistance",
-    ],
-    popular: false,
-  },
-];
 
 export const AboutSection = () => {
   return (
@@ -177,91 +130,6 @@ export const AboutSection = () => {
           </div>
         </motion.div>
 
-        {/* Pricing */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="space-y-12"
-        >
-          <div className="text-center space-y-4">
-            <h3 className="text-3xl font-bold text-foreground">
-              Service Packages
-            </h3>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              From simple designs to complete applications, choose the package
-              that fits your needs
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {pricingTiers.map((tier, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                className={`relative flex flex-col border rounded-2xl p-8 backdrop-blur-xl transition-all duration-500 ${
-                  tier.popular
-                    ? "border-primary/60 shadow-xl bg-primary/5"
-                    : "border-border bg-card/60 hover:border-primary/40"
-                }`}
-              >
-                {tier.popular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium shadow-md">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-
-                <div className="flex-1 space-y-6">
-                  <div className="text-center space-y-2">
-                    <h4 className="text-xl font-bold text-foreground">
-                      {tier.name}
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
-                      {tier.description}
-                    </p>
-                    <div className="space-y-1">
-                      <div className="text-3xl font-bold text-foreground">
-                        ${tier.price}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {tier.duration} delivery
-                      </div>
-                    </div>
-                  </div>
-
-                  <ul className="space-y-3 text-sm">
-                    {tier.features.map((feature, featureIndex) => (
-                      <li
-                        key={featureIndex}
-                        className="flex items-start gap-3"
-                      >
-                        <Check className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                        <span className="text-muted-foreground">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* CTA */}
-                <div className="pt-6">
-                  <button
-                    className={`w-full py-3 px-4 rounded-lg font-medium transition-colors shadow-md ${
-                      tier.popular
-                        ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                        : "bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground"
-                    }`}
-                  >
-                    Get Started - ${tier.price}
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
