@@ -19,7 +19,7 @@ const testimonials = [
     company: 'StartupXYZ',
     avatar: '👨‍💻',
     rating: 5,
-    content: "Working with Bix was a game-changer for our startup. They didn't just design our product—they helped us understand our users better and shaped our entire product strategy.",
+    content: "Working with Bix was a game-changer for our startup. They didn't just design our product, they helped us understand our users better and shaped our entire product strategy.",
     project: 'SaaS Platform MVP'
   },
   {
@@ -29,7 +29,7 @@ const testimonials = [
     company: 'Digital Agency Co.',
     avatar: '👩‍🎨',
     rating: 5,
-    content: "Bix brings both creative vision and strategic thinking to every project. Their designs don't just look beautiful—they drive real business results for our clients.",
+    content: "Bix brings both creative vision and strategic thinking to every project. Their designs don't just look beautiful, they drive real business results for our clients.",
     project: 'E-commerce Redesign'
   },
   {
@@ -73,14 +73,14 @@ export const TestimonialsSection = () => {
             What People Say
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Don't just take my word for it—here's what clients and colleagues have to say about our collaborations.
+            Don't just take my word for it: here's what clients and colleagues have to say about our collaborations.
           </p>
         </div>
 
         {/* Testimonials Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {testimonials.map((testimonial, index) => (
-            <div 
+            <div
               key={testimonial.id}
               className="glass-panel rounded-xl p-6 glass-glow transition-smooth hover:scale-[1.02] animate-float"
               style={{ animationDelay: `${index * 0.1}s` }}
@@ -135,7 +135,7 @@ export const TestimonialsSection = () => {
               });
 
               return (
-                <div 
+                <div
                   key={stat.label}
                   ref={elementRef}
                   className="animate-float"

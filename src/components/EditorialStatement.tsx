@@ -79,8 +79,8 @@ export const EditorialStatement = () => {
           transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
           className="text-muted-foreground text-lg max-w-md leading-relaxed"
         >
-          Every interface tells a story. I make sure yours is one worth reading —
-          crafted from first pixel to final interaction.
+          Every interface tells a story. I make sure yours is one worth reading.
+          Crafted from first pixel to final interaction.
         </motion.p>
 
         {/* Growing horizontal rule */}
