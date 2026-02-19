@@ -14,29 +14,36 @@ const skills = [
 export const AboutSection = () => {
   // Cinematic parallax tracking
   const sectionRef = useRef<HTMLElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [smoothMouse, setSmoothMouse] = useState({ x: 0, y: 0 });
+  const target = useRef({ x: 0, y: 0 });
+  const current = useRef({ x: 0, y: 0 });
+
+  const layer1Ref = useRef<HTMLDivElement>(null);
+  const layer2Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let animationFrameId: number;
-    const smoothInterpolation = () => {
-      setSmoothMouse((prev) => {
-        const x = prev.x + (mousePos.x - prev.x) * 0.05;
-        const y = prev.y + (mousePos.y - prev.y) * 0.05;
-        return { x, y };
-      });
-      animationFrameId = requestAnimationFrame(smoothInterpolation);
+    const animate = () => {
+      current.current.x += (target.current.x - current.current.x) * 0.05;
+      current.current.y += (target.current.y - current.current.y) * 0.05;
+
+      if (layer1Ref.current) {
+        layer1Ref.current.style.transform = `translate3d(${current.current.x * 20}px, ${current.current.y * 20}px, 0)`;
+      }
+      if (layer2Ref.current) {
+        layer2Ref.current.style.transform = `translate3d(${current.current.x * -40}px, ${current.current.y * -40}px, 0)`;
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
     };
-    animationFrameId = requestAnimationFrame(smoothInterpolation);
+    animationFrameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [mousePos]);
+  }, []);
 
   const onMouseMove = (e: React.MouseEvent) => {
     if (!sectionRef.current) return;
     const rect = sectionRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMousePos({ x, y });
+    target.current.x = (e.clientX - rect.left) / rect.width - 0.5;
+    target.current.y = (e.clientY - rect.top) / rect.height - 0.5;
   };
 
   return (
@@ -48,14 +55,14 @@ export const AboutSection = () => {
       {/* Cinematic Liquid Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div
-          className="absolute inset-0 will-change-transform"
-          style={{ transform: `translate3d(${smoothMouse.x * 20}px, ${smoothMouse.y * 20}px, 0)` }}
+          ref={layer1Ref}
+          className="absolute inset-0 will-change-[transform]"
         >
           <div className="absolute top-[20%] left-[10%] w-[40vw] h-[40vw] max-w-[600px] max-h-[600px] bg-primary/10 rounded-full blur-[80px] animate-liquid-morph mix-blend-multiply dark:mix-blend-screen opacity-60" />
         </div>
         <div
-          className="absolute inset-0 will-change-transform"
-          style={{ transform: `translate3d(${smoothMouse.x * -40}px, ${smoothMouse.y * -40}px, 0)` }}
+          ref={layer2Ref}
+          className="absolute inset-0 will-change-[transform]"
         >
           <div className="absolute bottom-[10%] right-[10%] w-96 h-96 bg-accent/15 rounded-full blur-[60px] animate-float-organic opacity-50" />
         </div>

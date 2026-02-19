@@ -5,10 +5,14 @@ import { ArrowRight, PlayCircle } from "lucide-react";
 export const HeroSection = () => {
   const { formattedTime } = useClock();
 
-  // Cinematic parallax & magnetic state
+  // Cinematic parallax (Zero Render)
   const sectionRef = useRef<HTMLElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [smoothMouse, setSmoothMouse] = useState({ x: 0, y: 0 });
+  const target = useRef({ x: 0, y: 0 });
+  const current = useRef({ x: 0, y: 0 });
+
+  const layer1Ref = useRef<HTMLDivElement>(null);
+  const layer2Ref = useRef<HTMLDivElement>(null);
+  const maskRef = useRef<HTMLDivElement>(null);
 
   // Store magnet targets
   const buttonVars = useRef({
@@ -16,32 +20,37 @@ export const HeroSection = () => {
     btn2: { x: 0, y: 0 },
   });
 
-  // Smooth out mouse tracking via requestAnimationFrame
+  // Smooth out mouse tracking via requestAnimationFrame mapping directly to DOM
   useEffect(() => {
     let animationFrameId: number;
 
-    const smoothInterpolation = () => {
-      setSmoothMouse((prev) => {
-        // LERP for buttery smooth parallax
-        const x = prev.x + (mousePos.x - prev.x) * 0.05;
-        const y = prev.y + (mousePos.y - prev.y) * 0.05;
-        return { x, y };
-      });
-      animationFrameId = requestAnimationFrame(smoothInterpolation);
+    const animate = () => {
+      // LERP for buttery smooth parallax
+      current.current.x += (target.current.x - current.current.x) * 0.05;
+      current.current.y += (target.current.y - current.current.y) * 0.05;
+
+      if (layer1Ref.current) {
+        layer1Ref.current.style.transform = `translate3d(${current.current.x * 30}px, ${current.current.y * 30}px, 0)`;
+      }
+      if (layer2Ref.current) {
+        layer2Ref.current.style.transform = `translate3d(${current.current.x * -60}px, ${current.current.y * -60}px, 0)`;
+      }
+      if (maskRef.current) {
+        maskRef.current.style.background = `radial-gradient(circle 800px at ${50 + current.current.x * 100}% ${50 + current.current.y * 100}%, hsl(var(--foreground)/0.15), transparent 100%)`;
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
     };
 
-    animationFrameId = requestAnimationFrame(smoothInterpolation);
+    animationFrameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [mousePos]);
+  }, []);
 
   const onMouseMove = (e: React.MouseEvent) => {
     if (!sectionRef.current) return;
     const rect = sectionRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-    // Core parallax tracking
-    setMousePos({ x, y });
+    target.current.x = (e.clientX - rect.left) / rect.width - 0.5;
+    target.current.y = (e.clientY - rect.top) / rect.height - 0.5;
   };
 
   // Magnetic button logic
@@ -71,8 +80,8 @@ export const HeroSection = () => {
 
         {/* Parallax Depth Layer 1 - Slow Liquid Blobs */}
         <div
-          className="absolute inset-0 will-change-transform"
-          style={{ transform: `translate3d(${smoothMouse.x * 30}px, ${smoothMouse.y * 30}px, 0)` }}
+          ref={layer1Ref}
+          className="absolute inset-0 will-change-[transform]"
         >
           <div className="absolute top-[10%] left-[20%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-primary/10 rounded-full blur-3xl animate-liquid-morph mix-blend-multiply dark:mix-blend-screen opacity-70" />
           <div className="absolute bottom-[0%] right-[10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-accent/20 rounded-full blur-[100px] animate-liquid-morph mix-blend-multiply dark:mix-blend-screen opacity-60" style={{ animationDelay: '-5s', animationDuration: '20s' }} />
@@ -80,8 +89,8 @@ export const HeroSection = () => {
 
         {/* Parallax Depth Layer 2 - Faster, smaller accents */}
         <div
-          className="absolute inset-0 will-change-transform"
-          style={{ transform: `translate3d(${smoothMouse.x * -60}px, ${smoothMouse.y * -60}px, 0)` }}
+          ref={layer2Ref}
+          className="absolute inset-0 will-change-[transform]"
         >
           <div className="absolute top-[40%] right-[30%] w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-float-organic opacity-50" />
           <div className="absolute top-[60%] left-[40%] w-48 h-48 bg-foreground/5 rounded-full blur-2xl animate-float-organic" style={{ animationDelay: '-3s' }} />
@@ -89,10 +98,8 @@ export const HeroSection = () => {
 
         {/* Cursor tracking spotlight mask */}
         <div
-          className="absolute inset-0 opacity-40 mix-blend-overlay transition-opacity duration-1000 hidden md:block"
-          style={{
-            background: `radial-gradient(circle 800px at ${50 + smoothMouse.x * 100}% ${50 + smoothMouse.y * 100}%, hsl(var(--foreground)/0.15), transparent 100%)`
-          }}
+          ref={maskRef}
+          className="absolute inset-0 opacity-40 mix-blend-overlay transition-opacity duration-1000 hidden md:block will-change-[background]"
         />
       </div>
 
@@ -130,7 +137,7 @@ export const HeroSection = () => {
           <div className="absolute -right-4 md:-right-12 top-1/2 w-24 h-24 border border-foreground/10 rounded-full animate-float-organic mix-blend-difference z-[-1] hidden md:block" />
 
           <p className="mt-8 md:mt-12 text-xl md:text-2xl lg:text-3xl text-muted-foreground/90 font-medium max-w-2xl leading-relaxed lg:ml-24 animate-text-reveal" style={{ animationDelay: "0.4s" }}>
-            Currently directing digital experiences—crafting interfaces that don't make users cry.
+            Currently directing digital experiences, crafting interfaces that don't make users cry.
           </p>
         </div>
 

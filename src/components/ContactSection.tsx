@@ -29,29 +29,36 @@ export const ContactSection = () => {
 
   // Cinematic parallax tracking
   const sectionRef = useRef<HTMLElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [smoothMouse, setSmoothMouse] = useState({ x: 0, y: 0 });
+  const target = useRef({ x: 0, y: 0 });
+  const current = useRef({ x: 0, y: 0 });
+
+  const layer1Ref = useRef<HTMLDivElement>(null);
+  const layer2Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let animationFrameId: number;
-    const smoothInterpolation = () => {
-      setSmoothMouse((prev) => {
-        const x = prev.x + (mousePos.x - prev.x) * 0.05;
-        const y = prev.y + (mousePos.y - prev.y) * 0.05;
-        return { x, y };
-      });
-      animationFrameId = requestAnimationFrame(smoothInterpolation);
+    const animate = () => {
+      current.current.x += (target.current.x - current.current.x) * 0.05;
+      current.current.y += (target.current.y - current.current.y) * 0.05;
+
+      if (layer1Ref.current) {
+        layer1Ref.current.style.transform = `translate3d(${current.current.x * 25}px, ${current.current.y * 25}px, 0)`;
+      }
+      if (layer2Ref.current) {
+        layer2Ref.current.style.transform = `translate3d(${current.current.x * -50}px, ${current.current.y * -50}px, 0)`;
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
     };
-    animationFrameId = requestAnimationFrame(smoothInterpolation);
+    animationFrameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [mousePos]);
+  }, []);
 
   const onMouseMove = (e: React.MouseEvent) => {
     if (!sectionRef.current) return;
     const rect = sectionRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMousePos({ x, y });
+    target.current.x = (e.clientX - rect.left) / rect.width - 0.5;
+    target.current.y = (e.clientY - rect.top) / rect.height - 0.5;
   };
 
   // Magnetic button logic
@@ -153,14 +160,14 @@ export const ContactSection = () => {
       {/* Cinematic Liquid Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div
-          className="absolute inset-0 will-change-transform"
-          style={{ transform: `translate3d(${smoothMouse.x * 25}px, ${smoothMouse.y * 25}px, 0)` }}
+          ref={layer1Ref}
+          className="absolute inset-0 will-change-[transform]"
         >
           <div className="absolute top-[30%] left-[20%] w-[50vw] h-[50vw] max-w-[700px] max-h-[700px] bg-accent/10 rounded-full blur-[100px] animate-liquid-morph mix-blend-multiply dark:mix-blend-screen opacity-50" />
         </div>
         <div
-          className="absolute inset-0 will-change-transform"
-          style={{ transform: `translate3d(${smoothMouse.x * -50}px, ${smoothMouse.y * -50}px, 0)` }}
+          ref={layer2Ref}
+          className="absolute inset-0 will-change-[transform]"
         >
           <div className="absolute bottom-[20%] right-[20%] w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-primary/15 rounded-full blur-[80px] animate-liquid-morph opacity-60" style={{ animationDelay: '-8s', animationDuration: '25s' }} />
         </div>
@@ -316,8 +323,8 @@ export const ContactSection = () => {
                 onMouseLeave={handleMagnetLeave}
                 disabled={isSubmitting || isSubmitted}
                 className={`btn-magnetic group relative w-full py-5 rounded-2xl font-bold uppercase tracking-widest text-sm transition-smooth flex items-center justify-center gap-3 overflow-hidden ${isSubmitted
-                    ? 'bg-green-500 text-white'
-                    : 'btn-magnetic-hover text-background bg-foreground shadow-2xl'
+                  ? 'bg-green-500 text-white'
+                  : 'btn-magnetic-hover text-background bg-foreground shadow-2xl'
                   } ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
                 <span className="relative z-10 flex items-center gap-2">
