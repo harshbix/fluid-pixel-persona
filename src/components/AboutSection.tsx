@@ -1,5 +1,6 @@
 import { Star } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 const skills = [
   "Frontend Development",
@@ -10,18 +11,64 @@ const skills = [
   "Project Management",
 ];
 
-
 export const AboutSection = () => {
+  // Cinematic parallax tracking
+  const sectionRef = useRef<HTMLElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [smoothMouse, setSmoothMouse] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    let animationFrameId: number;
+    const smoothInterpolation = () => {
+      setSmoothMouse((prev) => {
+        const x = prev.x + (mousePos.x - prev.x) * 0.05;
+        const y = prev.y + (mousePos.y - prev.y) * 0.05;
+        return { x, y };
+      });
+      animationFrameId = requestAnimationFrame(smoothInterpolation);
+    };
+    animationFrameId = requestAnimationFrame(smoothInterpolation);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [mousePos]);
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setMousePos({ x, y });
+  };
+
   return (
-    <section className="py-24 px-4 sm:px-6">
-      <div className="max-w-6xl mx-auto space-y-24">
+    <section
+      ref={sectionRef}
+      onMouseMove={onMouseMove}
+      className="py-24 px-4 sm:px-6 relative overflow-hidden"
+    >
+      {/* Cinematic Liquid Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div
+          className="absolute inset-0 will-change-transform"
+          style={{ transform: `translate3d(${smoothMouse.x * 20}px, ${smoothMouse.y * 20}px, 0)` }}
+        >
+          <div className="absolute top-[20%] left-[10%] w-[40vw] h-[40vw] max-w-[600px] max-h-[600px] bg-primary/10 rounded-full blur-[80px] animate-liquid-morph mix-blend-multiply dark:mix-blend-screen opacity-60" />
+        </div>
+        <div
+          className="absolute inset-0 will-change-transform"
+          style={{ transform: `translate3d(${smoothMouse.x * -40}px, ${smoothMouse.y * -40}px, 0)` }}
+        >
+          <div className="absolute bottom-[10%] right-[10%] w-96 h-96 bg-accent/15 rounded-full blur-[60px] animate-float-organic opacity-50" />
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto space-y-24 relative z-10">
         {/* About Card */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative w-full rounded-3xl backdrop-blur-2xl bg-card/60 border border-border/30 shadow-2xl p-12 space-y-10 overflow-hidden"
+          className="relative w-full rounded-3xl backdrop-blur-3xl bg-card/40 border border-white/10 dark:border-white/5 shadow-2xl p-12 space-y-10 overflow-hidden"
         >
           {/* Subtle gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 rounded-3xl pointer-events-none"></div>
@@ -51,7 +98,7 @@ export const AboutSection = () => {
               transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
               className="flex-1 space-y-8 text-left"
             >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground text-shadow-cinematic">
                 About Me.
               </h2>
               <div className="space-y-6 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
@@ -117,17 +164,18 @@ export const AboutSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="space-y-10 lg:px-12"
+          className="space-y-10 lg:px-12 relative z-10"
         >
-          <h3 className="text-2xl font-bold text-foreground">
+          <h3 className="text-2xl font-bold text-foreground text-shadow-cinematic">
             Core Expertise
           </h3>
           <div className="flex flex-wrap gap-3">
             {skills.map((skill, index) => (
               <motion.span
                 key={index}
-                whileHover={{ scale: 1.02, y: -2 }}
-                className="px-6 py-3 bg-card/40 border border-border/50 rounded-xl text-sm font-medium text-foreground hover:bg-card/80 transition-all cursor-default"
+                whileHover={{ scale: 1.05 }}
+                className="px-6 py-3 bg-card/30 backdrop-blur-md border border-white/10 dark:border-white/5 shadow-lg rounded-2xl text-sm font-medium text-foreground hover:bg-card/50 transition-colors cursor-default animate-float-organic"
+                style={{ animationDelay: `${index * 0.2}s` }}
               >
                 {skill}
               </motion.span>
