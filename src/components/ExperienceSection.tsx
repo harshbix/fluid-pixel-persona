@@ -17,6 +17,21 @@ const experiences = [
     current: true,
   },
   {
+    id: 5,
+    role: 'Project Manager',
+    company: 'Farols Company',
+    location: 'Mbeya, Tanzania',
+    period: '2026 - Present',
+    description: 'Leading digital transformation projects across web design, systems development, social media management, and graphic design.',
+    achievements: [
+      'Successfully delivered comprehensive digital solutions for diverse client portfolio',
+      'Managed cross-functional teams for high-impact web and systems projects',
+      'Streamlined workflows for social media management and creative design deliverables'
+    ],
+    logo: <img src="/assets/Farols white word down.png" alt="Farols Company Logo" className="w-8 h-8 object-contain" />,
+    current: true,
+  },
+  {
     id: 2,
     role: 'IT Systems Consultant',
     company: 'Tanzania Posts Corporation',
