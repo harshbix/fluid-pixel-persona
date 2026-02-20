@@ -17,27 +17,27 @@ export const useCountAnimation = ({ endValue, duration = 2000, delay = 0 }: UseC
         entries.forEach((entry) => {
           if (entry.isIntersecting && !hasAnimated) {
             setHasAnimated(true);
-            
+
             setTimeout(() => {
               const startTime = Date.now();
               const startValue = 0;
-              
+
               const animate = () => {
                 const currentTime = Date.now();
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
-                
+
                 // Easing function for smooth animation
                 const easeOutQuart = 1 - Math.pow(1 - progress, 4);
                 const currentValue = Math.floor(startValue + (endValue - startValue) * easeOutQuart);
-                
+
                 setCount(currentValue);
-                
+
                 if (progress < 1) {
                   requestAnimationFrame(animate);
                 }
               };
-              
+
               requestAnimationFrame(animate);
             }, delay);
           }
@@ -49,13 +49,14 @@ export const useCountAnimation = ({ endValue, duration = 2000, delay = 0 }: UseC
       }
     );
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
+    const currentElement = elementRef.current;
+    if (currentElement) {
+      observer.observe(currentElement);
     }
 
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
+      if (currentElement) {
+        observer.unobserve(currentElement);
       }
     };
   }, [endValue, duration, delay, hasAnimated]);

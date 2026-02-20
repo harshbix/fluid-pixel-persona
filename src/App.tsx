@@ -6,6 +6,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Index from "./pages/Index";
+import { Loader } from "./components/Loader";
 
 const NotFound = lazy(() => import("./pages/NotFound"));
 import ParticlesBackground from "./components/ParticlesBackground";
@@ -18,6 +19,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <Loader />
         <ParticlesBackground />
         <BrowserRouter>
           <Suspense fallback={<div className="min-h-screen bg-background flex text-primary items-center justify-center">Loading...</div>}>

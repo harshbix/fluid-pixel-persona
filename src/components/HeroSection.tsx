@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useClock } from "@/hooks/useClock";
 import { ArrowRight, PlayCircle } from "lucide-react";
+import { useReducedMotion } from "framer-motion";
 
 export const HeroSection = () => {
   const { formattedTime } = useClock();
+  const shouldReduceMotion = useReducedMotion();
 
   // Cinematic parallax (Zero Render)
   const sectionRef = useRef<HTMLElement>(null);
@@ -22,6 +24,8 @@ export const HeroSection = () => {
 
   // Smooth out mouse tracking via requestAnimationFrame mapping directly to DOM
   useEffect(() => {
+    if (shouldReduceMotion) return;
+
     let animationFrameId: number;
 
     const animate = () => {
@@ -44,7 +48,7 @@ export const HeroSection = () => {
 
     animationFrameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrameId);
-  }, []);
+  }, [shouldReduceMotion]);
 
   const onMouseMove = (e: React.MouseEvent) => {
     if (!sectionRef.current) return;
@@ -55,6 +59,7 @@ export const HeroSection = () => {
 
   // Magnetic button logic
   const handleMagnetMove = (e: React.MouseEvent<HTMLButtonElement>, btnKey: 'btn1' | 'btn2') => {
+    if (shouldReduceMotion) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;

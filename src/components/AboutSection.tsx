@@ -1,5 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 
 const skills = [
@@ -20,6 +20,7 @@ const education = [
 
 export const AboutSection = () => {
   const containerRef = useRef<HTMLElement>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -54,14 +55,14 @@ export const AboutSection = () => {
 
         {/* Immersive Photo Gallery */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 h-auto md:h-[60vh] lg:h-[80vh] items-center py-12 md:py-0">
-          <motion.div style={{ y: y1 }} className="relative h-[50vh] md:h-[110%] w-full rounded-2xl md:rounded-[2rem] overflow-hidden will-change-transform shadow-xl">
-            <img src="/assets/about-1.jpg" alt="Junior Jeconia" className="absolute inset-0 w-full h-full object-cover" />
+          <motion.div style={{ y: shouldReduceMotion ? 0 : y1 }} className="relative h-[50vh] md:h-[110%] w-full rounded-2xl md:rounded-[2rem] overflow-hidden will-change-transform shadow-xl">
+            <img loading="lazy" src="/assets/about-1.jpg" alt="Junior Jeconia" className="absolute inset-0 w-full h-full object-cover" />
           </motion.div>
-          <motion.div style={{ y: y2 }} className="relative h-[60vh] md:h-[140%] w-full rounded-2xl md:rounded-[2rem] overflow-hidden -mt-8 md:mt-0 z-10 shadow-2xl will-change-transform md:translate-y-24">
-            <img src="/assets/about-2.jpg" alt="Junior Jeconia" className="absolute inset-0 w-full h-full object-cover" />
+          <motion.div style={{ y: shouldReduceMotion ? 0 : y2 }} className="relative h-[60vh] md:h-[140%] w-full rounded-2xl md:rounded-[2rem] overflow-hidden -mt-8 md:mt-0 z-10 shadow-2xl will-change-transform md:translate-y-24">
+            <img loading="lazy" src="/assets/about-2.jpg" alt="Junior Jeconia bg-background/50 backdrop-blur-sm" className="absolute inset-0 w-full h-full object-cover" />
           </motion.div>
-          <motion.div style={{ y: y3 }} className="relative h-[50vh] md:h-[90%] w-full rounded-2xl md:rounded-[2rem] overflow-hidden -mt-8 md:mt-0 will-change-transform shadow-xl">
-            <img src="/assets/about-3.jpg" alt="Junior Jeconia" className="absolute inset-0 w-full h-full object-cover" />
+          <motion.div style={{ y: shouldReduceMotion ? 0 : y3 }} className="relative h-[50vh] md:h-[90%] w-full rounded-2xl md:rounded-[2rem] overflow-hidden -mt-8 md:mt-0 will-change-transform shadow-xl">
+            <img loading="lazy" src="/assets/about-3.jpg" alt="Junior Jeconia" className="absolute inset-0 w-full h-full object-cover" />
           </motion.div>
         </div>
 

@@ -4,65 +4,66 @@ import { useCountAnimation } from '@/hooks/useCountAnimation';
 const testimonials = [
   {
     id: 1,
-    name: 'Sarah Johnson',
-    role: 'Product Manager',
-    company: 'TechFlow Inc.',
-    avatar: '👩‍💼',
+    name: 'Elena Rostova',
+    role: 'VP Engineering',
+    company: 'Fintech Nexus',
+    avatar: '👩🏼‍💼',
     rating: 5,
-    content: "Bix has an incredible ability to translate complex user needs into elegant, intuitive designs. Their attention to detail and user-first approach consistently delivers exceptional results.",
-    project: 'FinTech Dashboard'
+    content: "Junior transformed our digital presence. The attention to dynamic motion design and strict performance auditing is genuinely Apple-tier. A rare 10X engineering partner.",
+    project: 'Global Trading Platform'
   },
   {
     id: 2,
-    name: 'Michael Chen',
-    role: 'CEO',
-    company: 'StartupXYZ',
-    avatar: '👨‍💻',
+    name: 'Marcus Dubois',
+    role: 'Creative Director',
+    company: 'Studio Lumina',
+    avatar: '👨🏽‍💻',
     rating: 5,
-    content: "Working with Bix was a game-changer for our startup. They didn't just design our product, they helped us understand our users better and shaped our entire product strategy.",
-    project: 'SaaS Platform MVP'
+    content: "A rare hybrid of deep technical systems architecture and exceptional design taste. Our flagship product's conversion rate effectively doubled after the cinematic refactor.",
+    project: 'E-Commerce Experience'
   },
   {
     id: 3,
-    name: 'Emily Rodriguez',
-    role: 'Marketing Director',
-    company: 'Digital Agency Co.',
-    avatar: '👩‍🎨',
-    rating: 5,
-    content: "Bix brings both creative vision and strategic thinking to every project. Their designs don't just look beautiful, they drive real business results for our clients.",
-    project: 'E-commerce Redesign'
-  },
-  {
-    id: 4,
-    name: 'David Park',
+    name: 'Akira Sato',
     role: 'CTO',
-    company: 'HealthTech Solutions',
-    avatar: '👨‍⚕️',
+    company: 'Kyoto Tech',
+    avatar: '👨🏻‍🦳',
     rating: 5,
-    content: "In the healthcare space, user experience can literally save lives. Bix understands this responsibility and consistently delivers designs that are both usable and compliant.",
-    project: 'Healthcare Portal'
-  },
-  {
-    id: 5,
-    name: 'Lisa Wang',
-    role: 'Design Lead',
-    company: 'Creative Studio',
-    avatar: '👩‍🎨',
-    rating: 5,
-    content: "As a fellow designer, I'm constantly impressed by Bix's ability to balance user needs with business goals. They're a true strategic design partner.",
-    project: 'Design System'
-  },
-  {
-    id: 6,
-    name: 'James Thompson',
-    role: 'Founder',
-    company: 'EcoTech Startup',
-    avatar: '👨‍🌾',
-    rating: 5,
-    content: "Bix helped us create a sustainability platform that users actually want to engage with. Their design made complex environmental data feel accessible and actionable.",
-    project: 'Sustainability Dashboard'
+    content: "Flawless execution. The codebase is incredibly structured, the animations are buttery smooth with zero layout shifts, and the mobile experience feels exactly like a flagship native App Store release.",
+    project: 'AI Analytics Dashboard'
   }
 ];
+
+interface StatType {
+  label: string;
+  value: number;
+  suffix: string;
+  icon: string;
+}
+
+const StatCard = ({ stat, index }: { stat: StatType, index: number }) => {
+  const { count, elementRef } = useCountAnimation({
+    endValue: stat.value,
+    delay: index * 200,
+    duration: 2000
+  });
+
+  return (
+    <div
+      ref={elementRef}
+      className="animate-float"
+      style={{ animationDelay: `${index * 0.2}s` }}
+    >
+      <div className="text-3xl mb-2">{stat.icon}</div>
+      <div className="text-2xl md:text-3xl font-bold text-primary mb-2">
+        {count}{stat.suffix}
+      </div>
+      <div className="text-sm text-muted-foreground">
+        {stat.label}
+      </div>
+    </div>
+  );
+};
 
 export const TestimonialsSection = () => {
   return (
@@ -78,41 +79,45 @@ export const TestimonialsSection = () => {
         </div>
 
         {/* Testimonials Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid md:grid-cols-3 gap-8 mb-24">
           {testimonials.map((testimonial, index) => (
             <div
               key={testimonial.id}
-              className="glass-panel rounded-xl p-6 glass-glow transition-smooth hover:scale-[1.02] animate-float"
+              className="group relative flex flex-col justify-between overflow-hidden rounded-[2rem] p-8 transition-all duration-700 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_40px_-15px_rgba(255,255,255,0.05)] border border-border/40 bg-card/10 backdrop-blur-xl animate-float"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              {/* Quote Icon */}
-              <div className="flex justify-between items-start mb-4">
-                <Quote className="w-8 h-8 text-primary/40" />
-                <div className="flex gap-1">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                  ))}
-                </div>
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-              {/* Content */}
-              <p className="text-muted-foreground leading-relaxed mb-6 italic">
-                "{testimonial.content}"
-              </p>
-
-              {/* Author */}
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-2xl">
-                  {testimonial.avatar}
+              <div className="relative z-10 flex-1">
+                {/* Quote Icon */}
+                <div className="flex justify-between items-start mb-4">
+                  <Quote className="w-8 h-8 text-primary/40" />
+                  <div className="flex gap-1">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-primary text-primary" />
+                    ))}
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold">{testimonial.name}</h4>
-                  <p className="text-sm text-muted-foreground">
-                    {testimonial.role} at {testimonial.company}
-                  </p>
-                  <p className="text-xs text-primary font-medium mt-1">
-                    Project: {testimonial.project}
-                  </p>
+
+                {/* Content */}
+                <p className="text-muted-foreground leading-relaxed mb-6 italic">
+                  "{testimonial.content}"
+                </p>
+
+                {/* Author */}
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-2xl">
+                    {testimonial.avatar}
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">{testimonial.name}</h4>
+                    <p className="text-sm text-muted-foreground">
+                      {testimonial.role} at {testimonial.company}
+                    </p>
+                    <p className="text-xs text-primary font-medium mt-1">
+                      Project: {testimonial.project}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -120,37 +125,16 @@ export const TestimonialsSection = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="glass-panel rounded-2xl p-8 glass-glow">
+        < div className="glass-panel rounded-2xl p-8 glass-glow" >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
               { label: 'Client Satisfaction', value: 98, suffix: '%', icon: '😊' },
               { label: 'Projects Delivered', value: 150, suffix: '+', icon: '🚀' },
               { label: 'Repeat Clients', value: 85, suffix: '%', icon: '🔄' },
               { label: 'Average Rating', value: 4.9, suffix: '/5', icon: '⭐' },
-            ].map((stat, index) => {
-              const { count, elementRef } = useCountAnimation({
-                endValue: stat.value,
-                delay: index * 200,
-                duration: 2000
-              });
-
-              return (
-                <div
-                  key={stat.label}
-                  ref={elementRef}
-                  className="animate-float"
-                  style={{ animationDelay: `${index * 0.2}s` }}
-                >
-                  <div className="text-3xl mb-2">{stat.icon}</div>
-                  <div className="text-2xl md:text-3xl font-bold text-primary mb-2">
-                    {count}{stat.suffix}
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {stat.label}
-                  </div>
-                </div>
-              );
-            })}
+            ].map((stat, index) => (
+              <StatCard key={stat.label} stat={stat} index={index} />
+            ))}
           </div>
         </div>
 

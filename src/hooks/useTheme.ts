@@ -91,13 +91,13 @@ export const useTheme = () => {
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === 'w') { 
+      if (e.key.toLowerCase() === 'w') {
         cycleSecretTheme();
       }
     };
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [secretTheme]);
+  }, [secretTheme, cycleSecretTheme]);
 
   return {
     ...themeData,
