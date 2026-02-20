@@ -1,6 +1,6 @@
-import { Star } from "lucide-react";
-import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const skills = [
   "Frontend Architecture (React/TS)",
@@ -11,183 +11,146 @@ const skills = [
   "Technical Project Management",
 ];
 
+const education = [
+  { school: "Dar es Salaam Institute of Technology", period: "Recent" },
+  { school: "Mbeya Institute of Science and Technology", period: "Previous" },
+  { school: "God's Bridge Secondary School", period: "High School" },
+  { school: "Uwata Pre & Primary School", period: "Foundation" }
+];
+
 export const AboutSection = () => {
-  // Cinematic parallax tracking
-  const sectionRef = useRef<HTMLElement>(null);
-  const target = useRef({ x: 0, y: 0 });
-  const current = useRef({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLElement>(null);
 
-  const layer1Ref = useRef<HTMLDivElement>(null);
-  const layer2Ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
 
-  useEffect(() => {
-    let animationFrameId: number;
-    const animate = () => {
-      current.current.x += (target.current.x - current.current.x) * 0.05;
-      current.current.y += (target.current.y - current.current.y) * 0.05;
-
-      if (layer1Ref.current) {
-        layer1Ref.current.style.transform = `translate3d(${current.current.x * 20}px, ${current.current.y * 20}px, 0)`;
-      }
-      if (layer2Ref.current) {
-        layer2Ref.current.style.transform = `translate3d(${current.current.x * -40}px, ${current.current.y * -40}px, 0)`;
-      }
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-    animationFrameId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, []);
-
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (!sectionRef.current) return;
-    const rect = sectionRef.current.getBoundingClientRect();
-    target.current.x = (e.clientX - rect.left) / rect.width - 0.5;
-    target.current.y = (e.clientY - rect.top) / rect.height - 0.5;
-  };
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, -250]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [0, -150]);
 
   return (
-    <section
-      ref={sectionRef}
-      onMouseMove={onMouseMove}
-      className="py-24 px-4 sm:px-6 relative overflow-hidden"
-    >
-      {/* Cinematic Liquid Background */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div
-          ref={layer1Ref}
-          className="absolute inset-0 will-change-[transform]"
-        >
-          <div className="absolute top-[20%] left-[10%] w-[40vw] h-[40vw] max-w-[600px] max-h-[600px] bg-primary/10 rounded-full blur-[80px] animate-liquid-morph mix-blend-multiply dark:mix-blend-screen opacity-60" />
-        </div>
-        <div
-          ref={layer2Ref}
-          className="absolute inset-0 will-change-[transform]"
-        >
-          <div className="absolute bottom-[10%] right-[10%] w-96 h-96 bg-accent/15 rounded-full blur-[60px] animate-float-organic opacity-50" />
-        </div>
+    <section id="about" ref={containerRef} className="py-32 px-6 lg:px-12 relative bg-background overflow-hidden">
+      {/* Background Liquid (Muted for Apple Style) */}
+      <div className="absolute inset-0 pointer-events-none opacity-30 hidden md:block">
+        <div className="absolute top-[30%] right-[10%] w-[40vw] h-[40vw] min-w-[500px] bg-primary/10 rounded-full blur-[120px] animate-liquid-morph" />
       </div>
 
-      <div className="max-w-6xl mx-auto space-y-24 relative z-10">
-        {/* About Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative w-full rounded-3xl backdrop-blur-3xl bg-card/40 border border-white/10 dark:border-white/5 shadow-2xl p-12 space-y-10 overflow-hidden"
-        >
-          {/* Subtle gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 rounded-3xl pointer-events-none"></div>
+      <div className="max-w-7xl mx-auto relative z-10 space-y-32">
 
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-12 md:gap-16 max-w-6xl mx-auto relative z-10">
-            {/* Avatar with offset */}
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="relative shrink-0 md:mt-2"
-            >
-              <div className="absolute -inset-4 rounded-[2rem] bg-primary/10 -rotate-6 blur-xl" />
-              <div className="relative w-40 h-40 md:w-48 md:h-48 overflow-hidden rounded-[2rem] border border-border/50 shadow-xl rotate-3 hover:rotate-0 transition-transform duration-500">
-                <img
-                  src="/assets/profile.jpg"
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </motion.div>
-
-            {/* About text - editorial flow */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-              className="flex-1 space-y-8 text-left"
-            >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground text-shadow-cinematic">
-                About Me.
-              </h2>
-              <div className="space-y-6 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
-                <p>
-                  A versatile Software Engineer and Technical Consultant with over{" "}
-                  <span className="text-foreground font-semibold">5 years</span> of
-                  experience delivering high-impact digital solutions.
-                </p>
-                <p>
-                  I specialize in bridging the gap between elegant design and robust system architecture,
-                  leveraging modern web technologies to solve complex business challenges securely and efficiently.
-                </p>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Reviews */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="flex items-center justify-center gap-6 pt-10 border-t border-border/30 relative z-10"
-          >
-            <div className="flex items-center gap-2">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-primary text-primary" />
-                ))}
-              </div>
-              <span className="font-semibold text-foreground text-lg">4.9</span>
-            </div>
-            <span className="text-base text-muted-foreground">
-              (127 reviews)
-            </span>
-          </motion.div>
-
-          {/* Stats - Left aligned */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+        {/* The Hook */}
+        <div className="max-w-5xl">
+          <motion.h2
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.7 }}
-            className="flex flex-wrap gap-12 md:gap-24 pt-10 border-t border-border/30 relative z-10 justify-start"
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="text-[clamp(3.5rem,8vw,8rem)] font-extrabold tracking-tighter leading-[0.9] text-foreground mix-blend-difference"
           >
-            <div className="text-left">
-              <div className="text-4xl font-extrabold text-foreground tracking-tight">150+</div>
-              <div className="text-sm font-medium uppercase tracking-widest text-muted-foreground mt-2">Projects</div>
-            </div>
-            <div className="text-left">
-              <div className="text-4xl font-extrabold text-foreground tracking-tight">5+</div>
-              <div className="text-sm font-medium uppercase tracking-widest text-muted-foreground mt-2">Years</div>
-            </div>
-            <div className="text-left">
-              <div className="text-4xl font-extrabold text-foreground tracking-tight">50+</div>
-              <div className="text-sm font-medium uppercase tracking-widest text-muted-foreground mt-2">Clients</div>
-            </div>
-          </motion.div>
-        </motion.div>
+            Pro rigor meets the performing&nbsp;arts.
+          </motion.h2>
+        </div>
 
-        {/* Skills - Left aligned flow */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="space-y-10 lg:px-12 relative z-10"
-        >
-          <h3 className="text-2xl font-bold text-foreground text-shadow-cinematic">
-            Core Expertise
-          </h3>
-          <div className="flex flex-wrap gap-3">
-            {skills.map((skill, index) => (
-              <motion.span
-                key={index}
-                whileHover={{ scale: 1.05 }}
-                className="px-6 py-3 bg-card/30 backdrop-blur-md border border-white/10 dark:border-white/5 shadow-lg rounded-2xl text-sm font-medium text-foreground hover:bg-card/50 transition-colors cursor-default animate-float-organic"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                {skill}
-              </motion.span>
-            ))}
+        {/* Immersive Photo Gallery */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 h-auto md:h-[60vh] lg:h-[80vh] items-center py-12 md:py-0">
+          <motion.div style={{ y: y1 }} className="relative h-[50vh] md:h-[110%] w-full rounded-2xl md:rounded-[2rem] overflow-hidden will-change-transform shadow-xl">
+            <img src="/assets/about-1.jpg" alt="Junior Jeconia" className="absolute inset-0 w-full h-full object-cover" />
+          </motion.div>
+          <motion.div style={{ y: y2 }} className="relative h-[60vh] md:h-[140%] w-full rounded-2xl md:rounded-[2rem] overflow-hidden -mt-8 md:mt-0 z-10 shadow-2xl will-change-transform md:translate-y-24">
+            <img src="/assets/about-2.jpg" alt="Junior Jeconia" className="absolute inset-0 w-full h-full object-cover" />
+          </motion.div>
+          <motion.div style={{ y: y3 }} className="relative h-[50vh] md:h-[90%] w-full rounded-2xl md:rounded-[2rem] overflow-hidden -mt-8 md:mt-0 will-change-transform shadow-xl">
+            <img src="/assets/about-3.jpg" alt="Junior Jeconia" className="absolute inset-0 w-full h-full object-cover" />
+          </motion.div>
+        </div>
+
+        {/* Minimalist Data Grid - Cinematic Staggered Reveal */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-12 lg:gap-24 items-start pt-12 md:pt-32">
+
+          {/* Bio block */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="md:col-span-12 lg:col-span-5"
+          >
+            <h3 className="text-xl md:text-2xl font-bold tracking-tight mb-8 text-primary uppercase">About The Artist</h3>
+            <p className="text-[2rem] md:text-[2.5rem] text-foreground leading-[1.1] font-bold tracking-tighter">
+              Software Engineer, Web Developer & Dancer in Tanzania.
+            </p>
+            <div className="w-12 h-[2px] bg-foreground/20 my-8" />
+            <p className="text-xl text-muted-foreground leading-relaxed font-medium">
+              I believe in the power of technology to transform ideas into reality. Balancing professional rigor with a lifelong interest in gaming and the performing arts, I bring a versatile eye for detail to forward-thinking digital projects.
+            </p>
+          </motion.div>
+
+          {/* Education & Skills (Apple List Style) */}
+          <div className="md:col-span-12 lg:col-span-7 grid sm:grid-cols-2 gap-16 pt-4 lg:pt-0">
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-10%" }}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.1 }
+                }
+              }}
+            >
+              <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-8">Education</h4>
+              <ul className="flex flex-col">
+                {education.map((item, i) => (
+                  <motion.li
+                    key={i}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+                    }}
+                    className="group border-t border-border/40 py-6 last:border-b flex flex-col justify-start cursor-default"
+                  >
+                    <span className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-2">{item.period}</span>
+                    <span className="block text-xl font-bold text-foreground tracking-tight transition-transform duration-500 group-hover:translate-x-2">{item.school}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-10%" }}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+                }
+              }}
+            >
+              <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-8">Core Expertise</h4>
+              <ul className="flex flex-col">
+                {skills.map((skill, i) => (
+                  <motion.li
+                    key={i}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+                    }}
+                    className="group border-t border-border/40 py-6 last:border-b flex justify-between items-center cursor-default overflow-hidden"
+                  >
+                    <span className="text-lg md:text-xl font-medium tracking-tight text-foreground/80 group-hover:text-foreground transition-colors mix-blend-difference">{skill}</span>
+                    <ArrowUpRight className="w-5 h-5 text-muted-foreground opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500" />
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+
           </div>
-        </motion.div>
+        </div>
 
       </div>
     </section>
