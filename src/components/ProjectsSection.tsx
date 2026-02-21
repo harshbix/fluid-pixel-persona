@@ -43,12 +43,12 @@ const projects: Project[] = [
   },
   {
     id: 4,
-    title: 'ToDo List Bix',
-    description: 'A minimalist task management application with persistent local storage, seamless state transitions, and a clean, distraction-free design.',
-    image: '/assets/projects/todolist-bix.webp',
-    tags: ['Vite', 'React', 'State Management'],
-    liveUrl: 'https://todolist-bix.vercel.app/',
-    githubUrl: 'https://github.com/harshbix/todolist-bix',
+    title: 'Henry Peter Portfolio',
+    description: 'A sophisticated, award-winning portfolio showcasing cinematic motion design, interactive layouts, and immersive visual storytelling.',
+    image: '/assets/projects/henrypeter.webp',
+    tags: ['React', 'Motion Design', 'Tailwind CSS'],
+    liveUrl: 'https://henrypeter.vercel.app/',
+    githubUrl: 'https://github.com/harshbix/henrypeter',
   },
   {
     id: 5,
