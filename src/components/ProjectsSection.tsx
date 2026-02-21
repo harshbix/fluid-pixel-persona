@@ -1,7 +1,19 @@
 import { ExternalLink, Github, Eye } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
-const projects = [
+type Project = {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+  liveUrl: string;
+  githubUrl: string;
+  staticSnapshot?: boolean;
+  displayType?: 'iframe' | 'image';
+};
+
+const projects: Project[] = [
   {
     id: 1,
     title: 'Bixx Dictionary',
@@ -46,7 +58,7 @@ const projects = [
     tags: ['Vite', 'React', 'Tailwind CSS', 'AOS Animations'],
     liveUrl: 'https://overspeed-security.vercel.app/',
     githubUrl: 'https://github.com/harshbix/overspeed-security',
-    staticSnapshot: true,
+    displayType: 'iframe' as const,
   },
 ];
 
@@ -111,6 +123,49 @@ const ProjectImage = ({ src, alt, priority, staticSnapshot }: { src: string, alt
       />
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 pointer-events-none" />
+    </div>
+  );
+};
+
+const ProjectIframe = ({ url, title }: { url: string; title: string }) => {
+  const [isInteractive, setIsInteractive] = useState(false);
+
+  return (
+    <div className="relative w-full aspect-[16/10] flex flex-col bg-background/50 group">
+      {/* MacOS-style Browser Header */}
+      <div className="h-10 bg-muted/40 border-b border-border/40 flex items-center px-4 gap-4 shrink-0 transition-colors duration-300 group-hover:bg-muted/60">
+        <div className="flex gap-1.5">
+          <div className="w-3 h-3 rounded-full bg-[#FF5F56] border border-[#E0443E]/50" />
+          <div className="w-3 h-3 rounded-full bg-[#FFBD2E] border border-[#DEA123]/50" />
+          <div className="w-3 h-3 rounded-full bg-[#27C93F] border border-[#1AAB29]/50" />
+        </div>
+        <div className="flex-1 flex justify-center opacity-70 group-hover:opacity-100 transition-opacity">
+          <div className="bg-background/80 text-[11px] text-muted-foreground px-3 py-1 rounded-md font-mono flex items-center justify-center max-w-[250px] w-full border border-border/50 shadow-sm truncate">
+            {url.replace('https://', '')}
+          </div>
+        </div>
+      </div>
+
+      {/* Iframe Content with Interaction Overlay */}
+      <div className="relative flex-1 bg-background overflow-hidden" onMouseLeave={() => setIsInteractive(false)}>
+        {!isInteractive && (
+          <div
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-transparent cursor-pointer group-hover:bg-black/5 dark:group-hover:bg-black/20 transition-all duration-500"
+            onClick={() => setIsInteractive(true)}
+          >
+            <div className="bg-foreground/90 backdrop-blur-md text-background px-5 py-2.5 rounded-full font-medium shadow-xl translate-y-8 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 flex items-center gap-2">
+              <Eye className="w-4 h-4" />
+              Click to Interact
+            </div>
+          </div>
+        )}
+        <iframe
+          src={url}
+          title={title}
+          className="w-full h-full border-none object-cover"
+          loading="lazy"
+        />
+      </div>
     </div>
   );
 };
@@ -182,16 +237,22 @@ export const ProjectsSection = () => {
                 <div className="absolute -inset-4 bg-primary/5 rounded-[2rem] -z-10 translate-y-4 translate-x-4 mix-blend-multiply opacity-50 dark:hidden" />
                 <div className="relative overflow-hidden rounded-[2rem] bg-muted/20 border border-border/40 shadow-xl">
 
-                  <ProjectImage
-                    src={project.image}
-                    alt={project.title}
-                    priority={index < 2}
-                    staticSnapshot={project.staticSnapshot}
-                  />
+                  {project.displayType === 'iframe' ? (
+                    <ProjectIframe url={project.liveUrl} title={project.title} />
+                  ) : (
+                    <ProjectImage
+                      src={project.image}
+                      alt={project.title}
+                      priority={index < 2}
+                      staticSnapshot={project.staticSnapshot}
+                    />
+                  )}
 
-                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="absolute top-4 right-4 md:top-6 md:right-6 w-12 h-12 bg-background/90 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 text-foreground hover:bg-foreground hover:text-background shadow-lg z-30">
-                    <ExternalLink className="w-5 h-5" />
-                  </a>
+                  {project.displayType !== 'iframe' && (
+                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="absolute top-4 right-4 md:top-6 md:right-6 w-12 h-12 bg-background/90 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 text-foreground hover:bg-foreground hover:text-background shadow-lg z-30">
+                      <ExternalLink className="w-5 h-5" />
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
