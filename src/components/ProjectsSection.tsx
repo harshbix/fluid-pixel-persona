@@ -40,12 +40,12 @@ const projects = [
   },
   {
     id: 5,
-    title: 'Interactive Card Form',
-    description: 'A sleek, interactive credit card details form with real-time validation, dynamic localized formatting, and a polished submission state.',
-    image: '/assets/projects/log-in-form-react.webp',
-    tags: ['React', 'Form Validation', 'CSS Modules'],
-    liveUrl: 'https://log-in-form-react.vercel.app/',
-    githubUrl: 'https://github.com/harshbix/log-in-form-react',
+    title: 'Overspeed Security',
+    description: 'A high-performance corporate website for a security firm, featuring a modern aesthetic, fluid animations, and a seamless device-responsive user experience.',
+    image: '/assets/projects/overspeed-security.webp',
+    tags: ['Vite', 'React', 'Tailwind CSS', 'AOS Animations'],
+    liveUrl: 'https://overspeed-security.vercel.app/',
+    githubUrl: 'https://github.com/harshbix/overspeed-security',
   },
 ];
 
