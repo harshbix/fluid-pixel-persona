@@ -53,9 +53,21 @@ const ProjectImage = ({ src, alt, priority }: { src: string, alt: string, priori
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className="relative overflow-hidden w-full aspect-[16/10] bg-muted/20">
-      {/* Blur placeholder */}
-      <div className={`absolute inset-0 bg-muted/30 backdrop-blur-xl transition-opacity duration-700 ${loaded ? 'opacity-0 z-0' : 'opacity-100 z-20'}`} />
+    <div className="relative overflow-hidden w-full aspect-[16/10] bg-muted/10">
+      {/* Premium UI Skeleton Placeholder */}
+      <div
+        className={`absolute inset-0 z-20 flex items-center justify-center transition-all duration-700 ease-[0.22,1,0.36,1] ${loaded ? 'opacity-0 scale-110 blur-sm pointer-events-none' : 'opacity-100 scale-100 blur-0'
+          }`}
+      >
+        {/* Animated gradient wash */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-muted/10 to-accent/5 animate-pulse" />
+
+        {/* Liquid morphing spinner center */}
+        <div className="relative w-16 h-16 flex items-center justify-center">
+          <div className="absolute inset-0 rounded-full water-morph bg-primary/20 backdrop-blur-md border border-primary/30 animate-glow-pulse" />
+          <div className="w-6 h-6 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+        </div>
+      </div>
 
       <img
         src={src}
