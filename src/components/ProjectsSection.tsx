@@ -1,67 +1,92 @@
 import { ExternalLink, Github, Eye } from 'lucide-react';
+import { useState } from 'react';
 
 const projects = [
   {
     id: 1,
-    title: 'EcoTrack Analytics Dashboard',
-    description: 'Engineered a scalable data visualization platform enabling enterprise clients to monitor and reduce their environmental footprint in real-time.',
-    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400',
-    tags: ['React', 'TypeScript', 'D3.js', 'System Architecture'],
-    featured: true,
+    title: 'Bixx Dictionary',
+    description: 'A lightning-fast dictionary web application featuring instant word lookups, phonetic pronunciations, and an elegant, typography-driven interface.',
+    image: '/assets/projects/bixxdictionary.webp',
+    tags: ['React', 'Dictionary API', 'Tailwind CSS'],
+    liveUrl: 'https://bixxdictionary.vercel.app/',
+    githubUrl: 'https://github.com/harshbix/bixxdictionary',
   },
   {
     id: 2,
-    title: 'MindSpace Mobile App',
-    description: 'Designed and prototyped a cross-platform mobile application utilizing proactive UX research to optimize user retention and mental wellbeing.',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=400',
-    tags: ['Mobile Development', 'Prototyping', 'User Research'],
-    featured: false,
+    title: 'RECAN Foundation',
+    description: 'A professional NGO landing page built to drive donations and awareness for Tanzanian children, featuring mobile money integrations and accessible UX.',
+    image: '/assets/projects/recanfoundation.webp',
+    tags: ['Next.js', 'React', 'Tailwind CSS', 'Charity Platform'],
+    liveUrl: 'https://recanfoundation.org/',
+    githubUrl: 'https://github.com/harshbix/recanfoundation',
   },
   {
     id: 3,
-    title: 'FinTech Trading Platform',
-    description: 'Spearheaded the UX/UI overhaul of a high-volume cryptocurrency trading platform, standardizing design systems and improving transaction clarity.',
-    image: 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=600&h=400',
-    tags: ['Frontend Architecture', 'Design Systems', 'Figma'],
-    featured: true,
+    title: 'Serene Palette',
+    description: 'An interactive color palette generator with fluid UI controls, enabling designers to instantly extract, tweak, and export harmonious color combinations.',
+    image: '/assets/projects/serene-palette-app.webp',
+    tags: ['Vite', 'React', 'Lovable', 'UI Engineering'],
+    liveUrl: 'https://serene-palette-app.vercel.app/',
+    githubUrl: 'https://github.com/harshbix/serene-palette-app',
   },
   {
     id: 4,
-    title: 'IoT Smart Infrastructure',
-    description: 'Developed an intuitive centralized control interface for interconnected IoT devices, integrating predictive automation algorithms.',
-    image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=600&h=400',
-    tags: ['IoT Integration', 'UI Engineering', 'Predictive Systems'],
-    featured: false,
+    title: 'ToDo List Bix',
+    description: 'A minimalist task management application with persistent local storage, seamless state transitions, and a clean, distraction-free design.',
+    image: '/assets/projects/todolist-bix.webp',
+    tags: ['Vite', 'React', 'State Management'],
+    liveUrl: 'https://todolist-bix.vercel.app/',
+    githubUrl: 'https://github.com/harshbix/todolist-bix',
   },
   {
     id: 5,
-    title: 'Enterprise Healthcare Portal',
-    description: 'Architected a secure patient management console that streamlined clinical appointments, digital records, and secure telehealth routing.',
-    image: 'https://images.unsplash.com/photo-1487887235947-a955ef187fcc?w=600&h=400',
-    tags: ['Full-Stack', 'Accessibility (WCAG)', 'Data Security'],
-    featured: false,
+    title: 'Interactive Card Form',
+    description: 'A sleek, interactive credit card details form with real-time validation, dynamic localized formatting, and a polished submission state.',
+    image: '/assets/projects/log-in-form-react.webp',
+    tags: ['React', 'Form Validation', 'CSS Modules'],
+    liveUrl: 'https://log-in-form-react.vercel.app/',
+    githubUrl: 'https://github.com/harshbix/log-in-form-react',
   },
 ];
 
-export const ProjectsSection = () => {
-  const featuredProjects = projects.filter(p => p.featured);
-  const otherProjects = projects.filter(p => !p.featured);
+const ProjectImage = ({ src, alt, priority }: { src: string, alt: string, priority?: boolean }) => {
+  const [loaded, setLoaded] = useState(false);
 
   return (
-    <section className="py-20 px-6 relative">
+    <div className="relative overflow-hidden w-full aspect-[16/10] bg-muted/20">
+      {/* Blur placeholder */}
+      <div className={`absolute inset-0 bg-muted/30 backdrop-blur-xl transition-opacity duration-700 ${loaded ? 'opacity-0 z-0' : 'opacity-100 z-20'}`} />
+
+      <img
+        src={src}
+        alt={alt}
+        className={`w-full h-full object-cover transition-all duration-1000 ease-[0.22,1,0.36,1] group-hover:scale-105 ${loaded ? 'blur-0 scale-100' : 'blur-md scale-105'}`}
+        onLoad={() => setLoaded(true)}
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
+      />
+
+      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none" />
+    </div>
+  );
+};
+
+export const ProjectsSection = () => {
+  return (
+    <section id="projects" className="py-20 px-6 relative">
       <div className="max-w-7xl mx-auto">
         <div className="text-center md:text-left mb-16 md:mb-24 md:max-w-2xl">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 tracking-tight text-foreground">
-            Featured Engineering.
+            Selected Works.
           </h2>
           <p className="text-xl text-muted-foreground leading-relaxed">
-            A curated selection of technical projects showcasing my ability to architect scalable systems and craft intuitive user experiences.
+            A curated selection of technical projects and live applications showcasing my ability to architect scalable systems and craft intuitive user experiences.
           </p>
         </div>
 
-        {/* Featured Projects */}
-        <div className="space-y-24 md:space-y-32 mb-32">
-          {featuredProjects.map((project, index) => (
+        {/* Unified Projects Array (Awwwards Style Offset List) */}
+        <div className="space-y-24 md:space-y-32 mb-12">
+          {projects.map((project, index) => (
             <div
               key={project.id}
               className={`flex flex-col gap-8 md:gap-16 ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'
@@ -70,7 +95,7 @@ export const ProjectsSection = () => {
               <div className="w-full lg:w-5/12 flex flex-col items-start text-left space-y-6 lg:px-4">
                 <div className="flex items-center gap-3">
                   <span className="px-3 py-1 bg-secondary/80 text-foreground text-xs font-semibold uppercase tracking-widest rounded-full">
-                    Featured
+                    {`0${index + 1}`}
                   </span>
                   <div className="h-px bg-border flex-1" />
                 </div>
@@ -93,14 +118,18 @@ export const ProjectsSection = () => {
                 </div>
 
                 <div className="flex gap-4 pt-6 w-full sm:w-auto">
-                  <button className="flex-1 sm:flex-none px-6 py-3 rounded-xl bg-foreground text-background font-medium hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
-                    <Eye className="w-4 h-4" />
-                    View Case
-                  </button>
-                  <button className="flex-1 sm:flex-none px-6 py-3 rounded-xl border border-border bg-card/40 hover:bg-card/80 text-foreground font-medium transition-colors flex items-center justify-center gap-2">
-                    <Github className="w-4 h-4" />
-                    Code
-                  </button>
+                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex-1 sm:flex-none">
+                    <button className="w-full px-6 py-3 rounded-xl bg-foreground text-background font-medium hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
+                      <Eye className="w-4 h-4" />
+                      Live Demo
+                    </button>
+                  </a>
+                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex-1 sm:flex-none">
+                    <button className="w-full px-6 py-3 rounded-xl border border-border bg-card/40 hover:bg-card/80 text-foreground font-medium transition-colors flex items-center justify-center gap-2">
+                      <Github className="w-4 h-4" />
+                      Code
+                    </button>
+                  </a>
                 </div>
               </div>
 
@@ -108,71 +137,20 @@ export const ProjectsSection = () => {
                 {/* Asymmetric offset block for human touch */}
                 <div className="absolute -inset-4 bg-primary/5 rounded-[2rem] -z-10 translate-y-4 translate-x-4 mix-blend-multiply opacity-50 dark:hidden" />
                 <div className="relative overflow-hidden rounded-[2rem] bg-muted/20 border border-border/40 shadow-xl">
-                  <img
+
+                  <ProjectImage
                     src={project.image}
                     alt={project.title}
-                    className="w-full aspect-[4/3] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    loading="lazy"
+                    priority={index < 2}
                   />
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
-                  <a href="#" className="absolute top-4 right-4 md:top-6 md:right-6 w-12 h-12 bg-background/90 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 text-foreground hover:bg-foreground hover:text-background shadow-lg">
+
+                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="absolute top-4 right-4 md:top-6 md:right-6 w-12 h-12 bg-background/90 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 text-foreground hover:bg-foreground hover:text-background shadow-lg z-30">
                     <ExternalLink className="w-5 h-5" />
                   </a>
                 </div>
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Other Projects Grid */}
-        <div>
-          <h3 className="text-2xl font-bold text-center mb-12">Other Projects</h3>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {otherProjects.map((project, index) => (
-              <div
-                key={project.id}
-                className="group flex flex-col bg-card/30 rounded-2xl border border-border/40 overflow-hidden hover:bg-card/60 transition-colors"
-              >
-                <div className="relative aspect-[16/10] overflow-hidden bg-muted/30">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 border border-black/5 rounded-t-2xl pointer-events-none" />
-                </div>
-
-                <div className="p-6 flex flex-col flex-1">
-                  <h4 className="text-xl font-bold tracking-tight text-foreground mb-2">{project.title}</h4>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-1">
-                    {project.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tags.slice(0, 2).map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs font-medium text-muted-foreground bg-muted/50 px-2 py-1 rounded-md"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex justify-between items-center pt-4 border-t border-border/40 mt-auto">
-                    <a href="#" className="text-sm font-semibold text-foreground hover:text-primary transition-colors flex items-center gap-1">
-                      Details <ExternalLink className="w-3 h-3" />
-                    </a>
-                    <a href="#" className="p-2 -mr-2 text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-muted/50">
-                      <Github className="w-4 h-4" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>
