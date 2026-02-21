@@ -1,5 +1,5 @@
 import { ExternalLink, Github, Eye } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 const projects = [
   {
@@ -46,11 +46,35 @@ const projects = [
     tags: ['Vite', 'React', 'Tailwind CSS', 'AOS Animations'],
     liveUrl: 'https://overspeed-security.vercel.app/',
     githubUrl: 'https://github.com/harshbix/overspeed-security',
+    staticSnapshot: true,
   },
 ];
 
-const ProjectImage = ({ src, alt, priority }: { src: string, alt: string, priority?: boolean }) => {
+const ProjectImage = ({ src, alt, priority, staticSnapshot }: { src: string, alt: string, priority?: boolean, staticSnapshot?: boolean }) => {
   const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [showCanvas, setShowCanvas] = useState(false);
+
+  useEffect(() => {
+    if (loaded && staticSnapshot && imgRef.current && canvasRef.current) {
+      // Capture the frame after a slight delay to allow the first frame or initial animation
+      const timer = setTimeout(() => {
+        const canvas = canvasRef.current;
+        const img = imgRef.current;
+        if (canvas && img) {
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            ctx.drawImage(img, 0, 0);
+            setShowCanvas(true);
+          }
+        }
+      }, 1500); // 1.5 seconds after load
+      return () => clearTimeout(timer);
+    }
+  }, [loaded, staticSnapshot]);
 
   return (
     <div className="relative overflow-hidden w-full aspect-[16/10] bg-muted/10">
@@ -69,16 +93,24 @@ const ProjectImage = ({ src, alt, priority }: { src: string, alt: string, priori
         </div>
       </div>
 
+      {staticSnapshot && (
+        <canvas
+          ref={canvasRef}
+          className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-[0.22,1,0.36,1] group-hover:scale-105 z-10 ${showCanvas ? 'opacity-100' : 'opacity-0'}`}
+        />
+      )}
+
       <img
+        ref={imgRef}
         src={src}
         alt={alt}
-        className={`w-full h-full object-cover transition-all duration-1000 ease-[0.22,1,0.36,1] group-hover:scale-105 ${loaded ? 'blur-0 scale-100' : 'blur-md scale-105'}`}
+        className={`w-full h-full object-cover transition-all duration-1000 ease-[0.22,1,0.36,1] group-hover:scale-105 ${loaded ? 'blur-0 scale-100' : 'blur-md scale-105'} ${showCanvas ? 'opacity-0' : 'opacity-100'}`}
         onLoad={() => setLoaded(true)}
         loading={priority ? "eager" : "lazy"}
         fetchPriority={priority ? "high" : "auto"}
       />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 pointer-events-none" />
     </div>
   );
 };
@@ -154,6 +186,7 @@ export const ProjectsSection = () => {
                     src={project.image}
                     alt={project.title}
                     priority={index < 2}
+                    staticSnapshot={project.staticSnapshot}
                   />
 
                   <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="absolute top-4 right-4 md:top-6 md:right-6 w-12 h-12 bg-background/90 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 text-foreground hover:bg-foreground hover:text-background shadow-lg z-30">
