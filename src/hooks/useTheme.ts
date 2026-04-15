@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface ThemeData {
   theme: string;
@@ -73,12 +73,12 @@ export const useTheme = () => {
   }, [themeData.theme, secretTheme]);
 
   // Cycle secret themes
-  const cycleSecretTheme = () => {
+  const cycleSecretTheme = useCallback(() => {
     const secretThemes = ['retro', 'neon', 'pastel', null];
     const currentIndex = secretThemes.indexOf(secretTheme ?? null);
     const nextIndex = (currentIndex + 1) % secretThemes.length;
     setSecretTheme(secretThemes[nextIndex]);
-  };
+  }, [secretTheme]);
 
   // Set specific theme
   const setTheme = (themeId: string | null) => {

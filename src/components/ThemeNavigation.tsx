@@ -1,7 +1,7 @@
 import React from "react";
-import { useTheme } from "@/hooks/useTheme";
+import { useTheme } from "../hooks/useTheme";
 import { Sparkles, Sun, CloudRain, Gift, PartyPopper, Snowflake, Palette, Monitor } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "../hooks/use-mobile";
 
 const themes = [
   { name: "default", icon: <Monitor className="w-4 h-4" />, label: "System" },

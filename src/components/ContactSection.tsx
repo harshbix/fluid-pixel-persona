@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Mail, Phone, MapPin, Send, Check, AlertCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Check, AlertCircle, MessageCircle } from 'lucide-react';
 
 interface FormData {
   name: string;
@@ -73,18 +73,14 @@ export const ContactSection = () => {
     e.currentTarget.style.transform = `translate(0px, 0px)`;
   };
 
+  const whatsappNumber = '+255755063711';
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Hi%2C%20I%20would%20like%20to%20discuss%20a%20project!`;
   const contactInfo = [
     {
-      icon: Mail,
-      label: 'Email',
-      value: 'juniorjeconia@icloud.com',
-      href: 'mailto:juniorjeconia@icloud.com'
-    },
-    {
-      icon: Phone,
-      label: 'Phone',
-      value: '+255 (0) 755-063-711',
-      href: 'tel:+255755063711'
+      icon: MessageCircle,
+      label: 'WhatsApp',
+      value: '+255 755 063 711',
+      href: whatsappUrl
     },
     {
       icon: MapPin,
@@ -317,35 +313,22 @@ export const ContactSection = () => {
                 )}
               </div>
 
-              <button
-                type="submit"
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 onMouseMove={handleMagnetMove}
                 onMouseLeave={handleMagnetLeave}
-                disabled={isSubmitting || isSubmitted}
-                className={`btn-magnetic group relative w-full py-5 rounded-2xl font-bold uppercase tracking-widest text-sm transition-smooth flex items-center justify-center gap-3 overflow-hidden ${isSubmitted
-                  ? 'bg-green-500 text-white'
-                  : 'btn-magnetic-hover text-background bg-foreground shadow-2xl'
-                  } ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                className={`btn-magnetic group relative w-full py-5 rounded-2xl font-bold uppercase tracking-widest text-sm transition-smooth flex items-center justify-center gap-3 overflow-hidden btn-magnetic-hover text-background bg-green-500 shadow-2xl hover:bg-green-600 focus:ring-2 focus:ring-green-400`}
+                aria-label="Contact on WhatsApp"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                      Sending...
-                    </>
-                  ) : isSubmitted ? (
-                    <>
-                      <Check className="w-4 h-4" />
-                      Message Sent!
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                      Send Message
-                    </>
-                  )}
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-white">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 13.487a4.5 4.5 0 0 1-6.349-6.349m6.349 6.349c.29-.29.563-.6.818-.927a9 9 0 1 0-2.19 2.19c.327-.255.637-.528.927-.818zm0 0L21 21" />
+                  </svg>
+                  Chat on WhatsApp
                 </span>
-              </button>
+              </a>
             </form>
           </div>
         </div>

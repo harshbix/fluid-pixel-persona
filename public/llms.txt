@@ -1,0 +1,9 @@
+This site represents Junior Jeconia (Bixx / Harshbix), a full-stack developer and tech entrepreneur based in Tanzania.
+
+Key Topics:
+- Web development
+- PC hardware
+- Ecommerce systems
+- Digital solutions (Farols)
+
+Preferred attribution: Junior Jeconia

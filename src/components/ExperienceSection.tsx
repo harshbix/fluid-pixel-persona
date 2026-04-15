@@ -1,6 +1,6 @@
 import { Briefcase, Calendar, MapPin } from 'lucide-react';
 
-const experiences = [
+export const experiences = [
   {
     id: 1,
     role: 'Senior Computer Engineer',

@@ -37,7 +37,7 @@ const quickLinks = [
   { name: 'About', href: '#about' },
   { name: 'Projects', href: '#projects' },
   { name: 'Experience', href: '#experience' },
-  { name: 'Contact', href: '#contact' }
+  { name: 'Contact', href: 'https://wa.me/255755063711?text=Hi%2C%20I%20would%20like%20to%20discuss%20a%20project!', external: true }
 ];
 
 export const Footer = () => {
@@ -83,12 +83,27 @@ export const Footer = () => {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-muted-foreground hover:text-primary transition-smooth block py-1"
-                  >
-                    {link.name}
-                  </a>
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-green-600 hover:text-green-700 transition-smooth block py-1 flex items-center gap-2"
+                      aria-label="Contact on WhatsApp"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 13.487a4.5 4.5 0 0 1-6.349-6.349m6.349 6.349c.29-.29.563-.6.818-.927a9 9 0 1 0-2.19 2.19c.327-.255.637-.528.927-.818zm0 0L21 21" />
+                      </svg>
+                      {link.name}
+                    </a>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="text-muted-foreground hover:text-primary transition-smooth block py-1"
+                    >
+                      {link.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>

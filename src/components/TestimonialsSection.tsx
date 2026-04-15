@@ -1,5 +1,5 @@
 import { Quote, Star } from 'lucide-react';
-import { useCountAnimation } from '@/hooks/useCountAnimation';
+import { useCountAnimation } from '../hooks/useCountAnimation';
 
 const testimonials = [
   {

@@ -1,4 +1,5 @@
 import { Check, HelpCircle } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 
 const packages = [
   {
@@ -114,15 +115,22 @@ export const PricingSection = () => {
               </div>
 
               <div className="p-8 pt-0 mt-auto">
-                <button
-                  className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-300 shadow-md ${
+                <a
+                  href={`https://wa.me/255755063711?text=${encodeURIComponent(
+                    `Hi, I'm interested in the ${pkg.name} package (${pkg.tagline}) for ${pkg.priceRange}. ${pkg.cta === 'Contact for Quote' ? 'Please provide a detailed quote and timeline.' : 'I would like to get started.'}`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-full py-3 px-4 rounded-xl font-semibold transition-all duration-300 shadow-md flex items-center justify-center gap-2 ${
                     pkg.popular
-                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                      : "bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground"
+                      ? "bg-green-500 text-white hover:bg-green-600"
+                      : "bg-secondary text-foreground hover:bg-green-500 hover:text-white"
                   }`}
+                  aria-label={`Contact on WhatsApp about ${pkg.name}`}
                 >
-                  {pkg.cta}
-                </button>
+                  <FaWhatsapp className="w-5 h-5" />
+                  {pkg.cta.includes('Contact') ? 'WhatsApp Now' : 'Chat on WhatsApp'}
+                </a>
               </div>
             </div>
           ))}

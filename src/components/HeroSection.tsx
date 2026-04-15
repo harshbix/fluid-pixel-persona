@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { useClock } from "@/hooks/useClock";
+import { useClock } from "../hooks/useClock";
 import { ArrowRight, PlayCircle } from "lucide-react";
+import { Button } from "./ui/button";
+import { buildResumeData } from "../lib/resumeBuilder";
+import { useResumeDownload } from "../hooks/useResumeDownload";
 import { useReducedMotion } from "framer-motion";
 
 export const HeroSection = () => {
@@ -69,6 +72,9 @@ export const HeroSection = () => {
   const handleMagnetLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.style.transform = `translate(0px, 0px)`;
   };
+
+  const resumeData = buildResumeData();
+  const { handleDownload, HiddenResume } = useResumeDownload(resumeData);
 
   return (
     <section
@@ -147,18 +153,21 @@ export const HeroSection = () => {
         </div>
 
         {/* Magnetic CTA Buttons */}
-        <div className="mt-16 md:mt-24 flex flex-col sm:flex-row gap-6 lg:ml-24 animate-text-reveal" style={{ animationDelay: "0.5s" }}>
 
-          <a href="/resume.pdf" download target="_blank" className="contents">
-            <button
-              className="btn-magnetic btn-magnetic-hover group relative px-8 py-5 flex items-center justify-center sm:justify-start gap-4 text-background bg-foreground shadow-2xl overflow-hidden rounded-2xl"
-              onMouseMove={(e) => handleMagnetMove(e, 'btn1')}
-              onMouseLeave={handleMagnetLeave}
-            >
-              <span className="relative z-10 font-bold uppercase tracking-widest text-sm">Download Resume</span>
-              <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </a>
+        <div className="mt-16 md:mt-24 flex flex-col sm:flex-row gap-6 lg:ml-24 animate-text-reveal" style={{ animationDelay: "0.5s" }}>
+          <HiddenResume />
+          <Button
+            variant="default"
+            size="lg"
+            className="btn-magnetic btn-magnetic-hover group relative px-8 py-5 flex items-center justify-center sm:justify-start gap-4 text-background bg-foreground shadow-2xl overflow-hidden rounded-2xl"
+            onClick={handleDownload}
+            onMouseMove={(e) => handleMagnetMove(e, 'btn1')}
+            onMouseLeave={handleMagnetLeave}
+            aria-label="Download Resume"
+          >
+            <span className="relative z-10 font-bold uppercase tracking-widest text-sm">Download Resume</span>
+            <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
+          </Button>
 
           <button
             className="btn-magnetic group relative px-8 py-5 flex items-center justify-center sm:justify-start gap-4 text-foreground bg-transparent border border-border/50 hover:border-foreground/30 hover:bg-card/30 backdrop-blur-sm rounded-2xl overflow-hidden"

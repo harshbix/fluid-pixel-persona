@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 
-const skills = [
+export const skills = [
   "Frontend Architecture (React/TS)",
   "Full-Stack Development (Node.js)",
   "UI/UX Systems & Prototyping",

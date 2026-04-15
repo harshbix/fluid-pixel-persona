@@ -13,7 +13,7 @@ type Project = {
   displayType?: 'iframe' | 'image';
 };
 
-const projects: Project[] = [
+export const projects: Project[] = [
   {
     id: 1,
     title: 'Bixx Dictionary',
@@ -34,12 +34,13 @@ const projects: Project[] = [
   },
   {
     id: 3,
-    title: 'Serene Palette',
-    description: 'An interactive color palette generator with fluid UI controls, enabling designers to instantly extract, tweak, and export harmonious color combinations.',
-    image: '/assets/projects/serene-palette-app.webp',
-    tags: ['Vite', 'React', 'Lovable', 'UI Engineering'],
-    liveUrl: 'https://serene-palette-app.vercel.app/',
-    githubUrl: 'https://github.com/harshbix/serene-palette-app',
+    title: 'ysstoree.com',
+    description: 'A modern e-commerce platform for unique and creative goods, featuring a seamless shopping experience, secure checkout, and responsive design.',
+    image: '/assets/projects/ysstoree.webp',
+    tags: ['Next.js', 'React', 'E-commerce', 'Tailwind CSS'],
+    liveUrl: 'https://ysstoree.com/',
+    githubUrl: 'https://github.com/ysstoree/ysstoree',
+    displayType: 'iframe' as const,
   },
   {
     id: 4,
@@ -92,7 +93,7 @@ const ProjectImage = ({ src, alt, priority, staticSnapshot }: { src: string, alt
     <div className="relative overflow-hidden w-full aspect-[16/10] bg-muted/10">
       {/* Premium UI Skeleton Placeholder */}
       <div
-        className={`absolute inset-0 z-20 flex items-center justify-center transition-all duration-700 ease-[0.22,1,0.36,1] ${loaded ? 'opacity-0 scale-110 blur-sm pointer-events-none' : 'opacity-100 scale-100 blur-0'
+        className={`absolute inset-0 z-20 flex items-center justify-center transition-all duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] ${loaded ? 'opacity-0 scale-110 blur-sm pointer-events-none' : 'opacity-100 scale-100 blur-0'
           }`}
       >
         {/* Animated gradient wash */}
@@ -108,7 +109,7 @@ const ProjectImage = ({ src, alt, priority, staticSnapshot }: { src: string, alt
       {staticSnapshot && (
         <canvas
           ref={canvasRef}
-          className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-[0.22,1,0.36,1] group-hover:scale-105 z-10 ${showCanvas ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 z-10 ${showCanvas ? 'opacity-100' : 'opacity-0'}`}
         />
       )}
 
@@ -116,7 +117,7 @@ const ProjectImage = ({ src, alt, priority, staticSnapshot }: { src: string, alt
         ref={imgRef}
         src={src}
         alt={alt}
-        className={`w-full h-full object-cover transition-all duration-1000 ease-[0.22,1,0.36,1] group-hover:scale-105 ${loaded ? 'blur-0 scale-100' : 'blur-md scale-105'} ${showCanvas ? 'opacity-0' : 'opacity-100'}`}
+        className={`w-full h-full object-cover transition-all duration-1000 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 ${loaded ? 'blur-0 scale-100' : 'blur-md scale-105'} ${showCanvas ? 'opacity-0' : 'opacity-100'}`}
         onLoad={() => setLoaded(true)}
         loading={priority ? "eager" : "lazy"}
         fetchPriority={priority ? "high" : "auto"}

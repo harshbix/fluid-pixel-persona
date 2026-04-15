@@ -1,0 +1,21 @@
+{
+  "name": "Junior Jeconia | Bixx Tech",
+  "short_name": "BixxTech",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "description": "Portfolio and tech presence of Junior Jeconia (Bixx / Harshbix), full-stack developer and founder of Farols Digital Solutions.",
+  "icons": [
+    {
+      "src": "/assets/projects/bixxdictionary.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "/assets/projects/bixxdictionary.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ]
+}
