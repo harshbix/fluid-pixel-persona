@@ -1,9 +1,7 @@
 import { Suspense, lazy } from 'react';
-import { Navbar } from '../components/Navbar';
 import { HeroSection } from '../components/HeroSection';
 import { AboutSection } from '../components/AboutSection';
 import { ProjectsSection } from '../components/ProjectsSection';
-import { ThemeNavigation } from '../components/ThemeNavigation';
 import { SEO } from '../seo';
 
 // Lazy loaded below-the-fold sections
@@ -16,8 +14,7 @@ const Footer = lazy(() => import('../components/Footer').then(m => ({ default: m
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background" style={{ position: "relative", zIndex: 1 }}>
-      <Navbar />
+    <>
       <SEO
         title="Junior Jeconia | Elite Software Engineer & Digital Specialist"
         description="Portfolio of Junior Jeconia, a software engineer producing cinematic, high-performance web applications and Awwwards-quality digital experiences."
@@ -35,9 +32,7 @@ const Index = () => {
         <ContactSection />
         <Footer />
       </Suspense>
-
-      <ThemeNavigation />
-    </div>
+    </>
   );
 };
 

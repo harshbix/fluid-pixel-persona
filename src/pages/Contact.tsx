@@ -1,5 +1,5 @@
 import { SEO } from '../seo';
-import ContactSection from '../components/ContactSection';
+import { ContactSection } from '../components/ContactSection';
 
 export default function Contact() {
   return (

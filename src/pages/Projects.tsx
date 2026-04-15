@@ -1,5 +1,5 @@
 import { SEO } from '../seo';
-import ProjectsSection from '../components/ProjectsSection';
+import { ProjectsSection } from '../components/ProjectsSection';
 
 export default function Projects() {
   return (

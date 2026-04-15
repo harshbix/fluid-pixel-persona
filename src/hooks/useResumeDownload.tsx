@@ -8,7 +8,7 @@ export function useResumeDownload(data: ResumeData) {
   const componentRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = useReactToPrint({
-    content: () => componentRef.current,
+    contentRef: componentRef,
     documentTitle: `${data.name.replace(/\s+/g, '_')}_Resume`,
     removeAfterPrint: true,
   });
@@ -17,7 +17,7 @@ export function useResumeDownload(data: ResumeData) {
   const HiddenResume = useMemo(() => {
     return function HiddenResumeComponent() {
       return (
-        <div style={{ display: 'none' }}>
+        <div className="fixed left-[-9999px] top-0 pointer-events-none" aria-hidden="true">
           <ResumeTemplate ref={componentRef} data={data} />
         </div>
       );
