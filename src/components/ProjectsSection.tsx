@@ -1,5 +1,6 @@
-import { ExternalLink, Github, Eye } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { ArrowUpRight, Eye, Github } from "lucide-react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 type Project = {
   id: number;
@@ -9,254 +10,226 @@ type Project = {
   tags: string[];
   liveUrl: string;
   githubUrl: string;
-  staticSnapshot?: boolean;
-  displayType?: 'iframe' | 'image';
+  role: string;
+  outcome: string;
+  impact: string[];
 };
 
 export const projects: Project[] = [
   {
     id: 1,
     title: 'Bixx Dictionary',
-    description: 'A lightning-fast dictionary web application featuring instant word lookups, phonetic pronunciations, and an elegant, typography-driven interface.',
-    image: '/assets/projects/bixxdictionary.webp',
-    tags: ['React', 'Dictionary API', 'Tailwind CSS'],
-    liveUrl: 'https://bixxdictionary.vercel.app/',
-    githubUrl: 'https://github.com/harshbix/bixxdictionary',
+    description: "A fast, typography-led dictionary experience focused on quick lookup, clarity, and smooth interaction design.",
+    image: "/assets/projects/bixxdictionary.webp",
+    tags: ["React", "Dictionary API", "Tailwind CSS"],
+    liveUrl: "https://bixxdictionary.vercel.app/",
+    githubUrl: "https://github.com/harshbix/bixxdictionary",
+    role: "Product design, frontend engineering, interaction polish",
+    outcome: "Turned a utility tool into a focused reading-first product surface.",
+    impact: [
+      "Structured the interface around fast search and immediate comprehension.",
+      "Used restrained motion and typographic hierarchy to reduce friction.",
+      "Built a strong single-purpose experience that feels more premium than generic reference tools.",
+    ],
   },
   {
     id: 2,
     title: 'RECAN Foundation',
-    description: 'A professional NGO landing page built to drive donations and awareness for Tanzanian children, featuring mobile money integrations and accessible UX.',
-    image: '/assets/projects/recanfoundation.webp',
-    tags: ['Next.js', 'React', 'Tailwind CSS', 'Charity Platform'],
-    liveUrl: 'https://recanfoundation.org/',
-    githubUrl: 'https://github.com/harshbix/recanfoundation',
+    description: "A nonprofit website built to build trust quickly, explain mission clearly, and support conversion-focused donation flows.",
+    image: "/assets/projects/recanfoundation.webp",
+    tags: ["Next.js", "React", "Tailwind CSS", "NGO"],
+    liveUrl: "https://recanfoundation.org/",
+    githubUrl: "https://github.com/harshbix/recanfoundation",
+    role: "Design direction, responsive frontend, trust-building UX",
+    outcome: "Created a cleaner storytelling flow for mission, credibility, and action.",
+    impact: [
+      "Shaped the layout around clarity for first-time visitors and donors.",
+      "Improved scanning with stronger information grouping and visual contrast.",
+      "Balanced emotional tone with practical conversion paths and accessibility.",
+    ],
   },
   {
     id: 3,
-    title: 'ysstoree.com',
-    description: 'A modern e-commerce platform for unique and creative goods, featuring a seamless shopping experience, secure checkout, and responsive design.',
-    image: '/assets/projects/ysstoree.webp',
-    tags: ['Next.js', 'React', 'E-commerce', 'Tailwind CSS'],
-    liveUrl: 'https://ysstoree.com/',
-    githubUrl: 'https://github.com/ysstoree/ysstoree',
-    displayType: 'iframe' as const,
+    title: "YSStoree",
+    description: "A modern e-commerce storefront designed to feel editorial, clear, and conversion-aware across devices.",
+    image: "/assets/projects/ysstoree.webp",
+    tags: ["Next.js", "React", "E-commerce", "Tailwind CSS"],
+    liveUrl: "https://ysstoree.com/",
+    githubUrl: "https://github.com/ysstoree/ysstoree",
+    role: "Frontend engineering, visual system design, storefront UX",
+    outcome: "Blended shopping utility with a more premium, lifestyle-driven presentation.",
+    impact: [
+      "Designed a stronger visual rhythm for browsing and product discovery.",
+      "Improved merchandising through better hierarchy and card treatment.",
+      "Pushed the interface toward a more brandable and memorable retail feel.",
+    ],
   },
   {
     id: 4,
     title: 'Henry Peter Portfolio',
-    description: 'A sophisticated, award-winning portfolio showcasing cinematic motion design, interactive layouts, and immersive visual storytelling.',
-    image: '/assets/projects/henrypeter.webp',
-    tags: ['React', 'Motion Design', 'Tailwind CSS'],
-    liveUrl: 'https://henrypeter.vercel.app/',
-    githubUrl: 'https://github.com/harshbix/henrypeter',
-  },
-  {
-    id: 5,
-    title: 'Overspeed Security',
-    description: 'A high-performance corporate website for a security firm, featuring a modern aesthetic, fluid animations, and a seamless device-responsive user experience.',
-    image: '/assets/projects/overspeed-security.webp',
-    tags: ['Vite', 'React', 'Tailwind CSS', 'AOS Animations'],
-    liveUrl: 'https://overspeed-security.vercel.app/',
-    githubUrl: 'https://github.com/harshbix/overspeed-security',
-    displayType: 'iframe' as const,
+    description: "A cinematic portfolio centered on motion, pacing, and immersive personal storytelling.",
+    image: "/assets/projects/henrypeter.webp",
+    tags: ["React", "Motion Design", "Tailwind CSS"],
+    liveUrl: "https://henrypeter.vercel.app/",
+    githubUrl: "https://github.com/harshbix/henrypeter",
+    role: "Creative engineering, motion direction, narrative layout",
+    outcome: "Built an atmospheric personal site that feels curated rather than templated.",
+    impact: [
+      "Used motion sequencing to control pacing and attention.",
+      "Built more immersive section transitions and visual reveals.",
+      "Showed how personal-brand work can still feel technically intentional.",
+    ],
   },
 ];
 
-const ProjectImage = ({ src, alt, priority, staticSnapshot }: { src: string, alt: string, priority?: boolean, staticSnapshot?: boolean }) => {
-  const [loaded, setLoaded] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [showCanvas, setShowCanvas] = useState(false);
-
-  useEffect(() => {
-    if (loaded && staticSnapshot && imgRef.current && canvasRef.current) {
-      // Capture the frame after a slight delay to allow the first frame or initial animation
-      const timer = setTimeout(() => {
-        const canvas = canvasRef.current;
-        const img = imgRef.current;
-        if (canvas && img) {
-          const ctx = canvas.getContext('2d');
-          if (ctx) {
-            canvas.width = img.naturalWidth;
-            canvas.height = img.naturalHeight;
-            ctx.drawImage(img, 0, 0);
-            setShowCanvas(true);
-          }
-        }
-      }, 1500); // 1.5 seconds after load
-      return () => clearTimeout(timer);
-    }
-  }, [loaded, staticSnapshot]);
-
-  return (
-    <div className="relative overflow-hidden w-full aspect-[16/10] bg-muted/10">
-      {/* Premium UI Skeleton Placeholder */}
-      <div
-        className={`absolute inset-0 z-20 flex items-center justify-center transition-all duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] ${loaded ? 'opacity-0 scale-110 blur-sm pointer-events-none' : 'opacity-100 scale-100 blur-0'
-          }`}
-      >
-        {/* Animated gradient wash */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-muted/10 to-accent/5 animate-pulse" />
-
-        {/* Liquid morphing spinner center */}
-        <div className="relative w-16 h-16 flex items-center justify-center">
-          <div className="absolute inset-0 rounded-full water-morph bg-primary/20 backdrop-blur-md border border-primary/30 animate-glow-pulse" />
-          <div className="w-6 h-6 rounded-full border-2 border-primary border-t-transparent animate-spin" />
-        </div>
-      </div>
-
-      {staticSnapshot && (
-        <canvas
-          ref={canvasRef}
-          className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 z-10 ${showCanvas ? 'opacity-100' : 'opacity-0'}`}
-        />
-      )}
-
-      <img
-        ref={imgRef}
-        src={src}
-        alt={alt}
-        className={`w-full h-full object-cover transition-all duration-1000 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 ${loaded ? 'blur-0 scale-100' : 'blur-md scale-105'} ${showCanvas ? 'opacity-0' : 'opacity-100'}`}
-        onLoad={() => setLoaded(true)}
-        loading={priority ? "eager" : "lazy"}
-        fetchpriority={priority ? "high" : "auto"}
-      />
-
-      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 pointer-events-none" />
-    </div>
-  );
-};
-
-const ProjectIframe = ({ url, title }: { url: string; title: string }) => {
-  const [isInteractive, setIsInteractive] = useState(false);
-
-  return (
-    <div className="relative w-full aspect-[16/10] flex flex-col bg-background/50 group">
-      {/* MacOS-style Browser Header */}
-      <div className="h-10 bg-muted/40 border-b border-border/40 flex items-center px-4 gap-4 shrink-0 transition-colors duration-300 group-hover:bg-muted/60">
-        <div className="flex gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-[#FF5F56] border border-[#E0443E]/50" />
-          <div className="w-3 h-3 rounded-full bg-[#FFBD2E] border border-[#DEA123]/50" />
-          <div className="w-3 h-3 rounded-full bg-[#27C93F] border border-[#1AAB29]/50" />
-        </div>
-        <div className="flex-1 flex justify-center opacity-70 group-hover:opacity-100 transition-opacity">
-          <div className="bg-background/80 text-[11px] text-muted-foreground px-3 py-1 rounded-md font-mono flex items-center justify-center max-w-[250px] w-full border border-border/50 shadow-sm truncate">
-            {url.replace('https://', '')}
-          </div>
-        </div>
-      </div>
-
-      {/* Iframe Content with Interaction Overlay */}
-      <div className="relative flex-1 bg-background overflow-hidden" onMouseLeave={() => setIsInteractive(false)}>
-        {!isInteractive && (
-          <div
-            className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-transparent cursor-pointer group-hover:bg-black/5 dark:group-hover:bg-black/20 transition-all duration-500"
-            onClick={() => setIsInteractive(true)}
-          >
-            <div className="bg-foreground/90 backdrop-blur-md text-background px-5 py-2.5 rounded-full font-medium shadow-xl translate-y-8 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 flex items-center gap-2">
-              <Eye className="w-4 h-4" />
-              Click to Interact
-            </div>
-          </div>
-        )}
-        <iframe
-          src={url}
-          title={title}
-          className="w-full h-full border-none object-cover"
-          loading="lazy"
-        />
-      </div>
-    </div>
-  );
+const cardVariants = {
+  hidden: { opacity: 0, y: 42 },
+  visible: (index: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      delay: index * 0.08,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
 };
 
 export const ProjectsSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const railY = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [120, -80]);
+
   return (
-    <section id="projects" className="py-20 px-6 relative">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center md:text-left mb-16 md:mb-24 md:max-w-2xl">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 tracking-tight text-foreground">
-            Selected Works.
+    <section
+      id="projects"
+      ref={sectionRef}
+      className="relative overflow-hidden border-b border-border/40 px-6 py-28 lg:px-12"
+    >
+      <motion.div
+        style={{ y: railY }}
+        className="pointer-events-none absolute right-[6%] top-20 hidden h-[70%] w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent lg:block"
+      />
+
+      <div className="mx-auto max-w-7xl">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-10%" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-14 max-w-3xl"
+        >
+          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">Selected Work</p>
+          <h2 className="mt-5 text-[clamp(2.8rem,6vw,5.8rem)] font-black leading-[0.94] tracking-tight text-foreground">
+            Projects that show taste,
+            <span className="block text-primary">systems thinking, and product judgment.</span>
           </h2>
-          <p className="text-xl text-muted-foreground leading-relaxed">
-            A curated selection of technical projects and live applications showcasing my ability to architect scalable systems and craft intuitive user experiences.
+          <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
+            Each project here is more than a screenshot. I&apos;m interested in how a product reads, performs, and earns trust in the first few moments of use.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Unified Projects Array (Awwwards Style Offset List) */}
-        <div className="space-y-24 md:space-y-32 mb-12">
+        <div className="space-y-12">
           {projects.map((project, index) => (
-            <div
+            <motion.article
               key={project.id}
-              className={`flex flex-col gap-8 md:gap-16 ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'
-                } items-center`}
+              custom={index}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-12%" }}
+              className="grid gap-6 rounded-[30px] border border-border/40 bg-card/30 p-5 backdrop-blur-xl md:p-7 lg:grid-cols-[1.1fr_0.9fr]"
             >
-              <div className="w-full lg:w-5/12 flex flex-col items-start text-left space-y-6 lg:px-4">
-                <div className="flex items-center gap-3">
-                  <span className="px-3 py-1 bg-secondary/80 text-foreground text-xs font-semibold uppercase tracking-widest rounded-full">
-                    {`0${index + 1}`}
+              <div className="relative overflow-hidden rounded-[24px] border border-border/40 bg-background/60">
+                <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between border-b border-border/40 bg-background/70 px-4 py-3 backdrop-blur-xl">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">
+                    Case {String(index + 1).padStart(2, "0")}
                   </span>
-                  <div className="h-px bg-border flex-1" />
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/50 bg-card/60 text-foreground transition-transform duration-300 hover:-translate-y-1"
+                    aria-label={`Open ${project.title}`}
+                  >
+                    <ArrowUpRight className="h-4 w-4" />
+                  </a>
+                </div>
+                <div className="aspect-[16/10] overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    loading={index < 2 ? "eager" : "lazy"}
+                    fetchpriority={index < 2 ? "high" : "auto"}
+                    className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col justify-between gap-8">
+                <div>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-border/50 bg-background/45 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 className="mt-5 text-3xl font-black tracking-tight text-foreground">{project.title}</h3>
+                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">{project.description}</p>
+
+                  <div className="mt-6 grid gap-4">
+                    <div className="rounded-2xl border border-border/40 bg-background/40 p-4">
+                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">Role</p>
+                      <p className="mt-2 text-sm leading-relaxed text-foreground/90">{project.role}</p>
+                    </div>
+                    <div className="rounded-2xl border border-border/40 bg-background/40 p-4">
+                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">Outcome</p>
+                      <p className="mt-2 text-sm leading-relaxed text-foreground/90">{project.outcome}</p>
+                    </div>
+                  </div>
                 </div>
 
-                <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">{project.title}</h3>
+                <div>
+                  <div className="space-y-3">
+                    {project.impact.map((item) => (
+                      <div key={item} className="flex items-start gap-3">
+                        <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary" />
+                        <p className="text-sm leading-relaxed text-muted-foreground">{item}</p>
+                      </div>
+                    ))}
+                  </div>
 
-                <p className="text-muted-foreground text-lg leading-relaxed">
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 pt-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1 rounded-full border border-border/50 text-muted-foreground text-sm font-medium"
+                  <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-foreground px-5 text-sm font-semibold uppercase tracking-[0.18em] text-background transition-transform duration-300 hover:-translate-y-1"
                     >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex gap-4 pt-6 w-full sm:w-auto">
-                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex-1 sm:flex-none">
-                    <button className="w-full px-6 py-3 rounded-xl bg-foreground text-background font-medium hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
-                      <Eye className="w-4 h-4" />
-                      Live Demo
-                    </button>
-                  </a>
-                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex-1 sm:flex-none">
-                    <button className="w-full px-6 py-3 rounded-xl border border-border bg-card/40 hover:bg-card/80 text-foreground font-medium transition-colors flex items-center justify-center gap-2">
-                      <Github className="w-4 h-4" />
-                      Code
-                    </button>
-                  </a>
-                </div>
-              </div>
-
-              <div className="w-full lg:w-7/12 relative group">
-                {/* Asymmetric offset block for human touch */}
-                <div className="absolute -inset-4 bg-primary/5 rounded-[2rem] -z-10 translate-y-4 translate-x-4 mix-blend-multiply opacity-50 dark:hidden" />
-                <div className="relative overflow-hidden rounded-[2rem] bg-muted/20 border border-border/40 shadow-xl">
-
-                  {project.displayType === 'iframe' ? (
-                    <ProjectIframe url={project.liveUrl} title={project.title} />
-                  ) : (
-                    <ProjectImage
-                      src={project.image}
-                      alt={project.title}
-                      priority={index < 2}
-                      staticSnapshot={project.staticSnapshot}
-                    />
-                  )}
-
-                  {project.displayType !== 'iframe' && (
-                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="absolute top-4 right-4 md:top-6 md:right-6 w-12 h-12 bg-background/90 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 text-foreground hover:bg-foreground hover:text-background shadow-lg z-30">
-                      <ExternalLink className="w-5 h-5" />
+                      <Eye className="h-4 w-4" />
+                      Live Site
                     </a>
-                  )}
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl border border-border/50 bg-card/40 px-5 text-sm font-semibold uppercase tracking-[0.18em] text-foreground transition-transform duration-300 hover:-translate-y-1"
+                    >
+                      <Github className="h-4 w-4" />
+                      Source
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
+            </motion.article>
           ))}
         </div>
       </div>

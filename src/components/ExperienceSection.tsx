@@ -1,4 +1,5 @@
-import { Briefcase, Calendar, MapPin } from 'lucide-react';
+import { Briefcase, Calendar, MapPin, Rocket, ShieldCheck, Users } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const experiences = [
   {
