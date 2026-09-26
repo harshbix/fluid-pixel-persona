@@ -25,13 +25,13 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Hero
     "hero.greeting": "Junior Jeconia",
-    "hero.title": "Frontend-leaning Full-Stack Developer.",
+    "hero.title": "Crafting Digital Systems.",
     "hero.subtitle": "I design and build websites, web applications, and digital systems with a strong focus on frontend craft and reliable architecture.",
-    "hero.viewWork": "View My Work",
-    "hero.contact": "Let's Talk",
+    "hero.viewWork": "View Work",
+    "hero.contact": "Book a Call",
     "hero.available": "Available for select projects",
-    "hero.cardTitle": "Book a call",
-    "hero.cardSubtitle": "15-minute conversation about your project or hardware requirements.",
+    "hero.cardTitle": "Book a Call",
+    "hero.cardSubtitle": "Have a project or idea? Let's discuss.",
     "hero.cardBtn": "Schedule Call",
 
     // CTA
@@ -63,13 +63,13 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Hero
     "hero.greeting": "Junior Jeconia",
-    "hero.title": "Msanidi Programu & Mhandisi wa Wavuti.",
+    "hero.title": "Kutengeneza Mifumo ya Kidijitali.",
     "hero.subtitle": "Ninatengeneza tovuti, mifumo ya kidijitali, na programu za kisasa nikizingatia utendaji wa haraka na uzoefu bora wa mtumiaji.",
-    "hero.viewWork": "Tazama Kazi Zangu",
-    "hero.contact": "Tuwasiliane",
+    "hero.viewWork": "Tazama Kazi",
+    "hero.contact": "Panga Mazungumzo",
     "hero.available": "Ninapatikana kwa miradi mipya",
     "hero.cardTitle": "Panga Mazungumzo",
-    "hero.cardSubtitle": "Mazungumzo mafupi ya dakika 15 kujadili mradi wako au mahitaji ya mifumo.",
+    "hero.cardSubtitle": "Una mradi au wazo? Tuzungumze.",
     "hero.cardBtn": "Weka Miadi",
 
     // CTA
