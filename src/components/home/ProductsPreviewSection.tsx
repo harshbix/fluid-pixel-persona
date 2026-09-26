@@ -83,7 +83,7 @@ export const ProductsPreviewSection: React.FC = () => {
 
               {/* Action buttons */}
               <div className="pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between gap-4 flex-wrap">
-                <span className="text-xs font-mono text-gray-400">
+                <span className="text-xs font-mono text-gray-500 dark:text-gray-400">
                   {prod.format} &bull; {prod.version}
                 </span>
 

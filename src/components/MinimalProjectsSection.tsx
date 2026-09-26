@@ -70,7 +70,7 @@ export const MinimalProjectsSection = () => {
               <div className="overflow-hidden rounded-[22px] border border-border/40">
                 <img
                   src={work.image}
-                  alt={work.title}
+                  alt={work.imageAlt || work.title}
                   loading={index < 2 ? "eager" : "lazy"}
                   className="aspect-[16/10] w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />

@@ -68,7 +68,7 @@ export const SelectedWorkSection = () => {
               <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 aspect-[16/10] bg-gray-100 dark:bg-gray-800 relative group">
                 <img
                   src={featured.image}
-                  alt={featured.title}
+                  alt={featured.imageAlt || featured.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="eager"
                 />
@@ -79,7 +79,7 @@ export const SelectedWorkSection = () => {
                   <span className="px-3 py-1 rounded-full bg-[#1a3a35]/10 dark:bg-emerald-500/20 text-[#1a3a35] dark:text-emerald-300 text-xs font-semibold uppercase tracking-wider">
                     {featured.category}
                   </span>
-                  <span className="text-xs text-gray-400 font-mono">{featured.timeline}</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">{featured.timeline}</span>
                 </div>
 
                 <h3 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
@@ -152,7 +152,7 @@ export const SelectedWorkSection = () => {
                   <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800 aspect-[16/10] bg-gray-100 dark:bg-gray-800 relative mb-4">
                     <img
                       src={project.image}
-                      alt={project.title}
+                      alt={project.imageAlt || project.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
                     />

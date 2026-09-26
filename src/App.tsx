@@ -20,8 +20,13 @@ const Products = lazy(() => import("./pages/Products"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Resume = lazy(() => import("./pages/Resume"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const Terms = lazy(() => import("./pages/Terms"));
+const RefundPolicy = lazy(() => import("./pages/RefundPolicy"));
+const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
 
 import { LanguageProvider } from "./context/LanguageContext";
+import { CookieConsent } from "./components/common/CookieConsent";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +49,7 @@ const App = () => (
           <Loader />
           <BrowserRouter>
             <ScrollToTop />
+            <CookieConsent />
             <div className="min-h-screen bg-background text-foreground flex flex-col relative selection:bg-primary/20 selection:text-primary">
               <div className="relative z-10 flex flex-col flex-1">
                 <Navbar />
@@ -56,10 +62,17 @@ const App = () => (
                     <Route path="/projects/:slug" element={<ProjectDetail />} />
                     <Route path="/services" element={<Services />} />
                     <Route path="/products" element={<Products />} />
+                    <Route path="/ebooks" element={<Navigate to="/products" replace />} />
+                    <Route path="/resources" element={<Navigate to="/products" replace />} />
                     <Route path="/notes" element={<Notes />} />
                     <Route path="/blog" element={<Navigate to="/notes" replace />} />
                     <Route path="/resume" element={<Resume />} />
                     <Route path="/contact" element={<Contact />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="/terms" element={<Terms />} />
+                    <Route path="/terms-and-conditions" element={<Navigate to="/terms" replace />} />
+                    <Route path="/refund-policy" element={<RefundPolicy />} />
+                    <Route path="/cookie-policy" element={<CookiePolicy />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Suspense>

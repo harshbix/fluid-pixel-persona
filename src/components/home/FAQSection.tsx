@@ -31,7 +31,7 @@ export const FAQSection = () => {
               <div className="absolute inset-0 rounded-[12px] overflow-hidden border border-gray-200 dark:border-gray-800 shadow-md">
                 <img
                   src="/assets/about-2.jpg"
-                  alt="Junior Jeconia workspace"
+                  alt="Junior Jeconia engineering workspace and developer desk in Dar es Salaam"
                   className="w-full h-full object-cover grayscale-[15%]"
                   loading="lazy"
                 />

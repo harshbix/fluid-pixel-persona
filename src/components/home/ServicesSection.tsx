@@ -51,7 +51,7 @@ export const ServicesSection = () => {
                   <div>
                     {/* Top Bar with Number & Icon */}
                     <div className="flex items-center justify-between mb-5">
-                      <span className="text-xs font-mono font-bold text-gray-400 group-hover:text-emerald-300 transition-colors">
+                      <span className="text-xs font-mono font-bold text-gray-500 dark:text-gray-400 group-hover:text-emerald-300 transition-colors">
                         {service.number}
                       </span>
                       <div className="w-9 h-9 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-[#1a3a35] dark:text-white group-hover:bg-white/10 group-hover:text-white transition-all duration-300">

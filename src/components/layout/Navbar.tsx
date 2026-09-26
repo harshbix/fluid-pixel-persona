@@ -152,6 +152,7 @@ export function Navbar() {
             <button
               type="button"
               onClick={toggleLanguage}
+              aria-label={language === "en" ? "Switch language to Swahili" : "Switch language to English"}
               className="px-2.5 py-1 rounded-md text-xs font-mono font-bold tracking-wider uppercase text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
               title={language === "en" ? "Badili kwenda Kiswahili" : "Switch to English"}
             >
@@ -163,7 +164,7 @@ export function Navbar() {
               type="button"
               onClick={toggleTheme}
               className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none"
-              aria-label="Toggle theme"
+              aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
               title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
               {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-gray-700" />}
@@ -216,6 +217,7 @@ export function Navbar() {
                   <button
                     type="button"
                     onClick={() => setOpen(false)}
+                    aria-label="Close navigation menu"
                     className="p-1.5 rounded-lg text-gray-500 hover:text-gray-900 dark:hover:text-white"
                   >
                     <X className="w-5 h-5" />

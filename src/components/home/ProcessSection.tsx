@@ -71,7 +71,7 @@ export const ProcessSection = () => {
                     <span className="text-2xl font-bold font-mono text-[#1a3a35] dark:text-emerald-400">
                       {stage.number}
                     </span>
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-gray-400">
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-gray-500 dark:text-gray-400">
                       {stage.phase.split(" & ")[0]}
                     </span>
                   </div>
@@ -86,7 +86,7 @@ export const ProcessSection = () => {
                 </div>
 
                 <div className="pt-4 border-t border-gray-100 dark:border-gray-800/80 space-y-1.5">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block mb-1">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400 block mb-1">
                     Deliverables:
                   </span>
                   {stage.deliverables.map((del) => (

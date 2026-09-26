@@ -6,6 +6,7 @@ export interface Project {
   summary: string;
   description: string;
   image: string;
+  imageAlt?: string;
   tags: string[];
   liveUrl: string;
   githubUrl: string;
@@ -278,6 +279,7 @@ export const PROJECTS: Project[] = [
     description:
       "Bixx Dictionary transforms traditional reference lookup into a clean, typography-led digital reading tool. Built with React and modern API integration, it features phonetic pronunciation audio, comprehensive definitions, synonym indexing, and keyboard-first accessibility.",
     image: "/assets/projects/bixxdictionary.webp",
+    imageAlt: "Bixx Dictionary clean lexical reference user interface showing word definition, phonetic pronunciation, and dark mode typography",
     tags: ["React", "TypeScript", "Dictionary API", "Tailwind CSS", "Vite"],
     liveUrl: "https://bixxdictionary.vercel.app/",
     githubUrl: "https://github.com/harshbix/bixxdictionary",
@@ -315,6 +317,7 @@ export const PROJECTS: Project[] = [
     description:
       "An official nonprofit web platform designed to establish instant institutional trust, clearly communicate organizational mission, and guide prospective donors through streamlined conversion funnels.",
     image: "/assets/projects/recanfoundation.webp",
+    imageAlt: "RECAN Foundation nonprofit web portal homepage showcasing community initiatives, donor engagement section, and mobile-friendly navigation",
     tags: ["React", "Next.js", "Tailwind CSS", "Responsive UX", "SEO"],
     liveUrl: "https://recanfoundation.org/",
     githubUrl: "https://github.com/harshbix/recanfoundation",
@@ -350,6 +353,7 @@ export const PROJECTS: Project[] = [
     description:
       "A corporate web platform for a professional security firm, engineered with a bold, authoritative visual identity that communicates protection, compliance, and enterprise reliability.",
     image: "/assets/projects/overspeed-security.webp",
+    imageAlt: "Overspeed Security corporate portal displaying security service operations, dispatch request options, and enterprise credentials",
     tags: ["React", "Tailwind CSS", "Motion Systems", "Corporate UX"],
     liveUrl: "https://overspeed-security.vercel.app/",
     githubUrl: "https://github.com/harshbix/overspeed-security",
@@ -385,6 +389,7 @@ export const PROJECTS: Project[] = [
     description:
       "A tailored portfolio experience engineered with custom motion curves, rhythm-led section transitions, and an immersive gallery layout that highlights creative work without sacrificing performance.",
     image: "/assets/projects/henrypeter.webp",
+    imageAlt: "Henry Peter creative portfolio showcase featuring typography-driven gallery and smooth interactive project presentations",
     tags: ["React", "Framer Motion", "Tailwind CSS", "Creative Tech"],
     liveUrl: "https://henrypeter.vercel.app/",
     githubUrl: "https://github.com/harshbix/henrypeter",
@@ -419,6 +424,7 @@ export const PROJECTS: Project[] = [
     description:
       "A developer and designer utility that generates mathematically balanced color palettes, evaluates WCAG contrast ratios in real time, and exports CSS variables and Tailwind configuration snippets.",
     image: "/assets/projects/serene-palette-app.webp",
+    imageAlt: "Serene Palette Studio design tool interface displaying real-time WCAG color contrast scoring, palette generation, and CSS code export",
     tags: ["React", "TypeScript", "Tailwind CSS", "Design Tokens"],
     liveUrl: "https://serene-palette-app.vercel.app/",
     githubUrl: "https://github.com/harshbix/serene-palette-app",
@@ -452,6 +458,7 @@ export const PROJECTS: Project[] = [
     description:
       "A focused productivity web app designed around high execution speed, instant offline persistence, and zero unnecessary ceremony. Built for developers and busy builders.",
     image: "/assets/projects/todolist-bix.webp",
+    imageAlt: "Bixx Workflow Tracker task manager dashboard highlighting fast keyboard input, priority filters, and offline storage status",
     tags: ["React", "TypeScript", "LocalStorage State", "Tailwind CSS"],
     liveUrl: "https://todolist-bix.vercel.app/",
     githubUrl: "https://github.com/harshbix/todolist-bix",

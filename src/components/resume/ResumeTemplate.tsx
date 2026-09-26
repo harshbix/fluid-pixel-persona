@@ -8,7 +8,7 @@ export const ResumeTemplate = React.forwardRef<HTMLDivElement, { data: ResumeDat
         {/* Header */}
         <div className="flex items-center gap-8 mb-10">
           {data.image ? (
-            <img src={data.image} alt={data.name} className="w-28 h-28 rounded-full object-cover border border-neutral-200" />
+            <img src={data.image} alt={`${data.name} professional headshot`} className="w-28 h-28 rounded-full object-cover border border-neutral-200" />
           ) : (
             <div className="w-28 h-28 rounded-full bg-neutral-200 flex items-center justify-center text-4xl font-light">
               {data.name.split(' ').map(n => n[0]).join('').toUpperCase()}

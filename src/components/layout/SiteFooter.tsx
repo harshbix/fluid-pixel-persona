@@ -133,8 +133,37 @@ export function SiteFooter() {
           </div>
         </div>
 
+        {/* Legal & Trust Links Strip */}
+        <div className="py-6 border-b border-gray-200 dark:border-gray-800 flex flex-wrap items-center justify-between gap-4 text-xs text-gray-600 dark:text-gray-400">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <Link to="/privacy-policy" className="hover:text-[#1a3a35] dark:hover:text-emerald-400 transition-colors">
+              Privacy Policy
+            </Link>
+            <Link to="/terms" className="hover:text-[#1a3a35] dark:hover:text-emerald-400 transition-colors">
+              Terms &amp; Conditions
+            </Link>
+            <Link to="/refund-policy" className="hover:text-[#1a3a35] dark:hover:text-emerald-400 transition-colors">
+              Refund Policy
+            </Link>
+            <Link to="/cookie-policy" className="hover:text-[#1a3a35] dark:hover:text-emerald-400 transition-colors">
+              Cookie Policy
+            </Link>
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent("open-cookie-settings"))}
+              className="hover:text-[#1a3a35] dark:hover:text-emerald-400 transition-colors underline-offset-2 hover:underline"
+            >
+              Cookie Settings
+            </button>
+          </div>
+
+          <div className="text-xs text-gray-600 dark:text-gray-400">
+            <span>Operating from Dar es Salaam, Tanzania &bull; Verified Portfolio</span>
+          </div>
+        </div>
+
         {/* Bottom copyright row */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500 dark:text-gray-500">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-600 dark:text-gray-400">
           <p>© {currentYear} Junior Jeconia. All rights reserved.</p>
           <p>
             Designed &amp; engineered in Dar es Salaam, Tanzania.

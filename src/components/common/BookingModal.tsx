@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { X, MessageCircle, Mail, Send, CheckCircle2, ArrowUpRight, Calendar, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
+import { X, MessageCircle, Mail, CheckCircle2, ArrowUpRight, Calendar } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PERSONAL_INFO } from "../../data/portfolioData";
 
@@ -58,12 +59,15 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
             exit={{ opacity: 0, scale: 0.95, y: 16 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="relative w-full max-w-xl rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl p-6 sm:p-8 z-10 my-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="booking-modal-title"
           >
             {/* Close Button */}
             <button
               type="button"
               onClick={onClose}
-              className="absolute top-5 right-5 p-2 rounded-full text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="absolute top-5 right-5 p-2 rounded-full text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus-visible:ring-2 focus-visible:ring-[#1a3a35]"
               aria-label="Close booking modal"
             >
               <X className="w-5 h-5" />
@@ -75,9 +79,9 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                 <Calendar className="w-3.5 h-3.5" />
                 Schedule a Consultation
               </div>
-              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+              <h2 id="booking-modal-title" className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
                 Let&apos;s Discuss Your Project
-              </h3>
+              </h2>
               <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
                 Choose the fastest way to connect with Junior Jeconia:
               </p>
@@ -118,7 +122,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
             {submitted ? (
               <div className="p-6 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center space-y-3">
                 <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
-                <h4 className="text-lg font-bold text-gray-900 dark:text-white">Request Received!</h4>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">Request Received!</h3>
                 <p className="text-xs text-gray-600 dark:text-gray-300">
                   Thank you! I will review your requirements and reach out via email within 24 hours.
                 </p>
@@ -134,50 +138,65 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
               <form onSubmit={handleSubmit} className="space-y-4 pt-2 border-t border-gray-200 dark:border-gray-800">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                      Your Name
+                    <label htmlFor="booking-name" className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                      Your Name *
                     </label>
                     <input
+                      id="booking-name"
                       type="text"
                       required
+                      aria-required="true"
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       placeholder="Alex Taylor"
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1a3a35]"
+                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1a3a35] dark:focus:ring-emerald-400"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                      Your Email
+                    <label htmlFor="booking-email" className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                      Your Email *
                     </label>
                     <input
+                      id="booking-email"
                       type="email"
                       required
+                      aria-required="true"
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       placeholder="alex@company.com"
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1a3a35]"
+                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1a3a35] dark:focus:ring-emerald-400"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                    What are you looking to build?
+                  <label htmlFor="booking-message" className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                    What are you looking to build? *
                   </label>
                   <textarea
+                    id="booking-message"
                     rows={3}
+                    required
+                    aria-required="true"
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     placeholder="Briefly describe your product goals, requirements, or timeframe..."
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1a3a35] resize-none"
+                    className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1a3a35] dark:focus:ring-emerald-400 resize-none"
                   />
                 </div>
+
+                {/* Consent Disclosure */}
+                <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed">
+                  By submitting, you agree that your details will be used solely to respond to your consultation request in accordance with the{" "}
+                  <Link to="/privacy-policy" onClick={onClose} className="text-[#1a3a35] dark:text-emerald-400 font-semibold underline underline-offset-2">
+                    Privacy Policy
+                  </Link>.
+                </p>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-full bg-[#1a3a35] hover:bg-[#142d29] text-white font-semibold text-sm transition-all duration-300 shadow-md disabled:opacity-50"
+                  className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-full bg-[#1a3a35] hover:bg-[#142d29] text-white font-semibold text-sm transition-all duration-300 shadow-md disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-[#1a3a35]"
                 >
                   {loading ? (
                     <span>Submitting...</span>

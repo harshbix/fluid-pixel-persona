@@ -190,14 +190,18 @@ export default function Contact() {
                       <input
                         id="name"
                         type="text"
+                        required
+                        aria-required="true"
+                        aria-invalid={!!errors.name}
+                        aria-describedby={errors.name ? "name-error" : undefined}
                         value={form.name}
                         onChange={(e) => setForm({ ...form, name: e.target.value })}
                         placeholder="Alex Morgan"
-                        className={`w-full rounded-[10px] border bg-gray-50 dark:bg-gray-800/60 px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a3a35] ${
+                        className={`w-full rounded-[10px] border bg-gray-50 dark:bg-gray-800/60 px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a3a35] dark:focus:ring-emerald-400 ${
                           errors.name ? "border-red-500" : "border-gray-200 dark:border-gray-700"
                         }`}
                       />
-                      {errors.name && <p className="text-[11px] text-red-500 mt-1">{errors.name}</p>}
+                      {errors.name && <p id="name-error" role="alert" className="text-[11px] text-red-500 mt-1">{errors.name}</p>}
                     </div>
 
                     <div>
@@ -207,26 +211,31 @@ export default function Contact() {
                       <input
                         id="email"
                         type="email"
+                        required
+                        aria-required="true"
+                        aria-invalid={!!errors.email}
+                        aria-describedby={errors.email ? "email-error" : undefined}
                         value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
                         placeholder="alex@company.com"
-                        className={`w-full rounded-[10px] border bg-gray-50 dark:bg-gray-800/60 px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a3a35] ${
+                        className={`w-full rounded-[10px] border bg-gray-50 dark:bg-gray-800/60 px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a3a35] dark:focus:ring-emerald-400 ${
                           errors.email ? "border-red-500" : "border-gray-200 dark:border-gray-700"
                         }`}
                       />
-                      {errors.email && <p className="text-[11px] text-red-500 mt-1">{errors.email}</p>}
+                      {errors.email && <p id="email-error" role="alert" className="text-[11px] text-red-500 mt-1">{errors.email}</p>}
                     </div>
                   </div>
 
                   {/* Budget */}
                   <div>
-                    <label className="block text-xs font-mono font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="budget" className="block text-xs font-mono font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
                       Estimated Project Budget (Optional)
                     </label>
                     <select
+                      id="budget"
                       value={form.budget}
                       onChange={(e) => setForm({ ...form, budget: e.target.value })}
-                      className="w-full rounded-[10px] border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1a3a35]"
+                      className="w-full rounded-[10px] border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1a3a35] dark:focus:ring-emerald-400"
                     >
                       {BUDGET_RANGES.map((b) => (
                         <option key={b} value={b} className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
@@ -244,21 +253,33 @@ export default function Contact() {
                     <textarea
                       id="message"
                       rows={5}
+                      required
+                      aria-required="true"
+                      aria-invalid={!!errors.message}
+                      aria-describedby={errors.message ? "message-error" : undefined}
                       value={form.message}
                       onChange={(e) => setForm({ ...form, message: e.target.value })}
                       placeholder="Describe what you want to build, timelines, technical requirements, or business goals..."
-                      className={`w-full rounded-[10px] border bg-gray-50 dark:bg-gray-800/60 p-4 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a3a35] resize-none ${
+                      className={`w-full rounded-[10px] border bg-gray-50 dark:bg-gray-800/60 p-4 text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a3a35] dark:focus:ring-emerald-400 resize-none ${
                         errors.message ? "border-red-500" : "border-gray-200 dark:border-gray-700"
                       }`}
                     />
-                    {errors.message && <p className="text-[11px] text-red-500 mt-1">{errors.message}</p>}
+                    {errors.message && <p id="message-error" role="alert" className="text-[11px] text-red-500 mt-1">{errors.message}</p>}
                   </div>
+
+                  {/* Form Consent Notice */}
+                  <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                    By submitting this form, you agree that your details will be used solely to respond to your project inquiry. See{" "}
+                    <Link to="/privacy-policy" className="text-[#1a3a35] dark:text-emerald-400 font-semibold underline underline-offset-2">
+                      Privacy Policy
+                    </Link>. Your information is never sold or used for marketing spam.
+                  </p>
 
                   {/* Submit Button */}
                   <button
                     type="submit"
                     disabled={status === "submitting"}
-                    className="w-full inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#1a3a35] hover:bg-[#132c28] px-8 text-xs font-bold uppercase tracking-wider text-white transition-all shadow-md disabled:opacity-50"
+                    className="w-full inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#1a3a35] hover:bg-[#132c28] px-8 text-xs font-bold uppercase tracking-wider text-white transition-all shadow-md disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1a3a35]"
                   >
                     {status === "submitting" ? (
                       <span>Sending inquiry...</span>
@@ -324,7 +345,7 @@ export default function Contact() {
                     <span className="text-xs text-gray-500 dark:text-gray-400 block">{PERSONAL_INFO.phone}</span>
                   </div>
                 </div>
-                <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-emerald-500 transition-colors" />
+                <ArrowUpRight className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-emerald-500 transition-colors" />
               </a>
 
               {/* Email Card */}
@@ -337,14 +358,14 @@ export default function Contact() {
                     <Mail className="w-6 h-6" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-gray-400 block">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 block">
                       Direct Email
                     </span>
                     <span className="text-base font-bold text-gray-900 dark:text-white">{PERSONAL_INFO.email}</span>
                     <span className="text-xs text-gray-500 dark:text-gray-400 block">Replies within 24h</span>
                   </div>
                 </div>
-                <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-[#1a3a35] dark:group-hover:text-emerald-400 transition-colors" />
+                <ArrowUpRight className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-[#1a3a35] dark:group-hover:text-emerald-400 transition-colors" />
               </a>
 
               {/* Location & Timezone Details */}

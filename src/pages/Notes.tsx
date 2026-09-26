@@ -90,8 +90,8 @@ export default function Notes() {
                       <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 text-xs font-mono font-semibold uppercase tracking-wider text-[#1a3a35] dark:text-emerald-400">
                         {selectedNote.category}
                       </span>
-                      <span className="text-xs font-mono text-gray-400">{selectedNote.date}</span>
-                      <span className="text-xs font-mono text-gray-400">&bull; {selectedNote.readTime}</span>
+                      <span className="text-xs font-mono text-gray-500 dark:text-gray-400">{selectedNote.date}</span>
+                      <span className="text-xs font-mono text-gray-500 dark:text-gray-400">&bull; {selectedNote.readTime}</span>
                     </div>
                     <button
                       type="button"
@@ -118,7 +118,7 @@ export default function Notes() {
 
                   {/* Connected Digital Materials Link */}
                   <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between flex-wrap gap-4">
-                    <span className="text-xs font-mono text-gray-400">
+                    <span className="text-xs font-mono text-gray-500 dark:text-gray-400">
                       Author: Junior Jeconia (harshbix)
                     </span>
                     <Link
@@ -145,7 +145,7 @@ export default function Notes() {
                   className="group rounded-[16px] border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/60 p-6 sm:p-8 hover:border-[#1a3a35] dark:hover:border-emerald-500/40 transition-all duration-300 hover:shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-6"
                 >
                   <div className="max-w-2xl">
-                    <div className="flex items-center gap-3 text-xs text-gray-400 mb-2 font-mono">
+                    <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mb-2 font-mono">
                       <span className="text-[#1a3a35] dark:text-emerald-400 font-semibold uppercase tracking-wider">
                         {note.category}
                       </span>

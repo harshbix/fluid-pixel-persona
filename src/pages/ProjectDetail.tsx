@@ -52,7 +52,7 @@ export default function ProjectDetail() {
                 <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1 text-xs font-mono font-semibold uppercase tracking-wider text-[#1a3a35] dark:text-emerald-400">
                   {project.category}
                 </span>
-                <span className="text-xs font-mono text-gray-400">{project.timeline}</span>
+                <span className="text-xs font-mono text-gray-500 dark:text-gray-400">{project.timeline}</span>
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.05]">
@@ -92,25 +92,25 @@ export default function ProjectDetail() {
             {/* Quick Metadata Grid */}
             <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 grid grid-cols-2 md:grid-cols-4 gap-6 text-xs font-mono">
               <div>
-                <span className="text-gray-400 block uppercase tracking-wider text-[10px] mb-1">
+                <span className="text-gray-500 dark:text-gray-400 block uppercase tracking-wider text-[10px] mb-1">
                   Role
                 </span>
                 <span className="font-semibold text-gray-900 dark:text-white">{project.role}</span>
               </div>
               <div>
-                <span className="text-gray-400 block uppercase tracking-wider text-[10px] mb-1">
+                <span className="text-gray-500 dark:text-gray-400 block uppercase tracking-wider text-[10px] mb-1">
                   Timeline
                 </span>
                 <span className="font-semibold text-gray-900 dark:text-white">{project.timeline}</span>
               </div>
               <div>
-                <span className="text-gray-400 block uppercase tracking-wider text-[10px] mb-1">
+                <span className="text-gray-500 dark:text-gray-400 block uppercase tracking-wider text-[10px] mb-1">
                   Frontend
                 </span>
                 <span className="font-semibold text-gray-900 dark:text-white">{project.architecture.frontend.split(' ')[0]}</span>
               </div>
               <div>
-                <span className="text-gray-400 block uppercase tracking-wider text-[10px] mb-1">
+                <span className="text-gray-500 dark:text-gray-400 block uppercase tracking-wider text-[10px] mb-1">
                   Deployment
                 </span>
                 <span className="font-semibold text-gray-900 dark:text-white">{project.architecture.deployment.split(' ')[0]}</span>
@@ -125,7 +125,7 @@ export default function ProjectDetail() {
             <div className="rounded-[16px] overflow-hidden border border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-950 shadow-2xl">
               <img
                 src={project.image}
-                alt={`${project.title} full interface`}
+                alt={project.imageAlt || `${project.title} full interface`}
                 className="w-full h-auto object-cover"
               />
             </div>
@@ -247,7 +247,7 @@ export default function ProjectDetail() {
         <section className="px-6 lg:px-8 py-16 bg-gray-50 dark:bg-gray-900/40 border-b border-gray-200 dark:border-gray-800">
           <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
             <div>
-              <span className="text-xs font-mono font-semibold uppercase tracking-widest text-gray-400">
+              <span className="text-xs font-mono font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">
                 Next Case Study
               </span>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-1">

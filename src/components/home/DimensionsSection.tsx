@@ -50,7 +50,7 @@ export const DimensionsSection: React.FC = () => {
                     <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-[#1a3a35] dark:text-emerald-400">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-gray-400">
+                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                       {item.label}
                     </span>
                   </div>

@@ -162,7 +162,7 @@ export const ProjectsSection = () => {
                 <div className="aspect-[16/10] overflow-hidden">
                   <img
                     src={project.image}
-                    alt={project.title}
+                    alt={project.imageAlt || project.title}
                     loading={index < 2 ? "eager" : "lazy"}
                     fetchpriority={index < 2 ? "high" : "auto"}
                     className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"

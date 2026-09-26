@@ -117,7 +117,7 @@ export default function Products() {
 
                       {/* Included Features */}
                       <div className="rounded-[12px] bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-800 mb-6">
-                        <span className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block mb-2">
+                        <span className="text-[10px] font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400 block mb-2">
                           What is Included
                         </span>
                         <ul className="space-y-2">
@@ -133,7 +133,7 @@ export default function Products() {
 
                     {/* Footer Actions */}
                     <div className="pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between gap-4 flex-wrap">
-                      <span className="text-xs font-mono text-gray-400">
+                      <span className="text-xs font-mono text-gray-500 dark:text-gray-400">
                         {prod.format} &bull; {prod.version}
                       </span>
 

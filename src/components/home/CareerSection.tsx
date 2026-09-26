@@ -84,7 +84,7 @@ export const CareerSection: React.FC = () => {
 
               {/* Achievements with Kepha subtle checkmarks */}
               <div className="mt-6 pt-5 border-t border-gray-100 dark:border-gray-800/60">
-                <span className="text-[11px] font-mono uppercase tracking-widest text-gray-400 block mb-3">
+                <span className="text-[11px] font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400 block mb-3">
                   Key Outcomes &amp; Deliverables
                 </span>
                 <div className="grid md:grid-cols-3 gap-3">

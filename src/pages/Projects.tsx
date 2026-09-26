@@ -91,7 +91,7 @@ export default function Projects() {
                       <div className="rounded-[12px] overflow-hidden border border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-950 aspect-[16/10] relative mb-6">
                         <img
                           src={project.image}
-                          alt={project.title}
+                          alt={project.imageAlt || project.title}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           loading="lazy"
                         />
@@ -107,7 +107,7 @@ export default function Projects() {
                         <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white group-hover:text-[#1a3a35] dark:group-hover:text-emerald-400 transition-colors tracking-tight">
                           {project.title}
                         </h2>
-                        <span className="text-xs font-mono text-gray-400">{project.timeline}</span>
+                        <span className="text-xs font-mono text-gray-500 dark:text-gray-400">{project.timeline}</span>
                       </div>
 
                       <p className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-3">

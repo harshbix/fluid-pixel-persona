@@ -99,6 +99,24 @@
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "San Francisco", system-ui, sans-serif;
   }
 
+  /* Universal accessible keyboard focus ring */
+  :focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+
+  /* System Reduced Motion Respect */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   /* Water-glass component styles — refined liquid glass */
   .glass-panel {
     /* Two-layer background: top specular sheen + semi-transparent base */

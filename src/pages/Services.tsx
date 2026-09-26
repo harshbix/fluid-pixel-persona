@@ -94,7 +94,7 @@ export default function Services() {
 
                       {/* Tech Used */}
                       <div className="pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center gap-2 flex-wrap">
-                        <span className="text-xs text-gray-400 font-mono">Tools:</span>
+                        <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">Tools:</span>
                         {service.technologies.map((t) => (
                           <span
                             key={t}
