@@ -39,9 +39,9 @@ type Project = (typeof projects)[number];
 export function buildResumeData(): ResumeData {
   // AboutSection data (adjust if you use context or props)
   const name = 'Junior Jeconia';
-  const role = 'Software Engineer, Web Developer & Dancer';
-  const bio = 'I believe in the power of technology to transform ideas into reality. Balancing professional rigor with a lifelong interest in gaming and the performing arts, I bring a versatile eye for detail to forward-thinking digital projects.';
-  const image = '/assets/about-1.jpg';
+  const role = 'Frontend-leaning Full-Stack Developer';
+  const bio = 'Frontend-leaning full-stack developer and product builder based in Dar es Salaam, Tanzania. Specializing in high-performance web applications, accessible UI/UX systems, and reliable full-stack architecture with React, TypeScript, and Node.js.';
+  const image = '/assets/profile.jpg';
 
   // Skills from AboutSection
   // If AboutSection exports skills as default, adjust import

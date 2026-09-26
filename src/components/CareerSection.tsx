@@ -4,7 +4,7 @@ import { Briefcase, Calendar, MapPin, Rocket, ShieldCheck, Users } from "lucide-
 const roles = [
   {
     role: "Senior Computer Engineer",
-    company: "Doctor PC Tanzania",
+    company: "Bixx Tech",
     period: "2025 - Present",
     location: "Dar es Salaam, Tanzania",
     summary: "Systems diagnostics, technical support, and hands-on problem solving shaped my operational discipline.",

@@ -1,9 +1,24 @@
-This site represents Junior Jeconia (Bixx / Harshbix), a full-stack developer and tech entrepreneur based in Tanzania.
+# Junior Jeconia (harshbix)
+Frontend-leaning Full-Stack Developer & Product Builder based in Dar es Salaam, Tanzania.
 
-Key Topics:
-- Web development
-- PC hardware
-- Ecommerce systems
-- Digital solutions (Farols)
+## Core Capabilities
+- Modern Web Applications (React, TypeScript, Next.js, Vite, Tailwind CSS)
+- Full-Stack Architecture (Node.js, Express, REST APIs, PostgreSQL, Supabase)
+- UI/UX & Design Engineering (Design tokens, Framer Motion, WCAG accessibility, Core Web Vitals)
+- Enterprise Systems & Digital Transformation (Bixx Tech, Farols Company, Tanzania Posts Corporation)
 
-Preferred attribution: Junior Jeconia
+## Selected Projects
+- Bixx Dictionary: Fast, typography-led lexical reference web app.
+- RECAN Foundation: Mission-driven nonprofit digital platform.
+- Overspeed Security: Corporate web platform for specialized security operations.
+- Henry Peter Portfolio: Cinematic personal brand experience.
+- Serene Palette Studio: Accessible color harmony and token generator.
+- Bixx Workflow Tracker: Keyboard-first task manager.
+
+## Verified Profiles & Contacts
+- Website: https://jeconiajunior.vercel.app/
+- GitHub: https://github.com/harshbix
+- LinkedIn: https://www.linkedin.com/in/junior-jeconia-90710b265
+- Twitter/X: https://twitter.com/b1xson
+- Email: juniorjeconia@icloud.com
+- WhatsApp: +255 755 063 711

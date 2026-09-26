@@ -4,7 +4,7 @@ import { Briefcase, Calendar, MapPin } from "lucide-react";
 const roles = [
   {
     role: "Senior Computer Engineer",
-    company: "Doctor PC Tanzania",
+    company: "Bixx Tech",
     period: "2025 - Present",
     location: "Dar es Salaam, Tanzania",
   },

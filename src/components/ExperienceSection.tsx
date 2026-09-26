@@ -5,7 +5,7 @@ export const experiences = [
   {
     id: 1,
     role: 'Senior Computer Engineer',
-    company: 'Doctor Pc Tanzania',
+    company: 'Bixx Tech',
     location: 'Dar es Salaam, Tanzania',
     period: '2025 - Present',
     description: 'Directing enterprise-level hardware diagnostics, system optimization, and technical infrastructure operations.',
@@ -38,10 +38,10 @@ export const experiences = [
     company: 'Tanzania Posts Corporation',
     location: 'Mbeya, Tanzania',
     period: '2023 - 2025',
-    description: 'Led digital modernization initiatives, transitioning legacy infrastructure into resilient, automated operational systems.',
+    description: 'Led systems modernization initiatives, transitioning legacy infrastructure into resilient digital operational workflows.',
     achievements: [
       'Architected an enterprise-wide digital service platform, resulting in a 30% aggregate increase in operational productivity.',
-      'Automated critical logistical workflows, minimizing manual data-entry bottlenecks and reducing system downtime.',
+      'Streamlined critical logistical workflows, minimizing manual data-entry bottlenecks and reducing system downtime.',
       'Devised and conducted comprehensive technical training programs, upskilling an internal staff of 100+ employees.'
     ],
     logo: <img src="/assets/posta.png" alt="TPC Logo" className="w-8 h-8 object-contain" />,
@@ -71,7 +71,7 @@ export const experiences = [
     description: 'Facilitated the deployment of Electronic Fiscal Device (EFD) systems and engineered client-facing billing integrations.',
     achievements: [
       'Successfully executed the deployment and configuration of EFD compliance software for 20+ corporate clients.',
-      'Engineered automated billing integrations that streamlined financial data processing between client applications.',
+      'Engineered direct billing integrations that streamlined financial data processing between client applications.',
       'Produced detailed technical operational manuals and delivered onboarding sessions to ensure client self-sufficiency.'
     ],
     logo: '⚡',
