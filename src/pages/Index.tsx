@@ -1,15 +1,13 @@
 import { SEO } from "../seo";
 import { HeroSection } from "../components/home/HeroSection";
-import { DimensionsSection } from "../components/home/DimensionsSection";
+import { SelectedWorkSection } from "../components/home/SelectedWorkSection";
+import { ShortAboutSection } from "../components/home/ShortAboutSection";
 import { ServicesSection } from "../components/home/ServicesSection";
 import { ProcessSection } from "../components/home/ProcessSection";
-import { SelectedWorkSection } from "../components/home/SelectedWorkSection";
 import { CareerSection } from "../components/home/CareerSection";
-import { ProductsPreviewSection } from "../components/home/ProductsPreviewSection";
-import { ResultsSection } from "../components/home/ResultsSection";
-import { IntegrationsSection } from "../components/home/IntegrationsSection";
+import { DimensionsSection } from "../components/home/DimensionsSection";
 import { FAQSection } from "../components/home/FAQSection";
-import { ConversionCTASection } from "../components/home/ConversionCTASection";
+import { ContactSection } from "../components/ContactSection";
 import { SiteFooter } from "../components/layout/SiteFooter";
 
 const Index = () => {
@@ -22,41 +20,35 @@ const Index = () => {
       />
 
       <main id="main-content" className="relative z-10">
-        {/* 1. Kepha-Style Hero (Framed layout, Audi-style crossing circles, clean architectural backdrop, floating booking card) */}
+        {/* 1. Hero */}
         <HeroSection />
 
-        {/* 2. Personal Dimensions: Computer Sales, Tech Education, Dance Craft */}
-        <DimensionsSection />
-
-        {/* 3. Kepha-Style Services: Build With Precision (Contiguous Connected Grid) */}
-        <ServicesSection />
-
-        {/* 4. Kepha-Style Process: OUR PROCESS / Seamless Process, Great Results */}
-        <ProcessSection />
-
-        {/* 5. Selected Projects Showcase */}
+        {/* 2. Selected Work / Flagship Projects */}
         <SelectedWorkSection />
 
-        {/* 6. Kepha-Style Career Timeline: Work History & Execution */}
+        {/* 3. Short About (Human, verified facts, interests) */}
+        <ShortAboutSection />
+
+        {/* 4. Capabilities / Services */}
+        <ServicesSection />
+
+        {/* 5. Process / How I Work */}
+        <ProcessSection />
+
+        {/* 6. Career Timeline / Experience */}
         <CareerSection />
 
-        {/* 7. Digital Products & Materials Preview */}
-        <ProductsPreviewSection />
+        {/* 7. Personal Dimensions (Hardware, Education, Dance) */}
+        <DimensionsSection />
 
-        {/* 8. Kepha-Style Results: Results That Matter (2-Column & 2x2 Outcome Grid) */}
-        <ResultsSection />
-
-        {/* 9. Kepha-Style Powerful Integrations */}
-        <IntegrationsSection />
-
-        {/* 10. Kepha-Style FAQ: Need Help? Start Here */}
+        {/* 9. FAQ Section */}
         <FAQSection />
 
-        {/* 11. Kepha-Style Final Conversion CTA: Start Your Project Journey */}
-        <ConversionCTASection />
+        {/* 10. Direct Contact Section (id="contact") */}
+        <ContactSection />
       </main>
 
-      {/* 12. Multi-Column Footer with BrandLogo */}
+      {/* 11. Multi-Column Footer with links to all pages */}
       <SiteFooter />
     </>
   );

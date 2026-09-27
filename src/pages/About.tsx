@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight, CheckCircle2, Cpu, BookOpen, Sparkles, Globe, Terminal, ShieldCheck } from "lucide-react";
+import { Cpu, Terminal, Layers, Wrench, Gamepad2, Trophy, Film, Music } from "lucide-react";
 import { motion } from "framer-motion";
 import { SEO } from "../seo";
 import { DimensionsSection } from "../components/home/DimensionsSection";
@@ -10,16 +10,39 @@ import { SiteFooter } from "../components/layout/SiteFooter";
 import { PERSONAL_INFO } from "../data/portfolioData";
 
 export default function About() {
+  const personalPassions = [
+    {
+      icon: Trophy,
+      title: "Chess & Strategy",
+      description: "Positional play, opening calculations, and patience. Chess trains pattern recognition and thinking multiple moves ahead.",
+    },
+    {
+      icon: Gamepad2,
+      title: "Gaming — FC & Mortal Kombat",
+      description: "High-tempo competition in EA Sports FC and Mortal Kombat. Quick reflexes, instant reads, and a reliable way to decompress.",
+    },
+    {
+      icon: Film,
+      title: "Post-Apocalyptic Cinema",
+      description: "Fascinated by atmospheric world-building, high-stakes survival stories, and human resilience under extreme constraints.",
+    },
+    {
+      icon: Music,
+      title: "Dance & Performing Arts",
+      description: "Movement teaches rhythm, pacing, and dynamic tension — sensibilities that directly inform how digital interfaces transition.",
+    },
+  ];
+
   return (
     <>
       <SEO
         title="About Junior Jeconia | Full-Stack Developer & Systems Builder"
-        description="Learn about Junior Jeconia (harshbix), full-stack developer, computer hardware specialist, tech educator, and dancer based in Dar es Salaam, Tanzania."
+        description="Learn about Junior Jeconia (harshbix), full-stack developer, computer engineering student, tech educator, and builder based in Dar es Salaam, Tanzania."
         url="https://jeconiajunior.vercel.app/about"
       />
 
       <main className="relative z-10 pt-10">
-        {/* Page Hero - Minimal Apple Style */}
+        {/* Page Hero */}
         <section className="px-6 lg:px-8 py-16 md:py-24 border-b border-gray-200 dark:border-gray-800 relative bg-background">
           <div className="max-w-7xl mx-auto">
             <motion.div
@@ -40,13 +63,13 @@ export default function About() {
               </h1>
 
               <p className="mt-6 text-base sm:text-lg text-gray-600 dark:text-gray-300 font-normal leading-relaxed">
-                I am Junior Jeconia (online as <strong className="text-gray-900 dark:text-white font-semibold">harshbix</strong>), a full-stack developer based in Dar es Salaam, Tanzania. I turn complex requirements into clean, fast, and dependable digital products.
+                I am Junior Jeconia (online as <strong className="text-gray-900 dark:text-white font-semibold">harshbix</strong>), a full-stack developer and Computer Engineering student based in Dar es Salaam, Tanzania. I build digital systems where frontend precision and backend reliability meet.
               </p>
             </motion.div>
           </div>
         </section>
 
-        {/* Narrative Section with Kepha card layout */}
+        {/* Narrative Section */}
         <section className="px-6 lg:px-8 py-20 border-b border-gray-200 dark:border-gray-800 bg-background">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             {/* Story text */}
@@ -75,35 +98,25 @@ export default function About() {
               </div>
             </div>
 
-            {/* Visual Discipline Cards - Kepha Geometry */}
+            {/* Core Architectural Disciplines */}
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="p-6 rounded-[16px] border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/60 space-y-3">
                 <div className="w-10 h-10 rounded-[10px] bg-[#1a3a35] text-white flex items-center justify-center">
                   <Cpu className="w-5 h-5" />
                 </div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white">Computer Hardware</h3>
+                <h3 className="text-base font-bold text-gray-900 dark:text-white">Computer Engineering</h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                  Bixx Tech: Custom PC builds, workstations, diagnostics, and component procurement.
+                  University engineering background in digital logic, systems architecture, and computing hardware.
                 </p>
               </div>
 
               <div className="p-6 rounded-[16px] border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/60 space-y-3">
                 <div className="w-10 h-10 rounded-[10px] bg-[#1a3a35] text-white flex items-center justify-center">
-                  <BookOpen className="w-5 h-5" />
+                  <Layers className="w-5 h-5" />
                 </div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white">Tech Education</h3>
+                <h3 className="text-base font-bold text-gray-900 dark:text-white">Frontend Precision</h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                  Bixx Tech: Coding tutorials, developer workshops, and practical software mentorship.
-                </p>
-              </div>
-
-              <div className="p-6 rounded-[16px] border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/60 space-y-3">
-                <div className="w-10 h-10 rounded-[10px] bg-[#1a3a35] text-white flex items-center justify-center">
-                  <Sparkles className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white">Dance &amp; Motion</h3>
-                <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                  Performing arts &amp; movement craft directly inspiring rhythmic UI physics and transitions.
+                  React, TypeScript, Tailwind, accessible design systems, and responsive layouts that never break.
                 </p>
               </div>
 
@@ -111,9 +124,19 @@ export default function About() {
                 <div className="w-10 h-10 rounded-[10px] bg-[#1a3a35] text-white flex items-center justify-center">
                   <Terminal className="w-5 h-5" />
                 </div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white">Full-Stack Code</h3>
+                <h3 className="text-base font-bold text-gray-900 dark:text-white">Backend &amp; APIs</h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                  React, TypeScript, Next.js, Node.js, and PostgreSQL built for high-throughput production.
+                  Node.js, Express, REST APIs, PostgreSQL data modeling, and low-latency edge caching.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-[16px] border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/60 space-y-3">
+                <div className="w-10 h-10 rounded-[10px] bg-[#1a3a35] text-white flex items-center justify-center">
+                  <Wrench className="w-5 h-5" />
+                </div>
+                <h3 className="text-base font-bold text-gray-900 dark:text-white">Workstation Hardware</h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                  Bixx Tech: Custom PC builds, diagnostic benchmarking, and enterprise component procurement.
                 </p>
               </div>
             </div>
@@ -122,6 +145,44 @@ export default function About() {
 
         {/* 3 Core Dimensions Component */}
         <DimensionsSection />
+
+        {/* Beyond the Screen: Personal Downtime & Curiosity */}
+        <section id="beyond-code" className="px-6 lg:px-8 py-20 border-b border-gray-200 dark:border-gray-800 bg-background">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center max-w-2xl mx-auto mb-14">
+              <span className="text-xs font-mono font-semibold uppercase tracking-widest text-[#1a3a35] dark:text-emerald-400 block mb-2">
+                Downtime &amp; Curiosity
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Beyond the Screen
+              </h2>
+              <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+                What sharpens my focus and shapes my perspective when I am not at the keyboard.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {personalPassions.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-[16px] border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/60 p-6 flex flex-col justify-between hover:border-[#1a3a35] dark:hover:border-emerald-500/40 transition-all duration-300"
+                >
+                  <div>
+                    <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-[#1a3a35] dark:text-emerald-400 mb-4">
+                      <item.icon className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* Core Principles */}
         <section className="px-6 lg:px-8 py-20 border-b border-gray-200 dark:border-gray-800 bg-background">

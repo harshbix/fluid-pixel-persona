@@ -50,18 +50,18 @@ export const projects: Project[] = [
   },
   {
     id: 3,
-    title: "YSStoree",
-    description: "A modern e-commerce storefront designed to feel editorial, clear, and conversion-aware across devices.",
-    image: "/assets/projects/ysstoree.webp",
-    tags: ["Next.js", "React", "E-commerce", "Tailwind CSS"],
-    liveUrl: "https://ysstoree.com/",
-    githubUrl: "https://github.com/ysstoree/ysstoree",
-    role: "Frontend engineering, visual system design, storefront UX",
-    outcome: "Blended shopping utility with a more premium, lifestyle-driven presentation.",
+    title: "Overspeed Security",
+    description: "An authoritative corporate security portal engineered with a bold visual identity, dispatch triggers, and enterprise reliability.",
+    image: "/assets/projects/overspeed-security.webp",
+    tags: ["React", "Tailwind CSS", "Motion Systems", "Corporate UX"],
+    liveUrl: "https://overspeed-security.vercel.app/",
+    githubUrl: "https://github.com/harshbix/overspeed-security",
+    role: "UI/UX Engineering & Frontend Development",
+    outcome: "Streamlined operational dispatch inquiries and created an enterprise security brand standard.",
     impact: [
-      "Designed a stronger visual rhythm for browsing and product discovery.",
-      "Improved merchandising through better hierarchy and card treatment.",
-      "Pushed the interface toward a more brandable and memorable retail feel.",
+      "Categorized security solutions matrix with clear operational scopes.",
+      "Quick emergency dispatch inquiry button for rapid client contact.",
+      "Smooth scroll navigation and accessible touch targets for mobile.",
     ],
   },
   {
@@ -90,7 +90,7 @@ const cardVariants = {
     transition: {
       duration: 0.8,
       delay: index * 0.08,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   }),
 };

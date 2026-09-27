@@ -1,338 +1,381 @@
-import { useState, useRef, useEffect } from 'react';
-import { Mail, Phone, MapPin, Send, Check, AlertCircle, MessageCircle } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  Mail,
+  MapPin,
+  Send,
+  CheckCircle2,
+  AlertCircle,
+  MessageCircle,
+  Clock,
+  Zap,
+  ArrowUpRight,
+  Copy,
+  Check
+} from "lucide-react";
+import { motion } from "framer-motion";
+import { PERSONAL_INFO } from "../data/portfolioData";
+import { BookingModal } from "./common/BookingModal";
 
-interface FormData {
+const PROJECT_TYPES = [
+  "Web Development",
+  "Full-Stack Web App",
+  "UI/UX Design",
+  "Workstation / PC Hardware",
+  "Consulting & Strategy",
+];
+
+interface FormState {
   name: string;
   email: string;
-  subject: string;
+  projectType: string;
   message: string;
 }
 
-interface FormErrors {
-  name?: string;
-  email?: string;
-  subject?: string;
-  message?: string;
-}
-
-export const ContactSection = () => {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+export const ContactSection: React.FC = () => {
+  const [bookingOpen, setBookingOpen] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [form, setForm] = useState<FormState>({
+    name: "",
+    email: "",
+    projectType: PROJECT_TYPES[0],
+    message: "",
   });
 
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
-  // Cinematic parallax tracking
-  const sectionRef = useRef<HTMLElement>(null);
-  const target = useRef({ x: 0, y: 0 });
-  const current = useRef({ x: 0, y: 0 });
-
-  const layer1Ref = useRef<HTMLDivElement>(null);
-  const layer2Ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let animationFrameId: number;
-    const animate = () => {
-      current.current.x += (target.current.x - current.current.x) * 0.05;
-      current.current.y += (target.current.y - current.current.y) * 0.05;
-
-      if (layer1Ref.current) {
-        layer1Ref.current.style.transform = `translate3d(${current.current.x * 25}px, ${current.current.y * 25}px, 0)`;
-      }
-      if (layer2Ref.current) {
-        layer2Ref.current.style.transform = `translate3d(${current.current.x * -50}px, ${current.current.y * -50}px, 0)`;
-      }
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-    animationFrameId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, []);
-
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (!sectionRef.current) return;
-    const rect = sectionRef.current.getBoundingClientRect();
-    target.current.x = (e.clientX - rect.left) / rect.width - 0.5;
-    target.current.y = (e.clientY - rect.top) / rect.height - 0.5;
+  const copyEmailToClipboard = () => {
+    navigator.clipboard.writeText(PERSONAL_INFO.email);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
   };
 
-  // Magnetic button logic
-  const handleMagnetMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    e.currentTarget.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
-  };
-
-  const handleMagnetLeave = (e: React.MouseEvent<HTMLElement>) => {
-    e.currentTarget.style.transform = `translate(0px, 0px)`;
-  };
-
-  const whatsappNumber = '+255755063711';
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Hi%2C%20I%20would%20like%20to%20discuss%20a%20project!`;
-  const contactInfo = [
-    {
-      icon: MessageCircle,
-      label: 'WhatsApp',
-      value: '+255 755 063 711',
-      href: whatsappUrl
-    },
-    {
-      icon: MapPin,
-      label: 'Location',
-      value: 'Dar es Salaam, TZ',
-      href: '#'
+  const validate = (): boolean => {
+    const errs: Partial<Record<keyof FormState, string>> = {};
+    if (!form.name.trim()) errs.name = "Please enter your name.";
+    if (!form.email.trim()) {
+      errs.email = "Please enter your email.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      errs.email = "Please enter a valid email address.";
     }
-  ];
-
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+    if (!form.message.trim() || form.message.trim().length < 10) {
+      errs.message = "Please share a few sentences about your project (at least 10 characters).";
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
-    }
-
-    if (!formData.subject.trim()) {
-      newErrors.subject = 'Subject is required';
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = 'Message is required';
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'Message must be at least 10 characters';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    setErrors(errs);
+    return Object.keys(errs).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validate()) return;
 
-    if (!validateForm()) return;
+    setStatus("submitting");
 
-    setIsSubmitting(true);
-
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    }, 3000);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-
-    // Clear error when user starts typing
-    if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }));
+    try {
+      // Simulate dispatch
+      await new Promise((res) => setTimeout(res, 800));
+      setStatus("success");
+    } catch {
+      setStatus("error");
     }
   };
 
   return (
-    <section
-      ref={sectionRef}
-      onMouseMove={onMouseMove}
-      className="py-20 px-6 relative overflow-hidden"
-    >
-      {/* Cinematic Liquid Background */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div
-          ref={layer1Ref}
-          className="absolute inset-0 will-change-[transform]"
-        >
-          <div className="absolute top-[30%] left-[20%] w-[50vw] h-[50vw] max-w-[700px] max-h-[700px] bg-accent/10 rounded-full blur-[100px] animate-liquid-morph mix-blend-multiply dark:mix-blend-screen opacity-50" />
-        </div>
-        <div
-          ref={layer2Ref}
-          className="absolute inset-0 will-change-[transform]"
-        >
-          <div className="absolute bottom-[20%] right-[20%] w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-primary/15 rounded-full blur-[80px] animate-liquid-morph opacity-60" style={{ animationDelay: '-8s', animationDuration: '25s' }} />
-        </div>
-      </div>
+    <>
+      <BookingModal isOpen={bookingOpen} onClose={() => setBookingOpen(false)} />
 
-      <div className="max-w-6xl mx-auto relative z-10">
-        <div className="text-center mb-16 animate-text-reveal">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground text-shadow-cinematic mb-6">
-            Let's Create Together.
-          </h2>
-          <p className="text-xl text-muted-foreground/90 max-w-3xl mx-auto leading-relaxed">
-            Have a project in mind? I'd love to hear about it. Let's discuss how we can bring your vision to life.
-          </p>
-        </div>
+      <section
+        id="contact"
+        className="py-20 lg:py-28 px-6 lg:px-8 bg-background border-b border-gray-200 dark:border-gray-800 transition-colors duration-300 relative"
+      >
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="mb-14">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-mono font-semibold uppercase tracking-widest text-[#1a3a35] dark:text-emerald-400 mb-4">
+              <span>Contact &bull; Let&apos;s Talk</span>
+            </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
-          <div className="space-y-8 animate-text-reveal" style={{ animationDelay: "0.2s" }}>
-            <div className="bg-card/40 backdrop-blur-2xl rounded-[2rem] p-8 border border-white/10 dark:border-white/5 shadow-2xl">
-              <h3 className="text-2xl font-bold mb-6 text-foreground text-shadow-cinematic">Get in Touch</h3>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.08]">
+              Start a Conversation.
+              <span className="block text-gray-500 dark:text-gray-400 text-2xl sm:text-3xl lg:text-4xl font-normal mt-1">
+                Direct communication. Fast response.
+              </span>
+            </h2>
 
-              <div className="space-y-4">
-                {contactInfo.map((item, index) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    onMouseMove={handleMagnetMove}
-                    onMouseLeave={handleMagnetLeave}
-                    className="btn-magnetic group flex items-center gap-4 p-4 rounded-2xl bg-muted/40 hover:bg-muted/80 backdrop-blur-md border border-border/40 transition-colors"
-                  >
-                    <div className="w-12 h-12 rounded-xl bg-foreground flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <item.icon className="w-5 h-5 text-background" />
+            <p className="mt-4 text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl font-normal leading-relaxed">
+              Have a web application, software project, or workstation hardware requirement? Send a message below or reach out directly on WhatsApp.
+            </p>
+          </div>
+
+          {/* Grid: Direct Channels + Interactive Inquiry Form */}
+          <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-14 items-start">
+            {/* Left Column: Direct Communication Channels & Availability */}
+            <div className="space-y-6">
+              {/* WhatsApp Direct Card */}
+              <div className="rounded-[16px] border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/60 p-6 sm:p-7 shadow-sm">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                      <MessageCircle className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="font-semibold text-foreground tracking-tight">{item.label}</p>
-                      <p className="text-muted-foreground text-sm">{item.value}</p>
+                      <h3 className="text-base font-bold text-gray-900 dark:text-white">WhatsApp</h3>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Direct instant messaging</p>
                     </div>
-                  </a>
-                ))}
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                    Fastest
+                  </span>
+                </div>
+
+                <p className="text-xs text-gray-600 dark:text-gray-300 mb-5 leading-relaxed">
+                  Best for quick discussions, scope clarifications, and urgent requirements.
+                </p>
+
+                <a
+                  href={PERSONAL_INFO.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-full bg-[#1a3a35] hover:bg-[#132c28] text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-sm"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>Chat on WhatsApp ({PERSONAL_INFO.phone})</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+
+              {/* Direct Email Card */}
+              <div className="rounded-[16px] border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/60 p-6 sm:p-7 shadow-sm">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                      <Mail className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold text-gray-900 dark:text-white">Email</h3>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{PERSONAL_INFO.email}</p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={copyEmailToClipboard}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-mono font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                    title="Copy email to clipboard"
+                  >
+                    {copiedEmail ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
+                    <span>{copiedEmail ? "Copied" : "Copy"}</span>
+                  </button>
+                </div>
+
+                <a
+                  href={`mailto:${PERSONAL_INFO.email}?subject=Project%20Inquiry%20from%20Portfolio`}
+                  className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-900 dark:text-white text-xs font-semibold uppercase tracking-wider transition-colors"
+                >
+                  <Mail className="w-3.5 h-3.5 text-gray-500" />
+                  <span>Send Direct Email</span>
+                </a>
+              </div>
+
+              {/* Location & Availability Status */}
+              <div className="rounded-[16px] border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/60 p-6 sm:p-7 shadow-sm space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 text-[#1a3a35] dark:text-emerald-400 flex items-center justify-center">
+                    <MapPin className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-gray-900 dark:text-white">Location</h3>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{PERSONAL_INFO.location} (EAT &bull; UTC+3)</p>
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                      {PERSONAL_INFO.availability}
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setBookingOpen(true)}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#1a3a35] dark:text-emerald-400 hover:underline"
+                  >
+                    <Zap className="w-3.5 h-3.5 fill-current" />
+                    <span>Book 15m Call</span>
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Availability */}
-            <div className="bg-card/40 backdrop-blur-2xl rounded-[2rem] p-8 border border-white/10 dark:border-white/5 shadow-2xl">
-              <h4 className="text-xl font-bold mb-4 text-foreground">Current Availability</h4>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-green-600 font-semibold tracking-tight">Available for new projects</span>
-              </div>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                I'm currently accepting new projects.
-                Typical project timelines range from 4-12 weeks depending on scope.
+            {/* Right Column: Interactive Inquiry Form */}
+            <div className="rounded-[16px] border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/60 p-6 sm:p-8 lg:p-10 shadow-sm">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight mb-2">
+                Send an Inquiry
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-7">
+                Tell me about your timeline, stack, or problem statement. I review and reply within 24 hours.
               </p>
+
+              {status === "success" ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="rounded-[12px] border border-emerald-500/30 bg-emerald-500/10 p-8 text-center space-y-4"
+                >
+                  <div className="h-12 w-12 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
+                    <CheckCircle2 className="w-6 h-6" />
+                  </div>
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-white">Message Received</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 max-w-md mx-auto leading-relaxed">
+                    Thank you, {form.name}. Your details have been received. I will review your requirements and respond promptly.
+                  </p>
+                  <div className="pt-3 flex flex-wrap justify-center gap-3">
+                    <a
+                      href={PERSONAL_INFO.whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full bg-[#1a3a35] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-[#132c28] transition-all"
+                    >
+                      <span>Continue on WhatsApp</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setStatus("idle");
+                        setForm({ name: "", email: "", projectType: PROJECT_TYPES[0], message: "" });
+                      }}
+                      className="inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-gray-700 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                    >
+                      Send Another
+                    </button>
+                  </div>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  {/* Selectable Project Category */}
+                  <div>
+                    <label className="block text-xs font-mono font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2.5">
+                      Project Type
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {PROJECT_TYPES.map((type) => (
+                        <button
+                          key={type}
+                          type="button"
+                          onClick={() => setForm({ ...form, projectType: type })}
+                          className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                            form.projectType === type
+                              ? "bg-[#1a3a35] text-white border-[#1a3a35]"
+                              : "bg-gray-50 dark:bg-gray-800/60 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-gray-400"
+                          }`}
+                        >
+                          {type}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Name and Email */}
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="home-contact-name" className="block text-xs font-mono font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-1.5">
+                        Your Name *
+                      </label>
+                      <input
+                        id="home-contact-name"
+                        type="text"
+                        required
+                        value={form.name}
+                        onChange={(e) => setForm({ ...form, name: e.target.value })}
+                        placeholder="Alex Morgan"
+                        className={`w-full rounded-[10px] border bg-gray-50 dark:bg-gray-800/60 px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a3a35] dark:focus:ring-emerald-400 transition-all ${
+                          errors.name ? "border-red-500" : "border-gray-200 dark:border-gray-700"
+                        }`}
+                      />
+                      {errors.name && (
+                        <p className="text-[11px] text-red-500 mt-1 flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3" />
+                          {errors.name}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label htmlFor="home-contact-email" className="block text-xs font-mono font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-1.5">
+                        Your Email *
+                      </label>
+                      <input
+                        id="home-contact-email"
+                        type="email"
+                        required
+                        value={form.email}
+                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        placeholder="alex@company.com"
+                        className={`w-full rounded-[10px] border bg-gray-50 dark:bg-gray-800/60 px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a3a35] dark:focus:ring-emerald-400 transition-all ${
+                          errors.email ? "border-red-500" : "border-gray-200 dark:border-gray-700"
+                        }`}
+                      />
+                      {errors.email && (
+                        <p className="text-[11px] text-red-500 mt-1 flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3" />
+                          {errors.email}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <label htmlFor="home-contact-message" className="block text-xs font-mono font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-1.5">
+                      Message / Project Details *
+                    </label>
+                    <textarea
+                      id="home-contact-message"
+                      rows={4}
+                      required
+                      value={form.message}
+                      onChange={(e) => setForm({ ...form, message: e.target.value })}
+                      placeholder="Briefly describe your project requirements, target timeline, or what you need built..."
+                      className={`w-full rounded-[10px] border bg-gray-50 dark:bg-gray-800/60 px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a3a35] dark:focus:ring-emerald-400 transition-all resize-none ${
+                        errors.message ? "border-red-500" : "border-gray-200 dark:border-gray-700"
+                      }`}
+                    />
+                    {errors.message && (
+                      <p className="text-[11px] text-red-500 mt-1 flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" />
+                        {errors.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    disabled={status === "submitting"}
+                    className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-[#1a3a35] hover:bg-[#132c28] text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-md hover:scale-[1.01] disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    {status === "submitting" ? (
+                      <>
+                        <span className="h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                        <span>Sending Message...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-3.5 h-3.5" />
+                        <span>Send Message</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="bg-card/40 backdrop-blur-2xl rounded-[2rem] p-8 border border-white/10 dark:border-white/5 shadow-2xl animate-text-reveal" style={{ animationDelay: "0.4s" }}>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2">
-                    Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-xl glass-panel border-0 focus:ring-2 focus:ring-primary transition-smooth ${errors.name ? 'ring-2 ring-red-500' : ''
-                      }`}
-                    placeholder="Your name"
-                  />
-                  {errors.name && (
-                    <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
-                      {errors.name}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2">
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-xl glass-panel border-0 focus:ring-2 focus:ring-primary transition-smooth ${errors.email ? 'ring-2 ring-red-500' : ''
-                      }`}
-                    placeholder="your.email@example.com"
-                  />
-                  {errors.email && (
-                    <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
-                      {errors.email}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium mb-2">
-                  Subject *
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className={`w-full px-4 py-3 rounded-xl glass-panel border-0 focus:ring-2 focus:ring-primary transition-smooth ${errors.subject ? 'ring-2 ring-red-500' : ''
-                    }`}
-                  placeholder="What's this about?"
-                />
-                {errors.subject && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                    <AlertCircle className="w-3 h-3" />
-                    {errors.subject}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">
-                  Message *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={6}
-                  className={`w-full px-4 py-3 rounded-xl glass-panel border-0 focus:ring-2 focus:ring-primary transition-smooth resize-none ${errors.message ? 'ring-2 ring-red-500' : ''
-                    }`}
-                  placeholder="Tell me about your project, timeline, and any specific requirements..."
-                />
-                {errors.message && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                    <AlertCircle className="w-3 h-3" />
-                    {errors.message}
-                  </p>
-                )}
-              </div>
-
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onMouseMove={handleMagnetMove}
-                onMouseLeave={handleMagnetLeave}
-                className={`btn-magnetic group relative w-full py-5 rounded-2xl font-bold uppercase tracking-widest text-sm transition-smooth flex items-center justify-center gap-3 overflow-hidden btn-magnetic-hover text-background bg-green-500 shadow-2xl hover:bg-green-600 focus:ring-2 focus:ring-green-400`}
-                aria-label="Contact on WhatsApp"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-white">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 13.487a4.5 4.5 0 0 1-6.349-6.349m6.349 6.349c.29-.29.563-.6.818-.927a9 9 0 1 0-2.19 2.19c.327-.255.637-.528.927-.818zm0 0L21 21" />
-                  </svg>
-                  Chat on WhatsApp
-                </span>
-              </a>
-            </form>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };

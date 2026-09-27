@@ -8,6 +8,7 @@ import { TooltipProvider } from "./components/ui/tooltip";
 import { Loader } from "./components/Loader";
 import { Navbar } from "./components/layout/Navbar";
 import { ScrollToTop } from "./components/common/ScrollToTop";
+import { BackToTop } from "./components/common/BackToTop";
 
 import Index from "./pages/Index";
 
@@ -50,10 +51,11 @@ const App = () => (
           <BrowserRouter>
             <ScrollToTop />
             <CookieConsent />
+            <BackToTop />
             <div className="min-h-screen bg-background text-foreground flex flex-col relative selection:bg-primary/20 selection:text-primary">
               <div className="relative z-10 flex flex-col flex-1">
                 <Navbar />
-              <div className="flex-1">
+                <div className="flex-1 pt-16">
                 <Suspense fallback={<PageFallback />}>
                   <Routes>
                     <Route path="/" element={<Index />} />

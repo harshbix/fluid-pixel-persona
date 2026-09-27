@@ -53,6 +53,10 @@ export interface ExperienceItem {
   description: string;
   achievements: string[];
   current?: boolean;
+  year?: string;
+  logoSrc?: string;
+  technologies?: string[];
+  category?: "engineering" | "leadership";
 }
 
 export interface NoteItem {
@@ -118,7 +122,7 @@ export const PERSONAL_INFO = {
     tiktok: "https://tiktok.com/@bixxtech",
   },
   bioSummary:
-    "I design and engineer modern web applications, interactive interfaces, and digital systems. Combining sharp frontend precision with solid full-stack architecture, I turn product ideas into reliable, high-converting software.",
+    "I design and build web applications, user interfaces, and digital systems. Combining frontend precision with solid full-stack architecture, I turn product ideas into reliable, clean software.",
   coreValues: [
     {
       title: "Design That Serves Function",
@@ -160,7 +164,7 @@ export const SERVICES: Service[] = [
     title: "Modern Web Development",
     tagline: "High-performance, responsive websites and web applications built to scale.",
     description:
-      "Crafting production-grade web applications from scratch or refactoring existing sites. Focused on lightning-fast load times, SEO indexability, clean typography, and seamless responsive design across all screen sizes.",
+      "Crafting production-grade web applications from scratch or refactoring existing sites. Focused on lightning-fast load times, SEO indexability, clean typography, and clean responsive design across all screen sizes.",
     deliverables: [
       "Responsive React / Next.js web applications",
       "Clean semantic markup & technical SEO optimization",
@@ -312,7 +316,7 @@ export const PROJECTS: Project[] = [
     slug: "recan-foundation",
     title: "RECAN Foundation",
     category: "Full-Stack",
-    featured: true,
+    featured: false,
     summary: "Trust-centric NGO web platform crafted to tell community stories and drive donor engagement.",
     description:
       "An official nonprofit web platform designed to establish instant institutional trust, clearly communicate organizational mission, and guide prospective donors through streamlined conversion funnels.",
@@ -339,7 +343,7 @@ export const PROJECTS: Project[] = [
       "Structured SEO metadata for high visibility on local and international searches",
     ],
     impact: [
-      "Significantly elevated the foundation's presentation to international grantmakers.",
+      "Strengthened the foundation's presentation for international partners and grantmakers.",
       "Mobile bounce rates decreased substantially due to sub-1.5s mobile page load.",
     ],
   },
@@ -398,7 +402,7 @@ export const PROJECTS: Project[] = [
     problem:
       "Creating an artistic portfolio that stands out in visual design circles while keeping interaction responsive and accessible on mobile.",
     solution:
-      "Implemented hardware-accelerated transforms, scroll-synchronized pacing, and an elegant dark theme that elevates every creative asset.",
+      "Implemented hardware-accelerated transforms, scroll-synchronized pacing, and an elegant dark theme that frames every creative asset cleanly.",
     architecture: {
       frontend: "React 18 with Framer Motion hooks",
       styling: "Custom Tailwind configuration with fine-tuned easing curves",
@@ -412,74 +416,6 @@ export const PROJECTS: Project[] = [
     impact: [
       "Zero jank during scroll and transitions across modern browsers.",
       "Demonstrates high visual taste and frontend engineering precision.",
-    ],
-  },
-  {
-    id: "serene-palette",
-    slug: "serene-palette",
-    title: "Serene Palette Studio",
-    category: "Frontend",
-    featured: false,
-    summary: "Interactive color harmony and accessible design token generator for designers and developers.",
-    description:
-      "A developer and designer utility that generates mathematically balanced color palettes, evaluates WCAG contrast ratios in real time, and exports CSS variables and Tailwind configuration snippets.",
-    image: "/assets/projects/serene-palette-app.webp",
-    imageAlt: "Serene Palette Studio design tool interface displaying real-time WCAG color contrast scoring, palette generation, and CSS code export",
-    tags: ["React", "TypeScript", "Tailwind CSS", "Design Tokens"],
-    liveUrl: "https://serene-palette-app.vercel.app/",
-    githubUrl: "https://github.com/harshbix/serene-palette-app",
-    role: "Creator & Full-Stack Developer",
-    timeline: "2024",
-    problem:
-      "Creating accessible color systems manually is tedious and frequently leads to low-contrast UI bugs in production.",
-    solution:
-      "Built a browser-based palette engine that automates luminance calculations, verifies APCA/WCAG ratios, and exports production-ready code.",
-    architecture: {
-      frontend: "React with TypeScript and client-side color math",
-      styling: "Tailwind CSS with dynamic CSS property binding",
-      deployment: "Vercel",
-    },
-    keyFeatures: [
-      "Real-time WCAG contrast calculation for light and dark modes",
-      "One-click export to Tailwind config, CSS variables, and JSON tokens",
-      "Custom shade and tint generation using perceptually uniform color spaces",
-    ],
-    impact: [
-      "Provides developers with an instant tool to verify interface accessibility before shipping.",
-    ],
-  },
-  {
-    id: "todolist-bix",
-    slug: "todolist-bix",
-    title: "Bixx Workflow Tracker",
-    category: "Full-Stack",
-    featured: false,
-    summary: "Minimalist, keyboard-first task manager engineered for rapid daily execution.",
-    description:
-      "A focused productivity web app designed around high execution speed, instant offline persistence, and zero unnecessary ceremony. Built for developers and busy builders.",
-    image: "/assets/projects/todolist-bix.webp",
-    imageAlt: "Bixx Workflow Tracker task manager dashboard highlighting fast keyboard input, priority filters, and offline storage status",
-    tags: ["React", "TypeScript", "LocalStorage State", "Tailwind CSS"],
-    liveUrl: "https://todolist-bix.vercel.app/",
-    githubUrl: "https://github.com/harshbix/todolist-bix",
-    role: "Frontend Engineer",
-    timeline: "2023",
-    problem:
-      "Mainstream task apps suffer from bloat, complex menus, and slow interactions that get in the way of getting things done.",
-    solution:
-      "Crafted a streamlined single-view workspace with immediate keyboard entry, smart filters, and persistent local storage.",
-    architecture: {
-      frontend: "React with custom hooks for state persistence",
-      styling: "Tailwind CSS with compact information density",
-      deployment: "Vercel",
-    },
-    keyFeatures: [
-      "Keyboard shortcut workflow for rapid task creation and completion",
-      "Categorized priority tagging and date sorting",
-      "Instant offline data persistence with zero backend lag",
-    ],
-    impact: [
-      "Under 50ms interaction response time for all state updates.",
     ],
   },
 ];
@@ -516,28 +452,15 @@ export const TECH_STACK = {
 
 export const EXPERIENCES: ExperienceItem[] = [
   {
-    id: "bixx-tech",
-    role: "Hardware & Systems Engineer",
-    company: "Bixx Tech",
-    location: "Dar es Salaam, Tanzania",
-    period: "2025 - Present",
-    type: "Hardware & Systems",
-    description:
-      "Directing workstation configurations, hardware diagnostics, and enterprise hardware operations.",
-    achievements: [
-      "Integrated diagnostic tools, increasing regional service capacity by 40%.",
-      "Engineered standardized protocols, cutting maintenance turnaround by 60%.",
-      "Delivered custom workstation setups for developers, creators, and commercial clients.",
-    ],
-    current: true,
-  },
-  {
     id: "farols-company",
     role: "Technical Project Manager",
     company: "Farols Company",
     location: "Mbeya, Tanzania",
-    period: "2026 - Present",
+    period: "2026 — Present",
+    year: "2026",
     type: "Digital Leadership",
+    category: "leadership",
+    logoSrc: "/assets/Farols white word down.png",
     description:
       "Overseeing end-to-end digital transformation lifecycles, specializing in modern web systems, agile delivery, and scalable product engineering.",
     achievements: [
@@ -545,6 +468,26 @@ export const EXPERIENCES: ExperienceItem[] = [
       "Optimized agile development sprints, significantly reducing time-to-market for digital deliverables.",
       "Aligned technical execution with business objectives to capture and retain high-value enterprise accounts.",
     ],
+    technologies: ["Technical Project Management", "Agile Sprints", "Full-Stack Web Systems", "Team Delivery"],
+    current: true,
+  },
+  {
+    id: "bixx-tech",
+    role: "Hardware & Systems Engineer",
+    company: "Bixx Tech",
+    location: "Dar es Salaam, Tanzania",
+    period: "2025 — Present",
+    year: "2025",
+    type: "Hardware & Systems",
+    category: "engineering",
+    description:
+      "Directing workstation configurations, hardware diagnostics, and enterprise hardware operations.",
+    achievements: [
+      "Integrated diagnostic tools, increasing regional service capacity by 40%.",
+      "Engineered standardized protocols, cutting maintenance turnaround by 60%.",
+      "Delivered custom workstation setups for developers, creators, and commercial clients.",
+    ],
+    technologies: ["Workstations", "Hardware Diagnostics", "Hardware Architecture", "System Optimization"],
     current: true,
   },
   {
@@ -552,8 +495,11 @@ export const EXPERIENCES: ExperienceItem[] = [
     role: "IT Systems Consultant",
     company: "Tanzania Posts Corporation",
     location: "Mbeya, Tanzania",
-    period: "2023 - 2025",
+    period: "2023 — 2025",
+    year: "2023",
     type: "Systems Consulting",
+    category: "leadership",
+    logoSrc: "/assets/posta.png",
     description:
       "Led systems modernization initiatives, transitioning legacy infrastructure into resilient digital operational workflows.",
     achievements: [
@@ -561,22 +507,7 @@ export const EXPERIENCES: ExperienceItem[] = [
       "Streamlined critical logistical workflows, minimizing manual data-entry bottlenecks and reducing system downtime.",
       "Devised and conducted comprehensive technical training programs, upskilling an internal staff of 100+ employees.",
     ],
-    current: false,
-  },
-  {
-    id: "quickdrop",
-    role: "Frontend Development Specialist",
-    company: "Quickdrop Co.",
-    location: "Dar es Salaam, Tanzania",
-    period: "2022 - 2023",
-    type: "Frontend Engineering",
-    description:
-      "Engineered responsive, high-performance web applications and established foundational frontend development standards.",
-    achievements: [
-      "Developed and shipped 10+ production-grade web applications utilizing React and modern JavaScript ecosystems.",
-      "Optimized core web vitals, reducing page load times by 40% through advanced asset delivery and state management.",
-      "Authored technical documentation and established CI/CD best practices while actively mentoring junior developers.",
-    ],
+    technologies: ["Systems Modernization", "Logistics Workflows", "Enterprise Training", "Process Automation"],
     current: false,
   },
   {
@@ -585,7 +516,9 @@ export const EXPERIENCES: ExperienceItem[] = [
     company: "Web Technologies Ltd.",
     location: "Dodoma, Tanzania",
     period: "2023",
+    year: "2023",
     type: "Integration & Analysis",
+    category: "engineering",
     description:
       "Facilitated the deployment of Electronic Fiscal Device (EFD) compliance systems and engineered client-facing billing integrations.",
     achievements: [
@@ -593,6 +526,27 @@ export const EXPERIENCES: ExperienceItem[] = [
       "Engineered direct billing integrations that streamlined financial data processing between client applications.",
       "Produced detailed technical operational manuals and delivered onboarding sessions to ensure client self-sufficiency.",
     ],
+    technologies: ["EFD Fiscal Systems", "Billing API Integrations", "Client Deployments", "Compliance"],
+    current: false,
+  },
+  {
+    id: "quickdrop",
+    role: "Frontend Development Specialist",
+    company: "Quickdrop Co.",
+    location: "Dar es Salaam, Tanzania",
+    period: "2022 — 2023",
+    year: "2022",
+    type: "Frontend Engineering",
+    category: "engineering",
+    logoSrc: "/assets/QuickDrop.png",
+    description:
+      "Engineered responsive, high-performance web applications and established foundational frontend development standards.",
+    achievements: [
+      "Developed and shipped production web applications utilizing React and modern JavaScript.",
+      "Optimized Core Web Vitals and load times through responsive asset delivery and clean state architecture.",
+      "Authored technical documentation and established reusable component patterns for internal tools.",
+    ],
+    technologies: ["React", "JavaScript (ES6+)", "Core Web Vitals", "Component Systems"],
     current: false,
   },
 ];
@@ -708,18 +662,18 @@ export const PERSONAL_DIMENSIONS: PersonalDimension[] = [
   },
   {
     id: "dance",
-    title: "Dance & Performing Arts",
-    label: "Dance Craft",
+    title: "What Dance Taught Me",
+    label: "Dance & Movement",
     brand: "Movement",
-    highlight: "Kinetic Timing & Motion Intuition",
+    highlight: "Rhythm & Timing",
     description:
-      "Physical rhythm and spatial cadence translated into fluid interface physics.",
-    actionText: "See in Work",
-    actionUrl: "#selected-work",
+      "Dance is a big part of who I am. It’s taught me a lot about rhythm, timing, movement, and knowing when to slow down or speed things up — things I also notice when designing interfaces.",
+    actionText: "Instagram @harshbix",
+    actionUrl: "https://instagram.com/harshbix",
     bullets: [
-      "Rhythm-driven spring physics and motion timing",
-      "Choreography-inspired interface flows",
-      "Natural, frictionless interaction feel",
+      "Rhythm — I naturally pay attention to timing and pace.",
+      "Movement — I like interfaces that feel smooth and natural.",
+      "Expression — I enjoy adding personality instead of making everything feel static.",
     ],
     icon: "Sparkles",
   },

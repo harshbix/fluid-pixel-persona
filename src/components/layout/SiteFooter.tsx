@@ -74,10 +74,10 @@ export function SiteFooter() {
                 <Link to="/services" className="hover:text-[#1a3a35] dark:hover:text-emerald-400 transition-colors">Web Development</Link>
               </li>
               <li>
-                <a href="/#experience" className="hover:text-[#1a3a35] dark:hover:text-emerald-400 transition-colors">Career Timeline</a>
+                <Link to="/about#experience" className="hover:text-[#1a3a35] dark:hover:text-emerald-400 transition-colors">Career Timeline</Link>
               </li>
               <li>
-                <a href="/#dimensions" className="hover:text-[#1a3a35] dark:hover:text-emerald-400 transition-colors">PC Sales &amp; Hardware</a>
+                <Link to="/about#dimensions" className="hover:text-[#1a3a35] dark:hover:text-emerald-400 transition-colors">PC Sales &amp; Hardware</Link>
               </li>
               <li>
                 <Link to="/resume" className="hover:text-[#1a3a35] dark:hover:text-emerald-400 transition-colors inline-flex items-center gap-1">
@@ -121,13 +121,13 @@ export function SiteFooter() {
                 Twitter / X
               </a>
               <a
-                href={PERSONAL_INFO.socials.instagram}
+                href="https://instagram.com/harshbix"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 hover:text-[#1a3a35] dark:hover:text-white transition-colors"
               >
                 <Instagram className="w-4 h-4" />
-                Instagram (@bixx.tech)
+                Instagram (@harshbix)
               </a>
             </div>
           </div>

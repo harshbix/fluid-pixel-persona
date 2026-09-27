@@ -17,11 +17,11 @@ const works = [
     githubUrl: "https://github.com/harshbix/recanfoundation",
   },
   {
-    title: "YSStoree",
-    image: "/assets/projects/ysstoree.webp",
-    summary: "Premium-feel ecommerce storefront.",
-    liveUrl: "https://ysstoree.com/",
-    githubUrl: "https://github.com/ysstoree/ysstoree",
+    title: "Overspeed Security",
+    image: "/assets/projects/overspeed-security.webp",
+    summary: "Corporate site with motion-led polish.",
+    liveUrl: "https://overspeed-security.vercel.app/",
+    githubUrl: "https://github.com/harshbix/overspeed-security",
   },
   {
     title: "Henry Peter Portfolio",
@@ -29,13 +29,6 @@ const works = [
     summary: "Cinematic portfolio with immersive pacing.",
     liveUrl: "https://henrypeter.vercel.app/",
     githubUrl: "https://github.com/harshbix/henrypeter",
-  },
-  {
-    title: "Overspeed Security",
-    image: "/assets/projects/overspeed-security.webp",
-    summary: "Corporate site with motion-led polish.",
-    liveUrl: "https://overspeed-security.vercel.app/",
-    githubUrl: "https://github.com/harshbix/overspeed-security",
   },
 ];
 
