@@ -7,20 +7,17 @@ import {
   Cpu,
   Layers,
   Terminal,
-  Sparkles,
-  ArrowUpRight,
-  TrendingUp,
-  ShieldCheck,
-  Building2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { EXPERIENCES, ExperienceItem } from "../../data/portfolioData";
+import { EXPERIENCES } from "../../data/portfolioData";
+import { useLanguage } from "../../context/LanguageContext";
 
 type CategoryFilter = "all" | "engineering" | "leadership";
 
 export const CareerSection: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<CategoryFilter>("all");
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const { t, tContent } = useLanguage();
 
   const filteredExperiences = EXPERIENCES.filter((exp) => {
     if (activeFilter === "all") return true;
@@ -50,11 +47,11 @@ export const CareerSection: React.FC = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-              <span>Chronology &bull; 2022 &ndash; Present</span>
+              <span>{t("career.eyebrow")}</span>
             </div>
 
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.08]">
-              Work History.
+              {t("career.title")}
             </h2>
           </div>
 
@@ -76,7 +73,7 @@ export const CareerSection: React.FC = () => {
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
-              <span className="relative z-10">All Tracks ({EXPERIENCES.length})</span>
+              <span className="relative z-10">{t("career.allTracks")} ({EXPERIENCES.length})</span>
             </button>
 
             <button
@@ -95,7 +92,7 @@ export const CareerSection: React.FC = () => {
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
-              <span className="relative z-10">Engineering &amp; Systems (3)</span>
+              <span className="relative z-10">{t("career.engineering")} (3)</span>
             </button>
 
             <button
@@ -114,7 +111,7 @@ export const CareerSection: React.FC = () => {
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
-              <span className="relative z-10">Leadership &amp; Advisory (2)</span>
+              <span className="relative z-10">{t("career.leadership")} (2)</span>
             </button>
           </div>
         </div>
@@ -129,6 +126,7 @@ export const CareerSection: React.FC = () => {
               {filteredExperiences.map((exp, index) => {
                 const isHovered = hoveredId === exp.id;
                 const milestoneNumber = `0${EXPERIENCES.findIndex((e) => e.id === exp.id) + 1}`;
+                const achievements = tContent(exp.achievements) || [];
 
                 return (
                   <motion.div
@@ -195,13 +193,13 @@ export const CareerSection: React.FC = () => {
                           <div>
                             <div className="flex flex-wrap items-center gap-2.5">
                               <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
-                                {exp.role}
+                                {tContent(exp.role)}
                               </h3>
 
                               {exp.current && (
                                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25">
                                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                  Present Role
+                                  {t("career.presentRole")}
                                 </span>
                               )}
                             </div>
@@ -216,17 +214,17 @@ export const CareerSection: React.FC = () => {
                         <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 text-xs font-mono text-gray-600 dark:text-gray-300">
                           <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700/80">
                             <Calendar className="w-3.5 h-3.5 text-[#1a3a35] dark:text-emerald-400" />
-                            <span>{exp.period}</span>
+                            <span>{tContent(exp.period)}</span>
                           </span>
 
                           <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700/80">
                             <MapPin className="w-3.5 h-3.5 text-[#1a3a35] dark:text-emerald-400" />
-                            <span>{exp.location}</span>
+                            <span>{tContent(exp.location)}</span>
                           </span>
 
                           <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700/80 text-[11px] font-bold text-gray-700 dark:text-gray-300">
                             <Briefcase className="w-3.5 h-3.5 text-[#1a3a35] dark:text-emerald-400" />
-                            <span>{exp.type}</span>
+                            <span>{tContent(exp.type)}</span>
                           </span>
                         </div>
                       </div>
@@ -234,18 +232,18 @@ export const CareerSection: React.FC = () => {
                       {/* Scope & Narrative Description */}
                       <div className="relative z-10 py-5">
                         <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed max-w-4xl font-normal">
-                          {exp.description}
+                          {tContent(exp.description)}
                         </p>
                       </div>
 
                       {/* Key Outcomes: Editorial Bento Tiles */}
                       <div className="relative z-10 pt-4 border-t border-gray-100 dark:border-gray-800/80">
                         <span className="text-[11px] font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400 block mb-3 font-semibold">
-                          Delivered Impact &amp; Contributions
+                          {t("career.impact")}
                         </span>
 
                         <div className="grid md:grid-cols-3 gap-3">
-                          {exp.achievements.map((ach, aIdx) => (
+                          {achievements.map((ach, aIdx) => (
                             <div
                               key={aIdx}
                               className="p-3.5 sm:p-4 rounded-[14px] bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800/90 flex items-start gap-3 hover:border-gray-300 dark:hover:border-gray-700 transition-colors group/item"
@@ -265,7 +263,7 @@ export const CareerSection: React.FC = () => {
                       {exp.technologies && exp.technologies.length > 0 && (
                         <div className="relative z-10 mt-5 pt-4 border-t border-gray-100 dark:border-gray-800/60 flex flex-wrap items-center gap-2">
                           <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 dark:text-gray-500 mr-2">
-                            Key Competencies:
+                            {t("career.competencies")}:
                           </span>
                           {exp.technologies.map((tech) => (
                             <span

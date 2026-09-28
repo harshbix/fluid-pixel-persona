@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { Plus, Minus, ArrowRight, Zap } from "lucide-react";
+import { Plus, Minus, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BookingModal } from "../common/BookingModal";
 import { FAQS } from "../../data/portfolioData";
+import { useLanguage } from "../../context/LanguageContext";
 
 export const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [bookingOpen, setBookingOpen] = useState(false);
+  const { t, tContent } = useLanguage();
 
   const toggle = (idx: number) => {
     setOpenIndex(openIndex === idx ? null : idx);
@@ -39,8 +41,7 @@ export const FAQSection = () => {
 
                 <div className="absolute top-10 left-8 sm:top-12 sm:left-10 max-w-xs z-10">
                   <h2 className="text-4xl lg:text-5xl font-bold text-white leading-tight tracking-tight">
-                    Need Help? <br />
-                    Start Here...
+                    {t("faq.title")}
                   </h2>
                 </div>
               </div>
@@ -52,12 +53,12 @@ export const FAQSection = () => {
               >
                 <div className="flex items-center gap-2 mb-2 text-emerald-300 text-xs font-mono font-semibold uppercase tracking-wider">
                   <Zap className="w-3.5 h-3.5 fill-current" />
-                  Free Strategy
+                  {t("faq.freeCall")}
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-1">Get Started</h3>
-                <p className="text-2xl font-bold text-emerald-300 mb-4">Free Call?</p>
+                <h3 className="text-2xl font-bold text-white mb-1">{t("faq.getStarted")}</h3>
+                <p className="text-2xl font-bold text-emerald-300 mb-4">{t("faq.freeCallQuestion")}</p>
                 <span className="text-xs font-bold uppercase tracking-wider text-white/90 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5">
-                  Schedule Now &rarr;
+                  {t("faq.scheduleNow")} &rarr;
                 </span>
               </div>
             </motion.div>
@@ -66,10 +67,12 @@ export const FAQSection = () => {
             <div className="space-y-3 flex flex-col justify-center">
               {FAQS.map((faq, index) => {
                 const isOpen = openIndex === index;
+                const question = tContent(faq.question);
+                const answer = tContent(faq.answer);
 
                 return (
                   <motion.div
-                    key={faq.question}
+                    key={index}
                     initial={{ opacity: 0, y: 16 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -90,7 +93,7 @@ export const FAQSection = () => {
                           isOpen ? "text-white" : "text-gray-900 dark:text-white group-hover:text-[#1a3a35] dark:group-hover:text-emerald-400"
                         }`}
                       >
-                        {faq.question}
+                        {question}
                       </h3>
 
                       <div
@@ -115,7 +118,7 @@ export const FAQSection = () => {
                         >
                           <div className="px-6 sm:px-8 pb-6">
                             <p className="text-sm leading-relaxed border-t pt-4 text-white/90 border-white/20">
-                              {faq.answer}
+                              {answer}
                             </p>
                           </div>
                         </motion.div>

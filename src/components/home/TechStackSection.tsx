@@ -2,43 +2,46 @@ import { motion } from "framer-motion";
 import { Code2, Server, Database, Wrench } from "lucide-react";
 import { SectionHeader } from "../common/SectionHeader";
 import { TECH_STACK } from "../../data/portfolioData";
+import { useLanguage } from "../../context/LanguageContext";
 
 export const TechStackSection = () => {
+  const { t } = useLanguage();
+
   const groups = [
     {
-      title: "Frontend Engineering",
-      subtitle: "Interfaces & User Experience",
+      title: t("tech.frontendTitle"),
+      subtitle: t("tech.frontendSubtitle"),
       icon: Code2,
       skills: TECH_STACK.frontend,
     },
     {
-      title: "Backend & Server Architecture",
-      subtitle: "Services, APIs & Business Logic",
+      title: t("tech.backendTitle"),
+      subtitle: t("tech.backendSubtitle"),
       icon: Server,
       skills: TECH_STACK.backend,
     },
     {
-      title: "Databases & Cloud Hosting",
-      subtitle: "Persistence, Auth & Deployment",
+      title: t("tech.dataTitle"),
+      subtitle: t("tech.dataSubtitle"),
       icon: Database,
       skills: TECH_STACK.dataAndCloud,
     },
     {
-      title: "Tooling & Workflow Systems",
-      subtitle: "Version Control & Optimization",
+      title: t("tech.toolsTitle"),
+      subtitle: t("tech.toolsSubtitle"),
       icon: Wrench,
       skills: TECH_STACK.toolsAndArchitecture,
     },
   ];
 
   return (
-    <section id="tech-stack" className="py-24 lg:py-32 px-6 lg:px-12 border-b border-white/[0.08] relative">
+    <section id="tech-stack" className="py-24 lg:py-32 px-6 lg:px-12 border-b border-gray-200 dark:border-gray-800 bg-background relative transition-colors">
       <div className="max-w-7xl mx-auto">
         <SectionHeader
-          badge="06 / Technology Matrix"
-          title="Architecture & Technologies"
-          subtitle="Grounded in production-tested tools."
-          description="I choose battle-tested libraries and runtimes that favor maintainability, predictable typing, and long-term stability over fragile trends."
+          badge={t("tech.eyebrow")}
+          title={t("tech.title")}
+          subtitle={t("tech.subtitle")}
+          description={t("tech.description")}
         />
 
         {/* 4 Group Cards */}
@@ -50,31 +53,31 @@ export const TechStackSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.7, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-[28px] border border-white/[0.08] bg-card/40 p-8 backdrop-blur-sm hover:border-primary/40 transition-all duration-300"
+              className="rounded-[24px] border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/60 p-6 sm:p-8 hover:border-[#1a3a35] dark:hover:border-emerald-500/40 transition-all duration-300 shadow-xs"
             >
               {/* Group Header */}
-              <div className="flex items-center gap-3.5 pb-6 border-b border-white/[0.06] mb-6">
-                <div className="h-10 w-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
+              <div className="flex items-center gap-3.5 pb-6 border-b border-gray-100 dark:border-gray-800/80 mb-6">
+                <div className="h-10 w-10 rounded-xl bg-[#1a3a35]/10 dark:bg-emerald-500/10 flex items-center justify-center text-[#1a3a35] dark:text-emerald-400">
                   <group.icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-foreground">{group.title}</h3>
-                  <p className="text-xs text-muted-foreground">{group.subtitle}</p>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">{group.title}</h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{group.subtitle}</p>
                 </div>
               </div>
 
               {/* Skills List without Percentage Bars */}
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {group.skills.map((item) => (
                   <div
                     key={item.name}
-                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 p-3 rounded-xl border border-white/[0.04] bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 p-3 rounded-xl border border-gray-100 dark:border-gray-800/60 bg-gray-50/50 dark:bg-gray-800/40 hover:bg-gray-100 dark:hover:bg-gray-800/80 transition-colors"
                   >
                     <div className="flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                      <span className="font-semibold text-sm text-foreground">{item.name}</span>
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                      <span className="font-semibold text-sm text-gray-900 dark:text-white">{item.name}</span>
                     </div>
-                    <span className="text-xs text-muted-foreground font-mono">{item.note}</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">{item.note}</span>
                   </div>
                 ))}
               </div>

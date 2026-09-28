@@ -8,36 +8,39 @@ import { TechStackSection } from "../components/home/TechStackSection";
 import { ConversionCTASection } from "../components/home/ConversionCTASection";
 import { SiteFooter } from "../components/layout/SiteFooter";
 import { PERSONAL_INFO } from "../data/portfolioData";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function About() {
+  const { t, tContent } = useLanguage();
+
   const personalPassions = [
     {
       icon: Trophy,
-      title: "Chess & Strategy",
-      description: "Positional play, opening calculations, and patience. Chess trains pattern recognition and thinking multiple moves ahead.",
+      title: t("aboutPage.passion1Title"),
+      description: t("aboutPage.passion1Desc"),
     },
     {
       icon: Gamepad2,
-      title: "Gaming — FC & Mortal Kombat",
-      description: "High-tempo competition in EA Sports FC and Mortal Kombat. Quick reflexes, instant reads, and a reliable way to decompress.",
+      title: t("aboutPage.passion2Title"),
+      description: t("aboutPage.passion2Desc"),
     },
     {
       icon: Film,
-      title: "Post-Apocalyptic Cinema",
-      description: "Fascinated by atmospheric world-building, high-stakes survival stories, and human resilience under extreme constraints.",
+      title: t("aboutPage.passion3Title"),
+      description: t("aboutPage.passion3Desc"),
     },
     {
       icon: Music,
-      title: "Dance & Performing Arts",
-      description: "Movement teaches rhythm, pacing, and dynamic tension — sensibilities that directly inform how digital interfaces transition.",
+      title: t("aboutPage.passion4Title"),
+      description: t("aboutPage.passion4Desc"),
     },
   ];
 
   return (
     <>
       <SEO
-        title="About Junior Jeconia | Full-Stack Developer & Systems Builder"
-        description="Learn about Junior Jeconia (harshbix), full-stack developer, computer engineering student, tech educator, and builder based in Dar es Salaam, Tanzania."
+        title={`${t("aboutPage.heroTitle")} | Junior Jeconia`}
+        description={t("aboutPage.heroLead")}
         url="https://jeconiajunior.vercel.app/about"
       />
 
@@ -52,18 +55,18 @@ export default function About() {
               className="max-w-3xl"
             >
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-mono font-semibold uppercase tracking-widest text-[#1a3a35] dark:text-emerald-400 mb-4">
-                <span>About &bull; Philosophy</span>
+                <span>{t("aboutPage.eyebrow")}</span>
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.05]">
-                Engineering First.
+                {t("aboutPage.heroTitle")}
                 <span className="block text-gray-500 dark:text-gray-400 text-2xl sm:text-4xl lg:text-5xl font-medium mt-1">
-                  Design by obsession.
+                  {t("aboutPage.heroSubtitle")}
                 </span>
               </h1>
 
               <p className="mt-6 text-base sm:text-lg text-gray-600 dark:text-gray-300 font-normal leading-relaxed">
-                I am Junior Jeconia (online as <strong className="text-gray-900 dark:text-white font-semibold">harshbix</strong>), a full-stack developer and Computer Engineering student based in Dar es Salaam, Tanzania. I build digital systems where frontend precision and backend reliability meet.
+                {t("aboutPage.heroLead")}
               </p>
             </motion.div>
           </div>
@@ -75,22 +78,22 @@ export default function About() {
             {/* Story text */}
             <div className="space-y-6 text-gray-600 dark:text-gray-300 text-base md:text-lg leading-relaxed">
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
-                From Computer Hardware to Full-Stack Software
+                {t("aboutPage.storyTitle")}
               </h2>
               <p>
-                My foundation began in physical computing and enterprise systems at <span className="text-gray-900 dark:text-white font-semibold">Bixx Tech</span>, configuring performance workstations and managing mission-critical hardware.
+                {t("aboutPage.storyP1")}
               </p>
               <p>
-                Later, modernizing logistical infrastructure at <span className="text-gray-900 dark:text-white font-semibold">Tanzania Posts Corporation</span> solidified a standard: software must perform reliably under low bandwidth and real device constraints.
+                {t("aboutPage.storyP2")}
               </p>
               <p>
-                Today, at <span className="text-gray-900 dark:text-white font-semibold">Farols Company</span> and across independent products, I build web applications that load fast and work reliably.
+                {t("aboutPage.storyP3")}
               </p>
 
               {/* Callout Quote */}
               <div className="mt-6 p-6 rounded-[16px] border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/60">
                 <p className="text-gray-900 dark:text-white font-semibold text-base mb-2">
-                  &ldquo;A digital product is finished when real people accomplish their goal with zero friction.&rdquo;
+                  {t("aboutPage.quote")}
                 </p>
                 <span className="text-xs font-mono text-[#1a3a35] dark:text-emerald-400">
                   — Junior Jeconia
@@ -104,9 +107,9 @@ export default function About() {
                 <div className="w-10 h-10 rounded-[10px] bg-[#1a3a35] text-white flex items-center justify-center">
                   <Cpu className="w-5 h-5" />
                 </div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white">Computer Engineering</h3>
+                <h3 className="text-base font-bold text-gray-900 dark:text-white">{t("aboutPage.d1Title")}</h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                  University engineering background in digital logic, systems architecture, and computing hardware.
+                  {t("aboutPage.d1Desc")}
                 </p>
               </div>
 
@@ -114,9 +117,9 @@ export default function About() {
                 <div className="w-10 h-10 rounded-[10px] bg-[#1a3a35] text-white flex items-center justify-center">
                   <Layers className="w-5 h-5" />
                 </div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white">Frontend Precision</h3>
+                <h3 className="text-base font-bold text-gray-900 dark:text-white">{t("aboutPage.d2Title")}</h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                  React, TypeScript, Tailwind, accessible design systems, and responsive layouts that never break.
+                  {t("aboutPage.d2Desc")}
                 </p>
               </div>
 
@@ -124,9 +127,9 @@ export default function About() {
                 <div className="w-10 h-10 rounded-[10px] bg-[#1a3a35] text-white flex items-center justify-center">
                   <Terminal className="w-5 h-5" />
                 </div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white">Backend &amp; APIs</h3>
+                <h3 className="text-base font-bold text-gray-900 dark:text-white">{t("aboutPage.d3Title")}</h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                  Node.js, Express, REST APIs, PostgreSQL data modeling, and low-latency edge caching.
+                  {t("aboutPage.d3Desc")}
                 </p>
               </div>
 
@@ -134,9 +137,9 @@ export default function About() {
                 <div className="w-10 h-10 rounded-[10px] bg-[#1a3a35] text-white flex items-center justify-center">
                   <Wrench className="w-5 h-5" />
                 </div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white">Workstation Hardware</h3>
+                <h3 className="text-base font-bold text-gray-900 dark:text-white">{t("aboutPage.d4Title")}</h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                  Bixx Tech: Custom PC builds, diagnostic benchmarking, and enterprise component procurement.
+                  {t("aboutPage.d4Desc")}
                 </p>
               </div>
             </div>
@@ -151,13 +154,13 @@ export default function About() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center max-w-2xl mx-auto mb-14">
               <span className="text-xs font-mono font-semibold uppercase tracking-widest text-[#1a3a35] dark:text-emerald-400 block mb-2">
-                Downtime &amp; Curiosity
+                {t("aboutPage.beyondEyebrow")}
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Beyond the Screen
+                {t("aboutPage.beyondTitle")}
               </h2>
               <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
-                What sharpens my focus and shapes my perspective when I am not at the keyboard.
+                {t("aboutPage.beyondSubtitle")}
               </p>
             </div>
 
@@ -189,26 +192,26 @@ export default function About() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center max-w-2xl mx-auto mb-14">
               <span className="text-xs font-mono font-semibold uppercase tracking-widest text-[#1a3a35] dark:text-emerald-400 block mb-2">
-                Standards
+                {t("aboutPage.standardsEyebrow")}
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
-                How I Approach Software
+                {t("aboutPage.standardsTitle")}
               </h2>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {PERSONAL_INFO.coreValues.map((val, idx) => (
                 <div
-                  key={val.title}
+                  key={idx}
                   className="rounded-[16px] border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/60 p-6 flex flex-col justify-between"
                 >
                   <span className="font-mono text-xs font-bold text-[#1a3a35] dark:text-emerald-400 mb-4 block">
                     0{idx + 1}
                   </span>
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{val.title}</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{tContent(val.title)}</h3>
                     <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                      {val.description}
+                      {tContent(val.description)}
                     </p>
                   </div>
                 </div>

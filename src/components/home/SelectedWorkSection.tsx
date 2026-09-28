@@ -3,11 +3,18 @@ import { Link } from "react-router-dom";
 import { ExternalLink, Github, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PROJECTS } from "../../data/portfolioData";
+import { useLanguage } from "../../context/LanguageContext";
 
 export const SelectedWorkSection = () => {
   const [filter, setFilter] = useState<string>("All");
+  const { t, tContent } = useLanguage();
 
-  const categories = ["All", "Full-Stack", "Frontend", "Design & Systems"];
+  const categoryFilters = [
+    { key: "All", label: t("work.filterAll") },
+    { key: "Full-Stack", label: t("work.filterFullStack") },
+    { key: "Frontend", label: t("work.filterFrontend") },
+    { key: "Design & Systems", label: t("work.filterDesign") },
+  ];
 
   const filteredProjects =
     filter === "All"
@@ -25,31 +32,31 @@ export const SelectedWorkSection = () => {
           <div>
             <div className="inline-block px-3 py-1.5 rounded-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 mb-3 shadow-sm">
               <p className="text-xs font-semibold text-gray-800 dark:text-gray-200 uppercase tracking-wider">
-                FEATURED WORK
+                {t("work.eyebrow")}
               </p>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white tracking-[-0.03em]">
-              Selected Projects
+              {t("work.title")}
             </h2>
             <p className="mt-2 text-base text-gray-600 dark:text-gray-400 max-w-xl">
-              Real products, clean architectures, and live web systems engineered for performance and reliability.
+              {t("work.subtitle")}
             </p>
           </div>
 
           {/* Filter Pills */}
           <div className="flex flex-wrap items-center gap-2">
-            {categories.map((cat) => (
+            {categoryFilters.map((cat) => (
               <button
-                key={cat}
+                key={cat.key}
                 type="button"
-                onClick={() => setFilter(cat)}
+                onClick={() => setFilter(cat.key)}
                 className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-200 ${
-                  filter === cat
+                  filter === cat.key
                     ? "bg-[#1a3a35] dark:bg-emerald-600 text-white shadow-sm"
                     : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                 }`}
               >
-                {cat}
+                {cat.label}
               </button>
             ))}
           </div>
@@ -68,7 +75,7 @@ export const SelectedWorkSection = () => {
               <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 aspect-[16/10] bg-gray-100 dark:bg-gray-800 relative group">
                 <img
                   src={featured.image}
-                  alt={featured.imageAlt || featured.title}
+                  alt={featured.imageAlt ? tContent(featured.imageAlt) : featured.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="eager"
                 />
@@ -87,7 +94,7 @@ export const SelectedWorkSection = () => {
                 </h3>
 
                 <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {featured.description}
+                  {tContent(featured.summary) || tContent(featured.description)}
                 </p>
 
                 <div className="flex flex-wrap gap-2 pt-2">
@@ -108,7 +115,7 @@ export const SelectedWorkSection = () => {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3a35] hover:bg-[#142d29] text-white text-xs font-bold uppercase tracking-wider shadow-md transition-all"
                   >
-                    <span>Live Demo</span>
+                    <span>{t("work.liveSite")}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
 
@@ -120,15 +127,16 @@ export const SelectedWorkSection = () => {
                       className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white text-xs font-semibold uppercase tracking-wider hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
                     >
                       <Github className="w-3.5 h-3.5" />
-                      <span>Code</span>
+                      <span>{t("work.sourceCode")}</span>
                     </a>
                   )}
 
                   <Link
                     to={`/projects/${featured.slug}`}
-                    className="text-xs font-bold text-[#1a3a35] dark:text-emerald-400 hover:underline ml-auto"
+                    className="text-xs font-bold text-[#1a3a35] dark:text-emerald-400 hover:underline ml-auto inline-flex items-center gap-1"
                   >
-                    Case Study &rarr;
+                    <span>{t("work.caseStudy")}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>
@@ -152,7 +160,7 @@ export const SelectedWorkSection = () => {
                   <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800 aspect-[16/10] bg-gray-100 dark:bg-gray-800 relative mb-4">
                     <img
                       src={project.image}
-                      alt={project.imageAlt || project.title}
+                      alt={project.imageAlt ? tContent(project.imageAlt) : project.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
                     />
@@ -168,7 +176,7 @@ export const SelectedWorkSection = () => {
                   </h4>
 
                   <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
-                    {project.summary}
+                    {tContent(project.summary)}
                   </p>
 
                   <div className="flex flex-wrap gap-1.5 mb-4">
@@ -209,9 +217,10 @@ export const SelectedWorkSection = () => {
 
                   <Link
                     to={`/projects/${project.slug}`}
-                    className="text-xs font-bold text-[#1a3a35] dark:text-emerald-400 hover:underline"
+                    className="text-xs font-bold text-[#1a3a35] dark:text-emerald-400 hover:underline inline-flex items-center gap-1"
                   >
-                    Case Study &rarr;
+                    <span>{t("work.caseStudy")}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </motion.article>
@@ -224,7 +233,7 @@ export const SelectedWorkSection = () => {
             to="/projects"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 font-semibold text-xs uppercase tracking-wider text-gray-900 dark:text-white transition-all shadow-sm"
           >
-            <span>View All Projects</span>
+            <span>{t("work.viewAll")}</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

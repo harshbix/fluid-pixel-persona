@@ -1,128 +1,77 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { SupportedLocale, DEFAULT_LOCALE, SUPPORTED_LOCALES, resolveLocalized, Localized } from "../i18n/locales";
+import { translations } from "../i18n/translations";
 
-export type Language = "en" | "sw";
+export type Language = SupportedLocale;
 
 interface LanguageContextType {
-  language: Language;
-  setLanguage: (lang: Language) => void;
+  language: SupportedLocale;
+  setLanguage: (lang: SupportedLocale) => void;
   toggleLanguage: () => void;
-  t: (key: string) => string;
+  t: (key: string, fallback?: string) => string;
+  tContent: <T>(content: Localized<T> | T | undefined, fallback?: T) => T;
 }
-
-const translations: Record<Language, Record<string, string>> = {
-  en: {
-    // Navigation
-    "nav.home": "Home",
-    "nav.services": "Services",
-    "nav.projects": "Projects",
-    "nav.products": "Products",
-    "nav.about": "About",
-    "nav.blog": "Blog",
-    "nav.contact": "Contact",
-    "nav.resume": "Resume / CV",
-    "nav.more": "More",
-    "nav.bookCall": "Book a Call",
-
-    // Hero
-    "hero.greeting": "Junior Jeconia",
-    "hero.title": "Crafting Digital Systems.",
-    "hero.subtitle": "I design and build websites, web applications, and digital systems with a strong focus on frontend craft and reliable architecture.",
-    "hero.viewWork": "View Work",
-    "hero.contact": "Book a Call",
-    "hero.available": "Available for select projects",
-    "hero.cardTitle": "Book a Call",
-    "hero.cardSubtitle": "Have a project or idea? Let's discuss.",
-    "hero.cardBtn": "Schedule Call",
-
-    // CTA
-    "cta.title": "Let's build something useful.",
-    "cta.subtitle": "Have a website, application, or digital product in mind? Let's talk.",
-    "cta.startProject": "Start a Project",
-    "cta.bookCall": "Schedule a Call",
-    "cta.directAccess": "Direct Developer Communication",
-    "cta.fastResponse": "Quick Turnaround",
-
-    // Common
-    "common.new": "New",
-    "common.explore": "Explore",
-    "common.readMore": "Read Note",
-    "common.getStarted": "Get Started",
-  },
-  sw: {
-    // Navigation
-    "nav.home": "Mwanzo",
-    "nav.services": "Huduma",
-    "nav.projects": "Kazi Zangu",
-    "nav.products": "Bidhaa",
-    "nav.about": "Kuhusu",
-    "nav.blog": "Makala",
-    "nav.contact": "Mawasiliano",
-    "nav.resume": "Wasifu / CV",
-    "nav.more": "Zaidi",
-    "nav.bookCall": "Panga Mazungumzo",
-
-    // Hero
-    "hero.greeting": "Junior Jeconia",
-    "hero.title": "Kutengeneza Mifumo ya Kidijitali.",
-    "hero.subtitle": "Ninatengeneza tovuti, mifumo ya kidijitali, na programu za kisasa nikizingatia utendaji wa haraka na uzoefu bora wa mtumiaji.",
-    "hero.viewWork": "Tazama Kazi",
-    "hero.contact": "Panga Mazungumzo",
-    "hero.available": "Ninapatikana kwa miradi mipya",
-    "hero.cardTitle": "Panga Mazungumzo",
-    "hero.cardSubtitle": "Una mradi au wazo? Tuzungumze.",
-    "hero.cardBtn": "Weka Miadi",
-
-    // CTA
-    "cta.title": "Tujenge kitu chenye manufaa.",
-    "cta.subtitle": "Una wazo la tovuti, mfumo au programu ya kidijitali? Tuwasiliane tuzungumze.",
-    "cta.startProject": "Anzisha Mradi",
-    "cta.bookCall": "Panga Mazungumzo",
-    "cta.directAccess": "Mawasiliano ya Moja kwa Moja",
-    "cta.fastResponse": "Majibu Ndani ya Saa 24",
-
-    // Common
-    "common.new": "Mpya",
-    "common.explore": "Angalia",
-    "common.readMore": "Soma Zaidi",
-    "common.getStarted": "Anza Sasa",
-  },
-};
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>(() => {
+  const [language, setLanguageState] = useState<SupportedLocale>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("portfolio_lang") as Language;
-      if (saved === "en" || saved === "sw") return saved;
+      try {
+        const saved = localStorage.getItem("portfolio_lang") as SupportedLocale;
+        if (saved && saved in SUPPORTED_LOCALES) return saved;
+      } catch {
+        // Ignore storage errors in private browsing
+      }
     }
-    return "en";
+    return DEFAULT_LOCALE;
   });
 
-  const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("portfolio_lang", lang);
-      document.documentElement.lang = lang;
-    }
-  };
-
-  const toggleLanguage = () => {
-    setLanguage(language === "en" ? "sw" : "en");
-  };
-
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof document !== "undefined") {
       document.documentElement.lang = language;
+    }
+    try {
+      localStorage.setItem("portfolio_lang", language);
+    } catch {
+      // Ignore storage errors
     }
   }, [language]);
 
-  const t = (key: string): string => {
-    return translations[language][key] || translations.en[key] || key;
-  };
+  const setLanguage = useCallback((newLang: SupportedLocale) => {
+    if (newLang in SUPPORTED_LOCALES) {
+      setLanguageState(newLang);
+    }
+  }, []);
+
+  const toggleLanguage = useCallback(() => {
+    setLanguageState((prev) => (prev === "en" ? "sw" : "en"));
+  }, []);
+
+  const t = useCallback(
+    (key: string, fallback?: string): string => {
+      const activeDict = translations[language];
+      if (activeDict && key in activeDict) {
+        return activeDict[key];
+      }
+      const defaultDict = translations[DEFAULT_LOCALE];
+      if (defaultDict && key in defaultDict) {
+        return defaultDict[key];
+      }
+      return fallback !== undefined ? fallback : key;
+    },
+    [language]
+  );
+
+  const tContent = useCallback(
+    <T,>(content: Localized<T> | T | undefined, fallback?: T): T => {
+      return resolveLocalized(content, language, fallback as T);
+    },
+    [language]
+  );
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage, t, tContent }}>
       {children}
     </LanguageContext.Provider>
   );

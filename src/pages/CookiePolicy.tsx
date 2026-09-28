@@ -3,8 +3,10 @@ import { ArrowLeft, Cookie, CheckCircle2, ShieldCheck, Sliders, RefreshCw } from
 import { SEO } from "../seo";
 import { SiteFooter } from "../components/layout/SiteFooter";
 import { PERSONAL_INFO } from "../data/portfolioData";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function CookiePolicy() {
+  const { t } = useLanguage();
   const lastUpdated = "September 2026";
 
   const openCookiePreferences = () => {
@@ -28,7 +30,7 @@ export default function CookiePolicy() {
               className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-400 hover:text-[#1a3a35] dark:hover:text-emerald-400 mb-8 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Back to Home</span>
+              <span>{t("legal.backHome")}</span>
             </Link>
 
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-mono font-semibold uppercase tracking-widest text-[#1a3a35] dark:text-emerald-400 mb-4">
@@ -40,7 +42,7 @@ export default function CookiePolicy() {
               Cookie &amp; Local Storage Policy
             </h1>
             <p className="mt-3 text-sm text-gray-600 dark:text-gray-400 font-mono">
-              Last updated: {lastUpdated} &bull; Dar es Salaam, Tanzania
+              {t("legal.lastUpdated")}: {lastUpdated} &bull; Dar es Salaam, Tanzania
             </p>
           </div>
         </section>

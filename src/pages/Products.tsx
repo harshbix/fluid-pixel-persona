@@ -1,26 +1,34 @@
 import { useState } from "react";
-import { ArrowUpRight, ExternalLink, Package, Check, Download, Sparkles, Filter } from "lucide-react";
+import { ExternalLink, Package, Check, Download } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SEO } from "../seo";
 import { ConversionCTASection } from "../components/home/ConversionCTASection";
 import { SiteFooter } from "../components/layout/SiteFooter";
-import { DIGITAL_PRODUCTS, DigitalProduct } from "../data/portfolioData";
+import { DIGITAL_PRODUCTS } from "../data/portfolioData";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Products() {
+  const { t, tContent } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>("All");
 
-  const categories = ["All", "Code Template", "Engineering Guide", "Hardware Guide", "Design Tokens"];
+  const categories = [
+    { id: "All", label: t("common.all") },
+    { id: "Code Template", label: "Code Template" },
+    { id: "Engineering Guide", label: "Engineering Guide" },
+    { id: "Hardware Guide", label: "Hardware Guide" },
+    { id: "Design Tokens", label: "Design Tokens" },
+  ];
 
   const filtered =
     activeCategory === "All"
       ? DIGITAL_PRODUCTS
-      : DIGITAL_PRODUCTS.filter((p) => p.category === activeCategory);
+      : DIGITAL_PRODUCTS.filter((p) => p.category.en === activeCategory);
 
   return (
     <>
       <SEO
-        title="Digital Materials, Templates & Guides | Junior Jeconia"
-        description="Download production-grade starter kits, architecture field manuals, hardware diagnostic blueprints, and accessible design tokens created by Junior Jeconia."
+        title={`${t("productsPage.title")} | Junior Jeconia`}
+        description={t("productsPage.description")}
         url="https://jeconiajunior.vercel.app/products"
       />
 
@@ -36,18 +44,18 @@ export default function Products() {
             >
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-mono font-semibold uppercase tracking-widest text-[#1a3a35] dark:text-emerald-400 mb-4">
                 <Package className="w-3.5 h-3.5" />
-                <span>Digital Products &bull; Engineering Artifacts</span>
+                <span>{t("productsPage.eyebrow")}</span>
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.05]">
-                Tools &amp; Materials.
+                {t("productsPage.title")}
                 <span className="block text-gray-500 dark:text-gray-400 text-2xl sm:text-4xl lg:text-5xl font-medium mt-1">
-                  Engineered to accelerate your builds.
+                  {t("productsPage.subtitle")}
                 </span>
               </h1>
 
               <p className="mt-6 text-base sm:text-lg text-gray-600 dark:text-gray-300 font-normal leading-relaxed">
-                A curated library of starter templates, architecture guides, hardware manuals, and accessible design tokens. Built from practical field experience and free to clone, read, or integrate into your stack.
+                {t("productsPage.description")}
               </p>
             </motion.div>
 
@@ -55,16 +63,16 @@ export default function Products() {
             <div className="mt-12 flex flex-wrap items-center gap-2 pt-6 border-t border-gray-200 dark:border-gray-800">
               {categories.map((cat) => (
                 <button
-                  key={cat}
+                  key={cat.id}
                   type="button"
-                  onClick={() => setActiveCategory(cat)}
+                  onClick={() => setActiveCategory(cat.id)}
                   className={`rounded-full px-4 py-2 text-xs font-semibold tracking-wider uppercase transition-all duration-200 ${
-                    activeCategory === cat
+                    activeCategory === cat.id
                       ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-sm"
                       : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-gray-700"
                   }`}
                 >
-                  {cat}
+                  {cat.label}
                 </button>
               ))}
             </div>
@@ -89,12 +97,12 @@ export default function Products() {
                       {/* Top Bar with Category, Badge & Price */}
                       <div className="flex items-center justify-between gap-4 mb-4">
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
-                          {prod.category}
+                          {tContent(prod.category)}
                         </span>
                         <div className="flex items-center gap-2">
                           {prod.badge && (
                             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                              {prod.badge}
+                              {tContent(prod.badge)}
                             </span>
                           )}
                           <span className="text-sm font-bold text-gray-900 dark:text-white">
@@ -108,20 +116,20 @@ export default function Products() {
                         {prod.title}
                       </h2>
                       <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-4">
-                        {prod.tagline}
+                        {tContent(prod.tagline)}
                       </p>
 
                       <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
-                        {prod.description}
+                        {tContent(prod.description)}
                       </p>
 
                       {/* Included Features */}
                       <div className="rounded-[12px] bg-gray-50 dark:bg-gray-800/50 p-4 border border-gray-100 dark:border-gray-800 mb-6">
                         <span className="text-[10px] font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400 block mb-2">
-                          What is Included
+                          {t("productsPage.whatIsIncluded")}
                         </span>
                         <ul className="space-y-2">
-                          {prod.highlights.map((h) => (
+                          {tContent(prod.highlights).map((h) => (
                             <li key={h} className="flex items-center gap-2 text-xs text-gray-700 dark:text-gray-300">
                               <Check className="w-3.5 h-3.5 text-[#1a3a35] dark:text-emerald-400 flex-shrink-0" />
                               <span>{h}</span>
@@ -145,7 +153,8 @@ export default function Products() {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1 text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
                           >
-                            Live Demo <ExternalLink className="w-3.5 h-3.5" />
+                            <span>{t("productsPage.liveDemo")}</span>
+                            <ExternalLink className="w-3.5 h-3.5" />
                           </a>
                         )}
 
@@ -156,7 +165,7 @@ export default function Products() {
                           className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-[#1a3a35] text-white hover:bg-[#132c28] text-xs font-bold uppercase tracking-wider transition-all shadow-md"
                         >
                           <Download className="w-3.5 h-3.5" />
-                          <span>Get Resource</span>
+                          <span>{t("productsPage.getResource")}</span>
                         </a>
                       </div>
                     </div>

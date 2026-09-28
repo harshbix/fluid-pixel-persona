@@ -1,84 +1,89 @@
+import {
+  PERSONAL_INFO,
+  EXPERIENCES,
+  PROJECTS,
+  TECH_STACK,
+  resolveText,
+  resolveList,
+} from "../data/portfolioData";
+import { SupportedLocale } from "../i18n/locales";
 
-import { projects } from '../components/ProjectsSection';
-import { experiences } from '../components/ExperienceSection';
-import { skills } from '../components/AboutSection';
-// AboutSection: name, bio, image
-// ContactSection: contactInfo
-// These imports must match the actual export style in your components. Adjust if needed.
-
-
-export type Experience = {
+export interface Experience {
   company: string;
   role: string;
   duration: string;
   achievements: string[];
-};
+}
 
-
-export type Contact = {
+export interface Contact {
   email: string;
   phone: string;
   location: string;
   socials: { label: string; url: string }[];
-};
+}
 
-export type ResumeData = {
+export interface ResumeProject {
+  title: string;
+  description: string;
+  tags: string[];
+  link?: string;
+}
+
+export interface ResumeData {
   name: string;
   role: string;
   bio: string;
   skills: string[];
   experience: Experience[];
-  projects: Project[];
+  projects: ResumeProject[];
   contacts: Contact;
   image: string;
-};
+}
 
-type SourceExperience = (typeof experiences)[number];
-type Project = (typeof projects)[number];
-
-export function buildResumeData(): ResumeData {
-  // AboutSection data (adjust if you use context or props)
-  const name = 'Junior Jeconia';
-  const role = 'Frontend-leaning Full-Stack Developer';
-  const bio = 'Frontend-leaning full-stack developer and product builder based in Dar es Salaam, Tanzania. Specializing in high-performance web applications, accessible UI/UX systems, and reliable full-stack architecture with React, TypeScript, and Node.js.';
-  const image = '/assets/profile.jpg';
-
-  // Skills from AboutSection
-  // If AboutSection exports skills as default, adjust import
-
-  // Experience from ExperienceSection
-  const normalizedExperience = experiences.map((exp: SourceExperience) => ({
+export function buildResumeData(lang: SupportedLocale = "en"): ResumeData {
+  const normalizedExperience: Experience[] = EXPERIENCES.map((exp) => ({
     company: exp.company,
-    role: exp.role,
-    duration: exp.period,
-    achievements: exp.achievements,
+    role: resolveText(exp.role, lang),
+    duration: resolveText(exp.period, lang),
+    achievements: resolveList(exp.achievements, lang),
   }));
 
-  // Projects from ProjectsSection
-  // Already normalized
+  const normalizedProjects: ResumeProject[] = PROJECTS.map((proj) => ({
+    title: proj.title,
+    description: resolveText(proj.summary, lang),
+    tags: proj.tags,
+    link: proj.liveUrl || proj.githubUrl,
+  }));
 
-  // Contacts from ContactSection (hardcoded for now, adjust if you export)
-  const contacts = {
-    email: 'juniorjeconia@icloud.com',
-    phone: '+255 755 063 711',
-    location: 'Dar es Salaam, TZ',
+  const skills = [
+    ...TECH_STACK.frontend.map((s) => s.name),
+    ...TECH_STACK.backend.map((s) => s.name),
+    ...TECH_STACK.toolsAndArchitecture.map((s) => s.name),
+    "Hardware Diagnostics",
+    "Workstation Architecture",
+  ];
+
+  const contacts: Contact = {
+    email: PERSONAL_INFO.email,
+    phone: PERSONAL_INFO.phone,
+    location: resolveText(PERSONAL_INFO.location, lang),
     socials: [
-      { label: 'GitHub', url: 'https://github.com/harshbix' },
-      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/junior-jeconia-90710b265' },
-      { label: 'Twitter', url: 'https://twitter.com/b1xson' },
-      { label: 'Instagram', url: 'https://instagram.com/bixx.tech' },
-      { label: 'TikTok', url: 'https://tiktok.com/@bixxtech' },
+      { label: "GitHub", url: PERSONAL_INFO.socials.github },
+      { label: "LinkedIn", url: PERSONAL_INFO.socials.linkedin },
+      { label: "X / Twitter", url: PERSONAL_INFO.socials.twitter },
+      { label: "Instagram", url: PERSONAL_INFO.socials.instagram },
+      { label: "TikTok", url: PERSONAL_INFO.socials.tiktok },
     ],
   };
 
   return {
-    name,
-    role,
-    bio,
+    name: PERSONAL_INFO.name,
+    role: resolveText(PERSONAL_INFO.role, lang),
+    bio: resolveText(PERSONAL_INFO.bioSummary, lang),
     skills,
     experience: normalizedExperience,
-    projects,
+    projects: normalizedProjects,
     contacts,
-    image,
+    image: "/assets/profile.jpg",
   };
 }

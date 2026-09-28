@@ -3,9 +3,11 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { BookingModal } from "../common/BookingModal";
 import { PROCESS_STAGES } from "../../data/portfolioData";
+import { useLanguage } from "../../context/LanguageContext";
 
 export const ProcessSection = () => {
   const [bookingOpen, setBookingOpen] = useState(false);
+  const { t, tContent } = useLanguage();
 
   return (
     <>
@@ -25,14 +27,14 @@ export const ProcessSection = () => {
               >
                 <div className="inline-block px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 mb-4">
                   <p className="text-xs font-mono font-semibold text-[#1a3a35] dark:text-emerald-400 uppercase tracking-widest">
-                    PROCESS
+                    {t("process.eyebrow")}
                   </p>
                 </div>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight tracking-[-0.03em]">
-                  <span className="text-gray-900 dark:text-white">How I Work.</span>
+                  <span className="text-gray-900 dark:text-white">{t("process.title")}</span>
                   <br />
                   <span className="text-gray-500 dark:text-gray-400 text-2xl sm:text-3xl lg:text-4xl font-normal">
-                    From requirements to deployment.
+                    {t("process.subtitle")}
                   </span>
                 </h2>
               </motion.div>
@@ -48,7 +50,7 @@ export const ProcessSection = () => {
                   onClick={() => setBookingOpen(true)}
                   className="bg-[#1a3a35] hover:bg-[#142d29] text-white font-semibold px-8 py-3.5 rounded-full transition-all duration-300 flex items-center gap-2 shadow-sm hover:scale-[1.02] text-xs uppercase tracking-wider"
                 >
-                  <span>Schedule a Call</span>
+                  <span>{t("nav.bookCall")}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </motion.div>
@@ -57,47 +59,52 @@ export const ProcessSection = () => {
 
           {/* 4 Process Columns - Architectural Editorial Layout (Unboxed) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-b border-gray-200 dark:border-gray-800 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-800">
-            {PROCESS_STAGES.map((stage, index) => (
-              <motion.div
-                key={stage.number}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-                className="py-8 md:px-6 lg:px-7 first:pl-0 last:pr-0 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-baseline justify-between mb-4">
-                    <span className="text-2xl font-bold font-mono text-[#1a3a35] dark:text-emerald-400">
-                      {stage.number}
-                    </span>
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                      {stage.phase.split(" & ")[0]}
-                    </span>
+            {PROCESS_STAGES.map((stage, index) => {
+              const deliverables = tContent(stage.deliverables) || [];
+              const phase = tContent(stage.phase);
+
+              return (
+                <motion.div
+                  key={stage.number}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.08 }}
+                  className="py-8 md:px-6 lg:px-7 first:pl-0 last:pr-0 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-baseline justify-between mb-4">
+                      <span className="text-2xl font-bold font-mono text-[#1a3a35] dark:text-emerald-400">
+                        {stage.number}
+                      </span>
+                      <span className="text-[11px] font-mono uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                        {phase.split(" & ")[0] || phase}
+                      </span>
+                    </div>
+
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 tracking-tight">
+                      {tContent(stage.title)}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
+                      {tContent(stage.description)}
+                    </p>
                   </div>
 
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 tracking-tight">
-                    {stage.title}
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
-                    {stage.description}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-gray-100 dark:border-gray-800/80 space-y-1.5">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400 block mb-1">
-                    Deliverables:
-                  </span>
-                  {stage.deliverables.map((del) => (
-                    <div key={del} className="flex items-start gap-2 text-xs text-gray-600 dark:text-gray-300">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#1a3a35] dark:text-emerald-400 flex-shrink-0 mt-0.5" />
-                      <span className="leading-snug">{del}</span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+                  <div className="pt-4 border-t border-gray-100 dark:border-gray-800/80 space-y-1.5">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400 block mb-1">
+                      {t("services.deliverables")}:
+                    </span>
+                    {deliverables.map((del) => (
+                      <div key={del} className="flex items-start gap-2 text-xs text-gray-600 dark:text-gray-300">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#1a3a35] dark:text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <span className="leading-snug">{del}</span>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>

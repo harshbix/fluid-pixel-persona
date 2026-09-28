@@ -1,28 +1,35 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Clock, Calendar, ArrowRight, Tag, BookOpen, X, Download, ArrowUpRight, Package } from "lucide-react";
+import { Clock, ArrowRight, BookOpen, X, Package } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SEO } from "../seo";
 import { ConversionCTASection } from "../components/home/ConversionCTASection";
 import { SiteFooter } from "../components/layout/SiteFooter";
 import { NOTES, NoteItem } from "../data/portfolioData";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Notes() {
+  const { t, tContent } = useLanguage();
   const [selectedNote, setSelectedNote] = useState<NoteItem | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("All");
 
-  const categories = ["All", "UI/UX & Frontend", "Design Engineering", "Performance & Architecture"];
+  const categories = [
+    { id: "All", label: t("common.all") },
+    { id: "UI/UX & Frontend", label: "UI/UX & Frontend" },
+    { id: "Design Engineering", label: "Design Engineering" },
+    { id: "Performance & Architecture", label: "Performance & Architecture" },
+  ];
 
   const filtered =
     activeCategory === "All"
       ? NOTES
-      : NOTES.filter((n) => n.category === activeCategory);
+      : NOTES.filter((n) => n.category.en === activeCategory);
 
   return (
     <>
       <SEO
-        title="Field Notes & Blog | Junior Jeconia"
-        description="Engineering notes, UI design observations, and web architecture lessons by Junior Jeconia (harshbix)."
+        title={`${t("notesPage.title")} | Junior Jeconia`}
+        description={t("notesPage.description")}
         url="https://jeconiajunior.vercel.app/notes"
       />
 
@@ -38,18 +45,18 @@ export default function Notes() {
             >
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-mono font-semibold uppercase tracking-widest text-[#1a3a35] dark:text-emerald-400 mb-4">
                 <BookOpen className="w-3.5 h-3.5" />
-                <span>Field Notes &bull; Technical Blog</span>
+                <span>{t("notesPage.eyebrow")}</span>
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.05]">
-                Thoughts on Craft.
+                {t("notesPage.title")}
                 <span className="block text-gray-500 dark:text-gray-400 text-2xl sm:text-4xl lg:text-5xl font-medium mt-1">
-                  Systems, code &amp; digital materials.
+                  {t("notesPage.subtitle")}
                 </span>
               </h1>
 
               <p className="mt-4 text-base sm:text-lg text-gray-600 dark:text-gray-300 font-normal leading-relaxed">
-                Field notes, architecture lessons, and hardware blueprints from Bixx Tech.
+                {t("notesPage.description")}
               </p>
             </motion.div>
 
@@ -57,16 +64,16 @@ export default function Notes() {
             <div className="mt-12 flex flex-wrap items-center gap-2 pt-6 border-t border-gray-200 dark:border-gray-800">
               {categories.map((cat) => (
                 <button
-                  key={cat}
+                  key={cat.id}
                   type="button"
-                  onClick={() => setActiveCategory(cat)}
+                  onClick={() => setActiveCategory(cat.id)}
                   className={`rounded-full px-4 py-2 text-xs font-semibold tracking-wider uppercase transition-all duration-200 ${
-                    activeCategory === cat
+                    activeCategory === cat.id
                       ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-sm"
                       : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-gray-700"
                   }`}
                 >
-                  {cat}
+                  {cat.label}
                 </button>
               ))}
             </div>
@@ -88,10 +95,10 @@ export default function Notes() {
                   <div className="flex items-center justify-between pb-6 border-b border-gray-100 dark:border-gray-800 mb-6">
                     <div className="flex items-center gap-3">
                       <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 text-xs font-mono font-semibold uppercase tracking-wider text-[#1a3a35] dark:text-emerald-400">
-                        {selectedNote.category}
+                        {tContent(selectedNote.category)}
                       </span>
                       <span className="text-xs font-mono text-gray-500 dark:text-gray-400">{selectedNote.date}</span>
-                      <span className="text-xs font-mono text-gray-500 dark:text-gray-400">&bull; {selectedNote.readTime}</span>
+                      <span className="text-xs font-mono text-gray-500 dark:text-gray-400">&bull; {tContent(selectedNote.readTime)}</span>
                     </div>
                     <button
                       type="button"
@@ -99,34 +106,34 @@ export default function Notes() {
                       className="inline-flex items-center gap-1 text-xs font-mono font-bold uppercase tracking-wider text-gray-500 hover:text-gray-900 dark:hover:text-white py-1 px-3 rounded-lg border border-gray-200 dark:border-gray-700"
                     >
                       <X className="w-3.5 h-3.5" />
-                      Close
+                      {t("common.close")}
                     </button>
                   </div>
 
                   <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight mb-6">
-                    {selectedNote.title}
+                    {tContent(selectedNote.title)}
                   </h2>
 
                   <div className="text-gray-700 dark:text-gray-300 leading-relaxed text-base space-y-4">
                     <p className="font-medium text-gray-900 dark:text-white text-lg">
-                      {selectedNote.summary}
+                      {tContent(selectedNote.summary)}
                     </p>
                     <p>
-                      {selectedNote.content}
+                      {tContent(selectedNote.content)}
                     </p>
                   </div>
 
                   {/* Connected Digital Materials Link */}
                   <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between flex-wrap gap-4">
                     <span className="text-xs font-mono text-gray-500 dark:text-gray-400">
-                      Author: Junior Jeconia (harshbix)
+                      {t("notesPage.author")}
                     </span>
                     <Link
                       to="/products"
                       className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1a3a35] dark:text-emerald-400 hover:underline"
                     >
                       <Package className="w-3.5 h-3.5" />
-                      Explore Starter Kits &amp; Digital Materials &rarr;
+                      {t("notesPage.exploreMaterials")}
                     </Link>
                   </div>
                 </motion.div>
@@ -147,23 +154,23 @@ export default function Notes() {
                   <div className="max-w-2xl">
                     <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mb-2 font-mono">
                       <span className="text-[#1a3a35] dark:text-emerald-400 font-semibold uppercase tracking-wider">
-                        {note.category}
+                        {tContent(note.category)}
                       </span>
                       <span>&bull;</span>
                       <span>{note.date}</span>
                       <span>&bull;</span>
                       <span className="flex items-center gap-1">
                         <Clock className="w-3 h-3" />
-                        {note.readTime}
+                        {tContent(note.readTime)}
                       </span>
                     </div>
 
                     <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-[#1a3a35] dark:group-hover:text-emerald-400 transition-colors tracking-tight">
-                      {note.title}
+                      {tContent(note.title)}
                     </h3>
 
                     <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                      {note.summary}
+                      {tContent(note.summary)}
                     </p>
                   </div>
 
@@ -176,7 +183,7 @@ export default function Notes() {
                       }}
                       className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-800 dark:text-gray-200 hover:bg-[#1a3a35] hover:text-white dark:hover:bg-emerald-400 dark:hover:text-gray-950 transition-all shadow-sm"
                     >
-                      <span>Read Note</span>
+                      <span>{t("notesPage.readNote")}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>

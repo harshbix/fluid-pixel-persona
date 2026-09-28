@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Zap, CheckCircle2, MessageCircle, Clock } from "lucide-react";
 import { motion } from "framer-motion";
 import { BookingModal } from "../common/BookingModal";
+import { useLanguage } from "../../context/LanguageContext";
 
 export const ConversionCTASection = () => {
   const [bookingOpen, setBookingOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <>
@@ -22,29 +24,27 @@ export const ConversionCTASection = () => {
           >
             {/* Section Tag */}
             <p className="text-xs sm:text-sm font-mono font-semibold uppercase tracking-widest text-[#1a3a35] dark:text-emerald-400">
-              Start a Conversation
+              {t("cta.eyebrow")}
             </p>
 
             {/* Headline */}
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white tracking-[-0.03em] leading-tight">
-              Let&apos;s build something useful.
+              {t("cta.title")}
             </h2>
 
             {/* Subtitle */}
             <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
-              Have a website, application, or digital product in mind? Let&apos;s talk.
+              {t("cta.subtitle")}
             </p>
 
             {/* Action Buttons */}
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to="/contact">
-                <button
-                  type="button"
-                  className="w-full sm:w-auto px-8 py-4 bg-[#1a3a35] hover:bg-[#142d29] text-white font-bold text-xs uppercase tracking-wider rounded-full transition-all duration-300 shadow-md hover:scale-[1.02] flex items-center justify-center gap-2"
-                >
-                  <span>Start a Project</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+              <Link
+                to="/contact"
+                className="w-full sm:w-auto px-8 py-4 bg-[#1a3a35] hover:bg-[#142d29] text-white font-bold text-xs uppercase tracking-wider rounded-full transition-all duration-300 shadow-md hover:scale-[1.02] flex items-center justify-center gap-2"
+              >
+                <span>{t("cta.startProject")}</span>
+                <ArrowRight className="w-4 h-4" />
               </Link>
 
               <button
@@ -53,7 +53,7 @@ export const ConversionCTASection = () => {
                 className="w-full sm:w-auto px-8 py-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-bold text-xs uppercase tracking-wider rounded-full transition-all duration-300 shadow-sm flex items-center justify-center gap-2"
               >
                 <Zap className="w-4 h-4 text-emerald-600 dark:text-emerald-400 fill-current" />
-                <span>Schedule a Call</span>
+                <span>{t("cta.scheduleCall")}</span>
               </button>
             </div>
 
@@ -61,15 +61,15 @@ export const ConversionCTASection = () => {
             <div className="pt-12 mt-8 border-t border-gray-200 dark:border-gray-800 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
               <div className="flex items-center justify-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-400">
                 <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>15 min Free Consultation</span>
+                <span>{t("cta.stat1")}</span>
               </div>
               <div className="flex items-center justify-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-400">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>100% Direct Developer Access</span>
+                <span>{t("cta.stat2")}</span>
               </div>
               <div className="flex items-center justify-center gap-2 text-xs font-semibold text-gray-600 dark:text-gray-400">
                 <MessageCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>Sub-24h Response Time</span>
+                <span>{t("cta.stat3")}</span>
               </div>
             </div>
           </motion.div>

@@ -49,7 +49,7 @@ export const HeroSection = () => {
                 className="space-y-4 sm:space-y-5 text-white max-w-2xl"
               >
                 <p className="text-xs font-mono uppercase tracking-widest text-emerald-400 font-semibold">
-                  Frontend-leaning Full-Stack Developer
+                  {t("hero.eyebrow")}
                 </p>
 
                 <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.06] text-white tracking-tight drop-shadow-md">
@@ -57,7 +57,7 @@ export const HeroSection = () => {
                 </h1>
 
                 <p className="text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed font-normal">
-                  I also sell computers, teach tech, and dance.
+                  {t("hero.sideNote")}
                 </p>
 
                 {/* Minimal Action Buttons */}
@@ -95,7 +95,7 @@ export const HeroSection = () => {
                     </h2>
                     <span className="flex items-center gap-1.5 text-[11px] font-mono text-emerald-300">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      Available
+                      {t("hero.available")}
                     </span>
                   </div>
 

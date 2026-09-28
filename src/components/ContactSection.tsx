@@ -3,7 +3,6 @@ import {
   Mail,
   MapPin,
   MessageCircle,
-  Clock,
   Zap,
   ArrowUpRight,
   Copy,
@@ -16,10 +15,12 @@ import {
 import { motion } from "framer-motion";
 import { PERSONAL_INFO } from "../data/portfolioData";
 import { BookingModal } from "./common/BookingModal";
+import { useLanguage } from "../context/LanguageContext";
 
 export const ContactSection: React.FC = () => {
   const [bookingOpen, setBookingOpen] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const { t, tContent } = useLanguage();
 
   const copyEmailToClipboard = () => {
     navigator.clipboard.writeText(PERSONAL_INFO.email);
@@ -99,14 +100,14 @@ export const ContactSection: React.FC = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
                 </span>
-                <span>Get In Touch</span>
+                <span>{t("contact.eyebrow")}</span>
               </div>
 
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.06]">
-                Let&apos;s talk.
+                {t("contact.title")}
               </h2>
               <p className="mt-3 text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-xl font-normal leading-relaxed">
-                Direct communication, fast answers, zero forms. Hit me up on WhatsApp, send an email, or connect across socials.
+                {t("contact.subtitle")}
               </p>
             </div>
 
@@ -117,7 +118,7 @@ export const ContactSection: React.FC = () => {
               className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#1a3a35] hover:bg-[#132c28] text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-md hover:scale-[1.02] self-start md:self-end"
             >
               <Zap className="w-4 h-4 fill-current text-emerald-300" />
-              <span>Schedule 15m Call</span>
+              <span>{t("contact.scheduleCall")}</span>
             </button>
           </div>
 
@@ -137,15 +138,15 @@ export const ContactSection: React.FC = () => {
                     <MessageCircle className="w-6 h-6" />
                   </div>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25">
-                    Fastest Response
+                    {t("contact.whatsappFast")}
                   </span>
                 </div>
 
                 <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight mb-2">
-                  WhatsApp
+                  {t("contact.whatsappTitle")}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-6 font-normal">
-                  Best for quick discussions, scope clarifications, and urgent requirements.
+                  {t("contact.whatsappDesc")}
                 </p>
                 <p className="text-xl sm:text-2xl font-mono font-bold text-gray-900 dark:text-white tracking-tight mb-8">
                   {PERSONAL_INFO.phone}
@@ -158,7 +159,7 @@ export const ContactSection: React.FC = () => {
                 rel="noopener noreferrer"
                 className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-md group-hover:scale-[1.01]"
               >
-                <span>Chat on WhatsApp</span>
+                <span>{t("contact.whatsappBtn")}</span>
                 <ArrowUpRight className="w-4 h-4" />
               </a>
             </motion.div>
@@ -177,15 +178,15 @@ export const ContactSection: React.FC = () => {
                     <Mail className="w-6 h-6" />
                   </div>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-500/20">
-                    Detailed Briefs
+                    {t("contact.emailDetailed")}
                   </span>
                 </div>
 
                 <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight mb-2">
-                  Direct Email
+                  {t("contact.emailTitle")}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-6 font-normal">
-                  Great for specs, architecture questions, RFPs, or longer-form proposals.
+                  {t("contact.emailDesc")}
                 </p>
                 <p className="text-xl sm:text-2xl font-mono font-bold text-gray-900 dark:text-white tracking-tight mb-8 break-all">
                   {PERSONAL_INFO.email}
@@ -198,7 +199,7 @@ export const ContactSection: React.FC = () => {
                   className="inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-full bg-[#1a3a35] hover:bg-[#132c28] text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-sm"
                 >
                   <Mail className="w-3.5 h-3.5" />
-                  <span>Send Email</span>
+                  <span>{t("contact.emailSend")}</span>
                 </a>
 
                 <button
@@ -207,7 +208,7 @@ export const ContactSection: React.FC = () => {
                   className="inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-white text-xs font-semibold uppercase tracking-wider transition-colors"
                 >
                   {copiedEmail ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
-                  <span>{copiedEmail ? "Copied!" : "Copy Address"}</span>
+                  <span>{copiedEmail ? t("contact.emailCopied") : t("contact.emailCopy")}</span>
                 </button>
               </div>
             </motion.div>
@@ -216,7 +217,7 @@ export const ContactSection: React.FC = () => {
           {/* Socials Bento Grid (Modern & Casual) */}
           <div className="mb-10">
             <h3 className="text-xs font-mono font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-4">
-              Connect Across Socials
+              {t("contact.socialsHeading")}
             </h3>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4">
@@ -259,13 +260,13 @@ export const ContactSection: React.FC = () => {
           <div className="rounded-[16px] border border-gray-200 dark:border-gray-800 bg-gray-50/70 dark:bg-gray-900/30 p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-mono text-gray-600 dark:text-gray-400">
             <div className="flex items-center gap-2.5">
               <MapPin className="w-4 h-4 text-[#1a3a35] dark:text-emerald-400" />
-              <span>{PERSONAL_INFO.location} &bull; East Africa Time (UTC+3)</span>
+              <span>{tContent(PERSONAL_INFO.location)} &bull; East Africa Time (UTC+3)</span>
             </div>
 
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
               <span className="font-semibold text-emerald-700 dark:text-emerald-400">
-                {PERSONAL_INFO.availability}
+                {tContent(PERSONAL_INFO.availability)}
               </span>
             </div>
           </div>

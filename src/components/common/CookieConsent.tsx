@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Cookie, X, Check, Sliders, Shield } from "lucide-react";
+import { Cookie, X, Check, Sliders } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "../../context/LanguageContext";
 
 const CONSENT_KEY = "portfolio_cookie_consent";
 
@@ -9,6 +10,7 @@ export function CookieConsent() {
   const [showBanner, setShowBanner] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [analyticsAllowed, setAnalyticsAllowed] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const saved = localStorage.getItem(CONSENT_KEY);
@@ -79,24 +81,24 @@ export function CookieConsent() {
               </div>
               <div className="flex-1 space-y-1.5">
                 <h3 className="text-sm font-bold text-gray-900 dark:text-white">
-                  Privacy &amp; Local Storage
+                  {t("cookie.title")}
                 </h3>
                 <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
-                  This portfolio uses local browser storage strictly for your theme and language preferences. No tracking or advertising cookies are deployed.
+                  {t("cookie.desc")}
                 </p>
                 <div className="pt-1 flex items-center gap-3 text-[11px]">
                   <Link
                     to="/cookie-policy"
                     className="text-[#1a3a35] dark:text-emerald-400 hover:underline font-semibold"
                   >
-                    Cookie Policy
+                    {t("footer.cookie")}
                   </Link>
                   <span className="text-gray-300 dark:text-gray-700">&bull;</span>
                   <Link
                     to="/privacy-policy"
                     className="text-gray-600 dark:text-gray-400 hover:underline"
                   >
-                    Privacy Policy
+                    {t("footer.privacy")}
                   </Link>
                 </div>
               </div>
@@ -109,21 +111,21 @@ export function CookieConsent() {
                 onClick={() => setShowModal(true)}
                 className="px-3.5 py-1.5 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
-                Preferences
+                {t("cookie.preferences")}
               </button>
               <button
                 type="button"
                 onClick={() => savePreferences(false)}
                 className="px-3.5 py-1.5 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-xs font-semibold text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               >
-                Necessary Only
+                {t("cookie.necessaryOnly")}
               </button>
               <button
                 type="button"
                 onClick={() => savePreferences(true)}
                 className="px-4 py-1.5 rounded-full bg-[#1a3a35] hover:bg-[#132c28] text-white text-xs font-bold transition-colors shadow-sm"
               >
-                Accept All
+                {t("cookie.acceptAll")}
               </button>
             </div>
           </motion.div>
@@ -164,13 +166,13 @@ export function CookieConsent() {
               <div className="mb-6 pr-8">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1a3a35]/10 dark:bg-emerald-500/10 text-[#1a3a35] dark:text-emerald-400 text-xs font-mono font-semibold uppercase tracking-wider mb-2">
                   <Sliders className="w-3.5 h-3.5" />
-                  <span>Preferences</span>
+                  <span>{t("cookie.preferences")}</span>
                 </div>
                 <h2 id="cookie-settings-title" className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
-                  Cookie &amp; Storage Settings
+                  {t("cookie.settingsTitle")}
                 </h2>
                 <p className="mt-1 text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
-                  Customize which client-side storage mechanisms are permitted.
+                  {t("cookie.settingsDesc")}
                 </p>
               </div>
 
@@ -179,13 +181,13 @@ export function CookieConsent() {
                 <div className="p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 flex items-start justify-between gap-4">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-sm text-gray-900 dark:text-white">Strictly Necessary</span>
+                      <span className="font-bold text-sm text-gray-900 dark:text-white">{t("cookie.strictlyNecessary")}</span>
                       <span className="text-[10px] font-mono font-bold uppercase tracking-wider bg-gray-200 dark:bg-gray-700 px-2 py-0.5 rounded text-gray-700 dark:text-gray-300">
-                        Always Active
+                        {t("cookie.alwaysActive")}
                       </span>
                     </div>
                     <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                      Maintains theme preference (Light/Dark mode) and interface language (English/Swahili) in your browser&apos;s local storage.
+                      {t("cookie.necessaryDesc")}
                     </p>
                   </div>
                   <div className="text-emerald-600 dark:text-emerald-400 pt-1">
@@ -196,9 +198,9 @@ export function CookieConsent() {
                 {/* Optional Analytics */}
                 <div className="p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 flex items-start justify-between gap-4">
                   <div className="space-y-1">
-                    <span className="font-bold text-sm text-gray-900 dark:text-white">Performance Telemetry</span>
+                    <span className="font-bold text-sm text-gray-900 dark:text-white">{t("cookie.telemetry")}</span>
                     <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                      Anonymous aggregate metrics for page load times. No personal information or tracking across other sites is ever collected.
+                      {t("cookie.telemetryDesc")}
                     </p>
                   </div>
                   <input
@@ -219,14 +221,14 @@ export function CookieConsent() {
                   onClick={() => savePreferences(false)}
                   className="px-4 py-2 rounded-full border border-gray-300 dark:border-gray-700 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 >
-                  Save Necessary Only
+                  {t("cookie.saveNecessary")}
                 </button>
                 <button
                   type="button"
                   onClick={() => savePreferences(analyticsAllowed)}
                   className="px-5 py-2 rounded-full bg-[#1a3a35] hover:bg-[#132c28] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-sm"
                 >
-                  Save My Preferences
+                  {t("cookie.savePreferences")}
                 </button>
               </div>
             </motion.div>

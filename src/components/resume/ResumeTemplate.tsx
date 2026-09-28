@@ -1,8 +1,11 @@
 import React from 'react';
 import { ResumeData } from '../../lib/resumeBuilder';
+import { useLanguage } from '../../context/LanguageContext';
 
 export const ResumeTemplate = React.forwardRef<HTMLDivElement, { data: ResumeData }>(
   ({ data }, ref) => {
+    const { t } = useLanguage();
+
     return (
       <div ref={ref} className="bg-white text-neutral-900 w-[210mm] min-h-[297mm] p-12 font-sans mx-auto rounded-2xl shadow-xl" style={{ fontFamily: 'system-ui, sans-serif' }}>
         {/* Header */}
@@ -27,13 +30,13 @@ export const ResumeTemplate = React.forwardRef<HTMLDivElement, { data: ResumeDat
 
         {/* About */}
         <div className="mb-8">
-          <div className="text-xs uppercase tracking-widest text-neutral-400 mb-2">About</div>
+          <div className="text-xs uppercase tracking-widest text-neutral-400 mb-2">{t("resumePage.about")}</div>
           <div className="text-base text-neutral-700 leading-relaxed">{data.bio}</div>
         </div>
 
         {/* Skills */}
         <div className="mb-8">
-          <div className="text-xs uppercase tracking-widest text-neutral-400 mb-2">Skills</div>
+          <div className="text-xs uppercase tracking-widest text-neutral-400 mb-2">{t("resumePage.skills")}</div>
           <div className="flex flex-wrap gap-2">
             {data.skills.map(skill => (
               <span key={skill} className="px-3 py-1 rounded-full bg-neutral-100 text-neutral-700 text-xs font-medium border border-neutral-200">
@@ -45,7 +48,7 @@ export const ResumeTemplate = React.forwardRef<HTMLDivElement, { data: ResumeDat
 
         {/* Experience */}
         <div className="mb-8">
-          <div className="text-xs uppercase tracking-widest text-neutral-400 mb-2">Experience</div>
+          <div className="text-xs uppercase tracking-widest text-neutral-400 mb-2">{t("resumePage.experience")}</div>
           <div className="space-y-4">
             {data.experience.map((exp, i) => (
               <div key={i}>
@@ -66,7 +69,7 @@ export const ResumeTemplate = React.forwardRef<HTMLDivElement, { data: ResumeDat
 
         {/* Projects */}
         <div className="mb-8">
-          <div className="text-xs uppercase tracking-widest text-neutral-400 mb-2">Projects</div>
+          <div className="text-xs uppercase tracking-widest text-neutral-400 mb-2">{t("resumePage.projects")}</div>
           <div className="space-y-2">
             {data.projects.map((proj, i) => (
               <div key={i}>

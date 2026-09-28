@@ -12,7 +12,7 @@ export function Navbar() {
   const [bookingOpen, setBookingOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { isDark, toggleTheme } = useTheme();
-  const { language, toggleLanguage, t } = useLanguage();
+  const { language, toggleLanguage, setLanguage, t } = useLanguage();
   const location = useLocation();
 
   useEffect(() => {
@@ -92,16 +92,39 @@ export function Navbar() {
 
           {/* Right Header Controls */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Simple Unobtrusive Language Switcher (EN / SW) */}
-            <button
-              type="button"
-              onClick={toggleLanguage}
-              aria-label={language === "en" ? "Switch language to Swahili" : "Switch language to English"}
-              className="px-2.5 py-1 rounded-md text-xs font-mono font-bold tracking-wider uppercase text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
-              title={language === "en" ? "Badili kwenda Kiswahili" : "Switch to English"}
+            {/* Segmented Language Switcher (EN / SW) */}
+            <div
+              role="group"
+              aria-label="Language selection"
+              className="inline-flex items-center rounded-full p-0.5 border border-gray-200 dark:border-gray-800 bg-gray-100/90 dark:bg-gray-800/90 text-[11px] font-mono font-semibold"
             >
-              {language === "en" ? "SW" : "EN"}
-            </button>
+              <button
+                type="button"
+                onClick={() => setLanguage("en")}
+                aria-pressed={language === "en"}
+                aria-label="English language"
+                className={`px-2.5 py-1 rounded-full transition-all duration-150 ${
+                  language === "en"
+                    ? "bg-white dark:bg-gray-900 text-gray-950 dark:text-white shadow-xs font-bold"
+                    : "text-gray-500 hover:text-gray-900 dark:hover:text-white"
+                }`}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage("sw")}
+                aria-pressed={language === "sw"}
+                aria-label="Lugha ya Kiswahili"
+                className={`px-2.5 py-1 rounded-full transition-all duration-150 ${
+                  language === "sw"
+                    ? "bg-white dark:bg-gray-900 text-gray-950 dark:text-white shadow-xs font-bold"
+                    : "text-gray-500 hover:text-gray-900 dark:hover:text-white"
+                }`}
+              >
+                SW
+              </button>
+            </div>
 
             {/* Theme Toggle Button */}
             <button
@@ -216,14 +239,37 @@ export function Navbar() {
 
               <div className="pt-4 border-t border-gray-200 dark:border-gray-800 space-y-3">
                 <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                  <span>Language</span>
-                  <button
-                    type="button"
-                    onClick={toggleLanguage}
-                    className="px-2.5 py-1 rounded border border-gray-200 dark:border-gray-800 font-mono font-bold text-gray-900 dark:text-white"
+                  <span className="font-medium">{t("nav.language")}</span>
+                  <div
+                    role="group"
+                    aria-label="Language selection"
+                    className="inline-flex items-center rounded-full p-0.5 border border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-800 text-xs font-mono"
                   >
-                    {language === "en" ? "Kiswahili" : "English"}
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => setLanguage("en")}
+                      aria-pressed={language === "en"}
+                      className={`px-3 py-1 rounded-full font-bold transition-all ${
+                        language === "en"
+                          ? "bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-xs"
+                          : "text-gray-500 hover:text-gray-900 dark:hover:text-white"
+                      }`}
+                    >
+                      English
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setLanguage("sw")}
+                      aria-pressed={language === "sw"}
+                      className={`px-3 py-1 rounded-full font-bold transition-all ${
+                        language === "sw"
+                          ? "bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-xs"
+                          : "text-gray-500 hover:text-gray-900 dark:hover:text-white"
+                      }`}
+                    >
+                      Kiswahili
+                    </button>
+                  </div>
                 </div>
 
                 <button

@@ -1,16 +1,23 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Github, ExternalLink, ArrowRight, Layers } from "lucide-react";
+import { Github, ExternalLink, ArrowRight, Layers } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SEO } from "../seo";
 import { ConversionCTASection } from "../components/home/ConversionCTASection";
 import { SiteFooter } from "../components/layout/SiteFooter";
 import { PROJECTS } from "../data/portfolioData";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Projects() {
+  const { t, tContent } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>("All");
 
-  const categories = ["All", "Full-Stack", "Frontend", "Design & Systems"];
+  const categories = [
+    { id: "All", label: t("work.filterAll") },
+    { id: "Full-Stack", label: t("work.filterFullStack") },
+    { id: "Frontend", label: t("work.filterFrontend") },
+    { id: "Design & Systems", label: t("work.filterDesign") },
+  ];
 
   const filtered =
     activeCategory === "All"
@@ -20,8 +27,8 @@ export default function Projects() {
   return (
     <>
       <SEO
-        title="Selected Work & Case Studies | Junior Jeconia"
-        description="Explore production web applications, open-source utilities, and digital platforms built by Junior Jeconia using React, TypeScript, Node.js, and modern architecture."
+        title={`${t("projectsPage.title")} | Junior Jeconia`}
+        description={t("projectsPage.description")}
         url="https://jeconiajunior.vercel.app/projects"
       />
 
@@ -37,18 +44,18 @@ export default function Projects() {
             >
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-mono font-semibold uppercase tracking-widest text-[#1a3a35] dark:text-emerald-400 mb-4">
                 <Layers className="w-3.5 h-3.5" />
-                <span>Selected Work &bull; Shipped Systems</span>
+                <span>{t("projectsPage.eyebrow")}</span>
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.05]">
-                Proof of Work.
+                {t("projectsPage.title")}
                 <span className="block text-gray-500 dark:text-gray-400 text-2xl sm:text-4xl lg:text-5xl font-medium mt-1">
-                  Engineered for real users.
+                  {t("projectsPage.subtitle")}
                 </span>
               </h1>
 
               <p className="mt-6 text-base sm:text-lg text-gray-600 dark:text-gray-300 font-normal leading-relaxed">
-                Detailed breakdowns of web applications, client solutions, and tools I have engineered. Each project highlights the core challenge, system architecture, and verifiable source code.
+                {t("projectsPage.description")}
               </p>
             </motion.div>
 
@@ -56,23 +63,23 @@ export default function Projects() {
             <div className="mt-12 flex flex-wrap items-center gap-2 pt-6 border-t border-gray-200 dark:border-gray-800">
               {categories.map((cat) => (
                 <button
-                  key={cat}
+                  key={cat.id}
                   type="button"
-                  onClick={() => setActiveCategory(cat)}
+                  onClick={() => setActiveCategory(cat.id)}
                   className={`rounded-full px-4 py-2 text-xs font-semibold tracking-wider uppercase transition-all duration-200 ${
-                    activeCategory === cat
+                    activeCategory === cat.id
                       ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-sm"
                       : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-gray-700"
                   }`}
                 >
-                  {cat}
+                  {cat.label}
                 </button>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Projects Grid with Kepha rounded-[16px] cards */}
+        {/* Projects Grid with rounded-[16px] cards */}
         <section className="px-6 lg:px-8 py-20 border-b border-gray-200 dark:border-gray-800 bg-background">
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
@@ -91,7 +98,7 @@ export default function Projects() {
                       <div className="rounded-[12px] overflow-hidden border border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-950 aspect-[16/10] relative mb-6">
                         <img
                           src={project.image}
-                          alt={project.imageAlt || project.title}
+                          alt={tContent(project.imageAlt) || project.title}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           loading="lazy"
                         />
@@ -111,26 +118,26 @@ export default function Projects() {
                       </div>
 
                       <p className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-3">
-                        {project.summary}
+                        {tContent(project.summary)}
                       </p>
 
                       <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mb-6">
-                        {project.description}
+                        {tContent(project.description)}
                       </p>
 
                       {/* Problem & Approach */}
                       <div className="rounded-[12px] border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/40 p-4 text-xs space-y-2 mb-6">
                         <div>
                           <span className="font-mono font-bold text-gray-900 dark:text-white uppercase tracking-wider text-[10px] block mb-0.5">
-                            Challenge
+                            {t("work.problem")}
                           </span>
-                          <span className="text-gray-600 dark:text-gray-400">{project.problem}</span>
+                          <span className="text-gray-600 dark:text-gray-400">{tContent(project.problem)}</span>
                         </div>
                         <div className="pt-2 border-t border-gray-200/60 dark:border-gray-700/60">
                           <span className="font-mono font-bold text-[#1a3a35] dark:text-emerald-400 uppercase tracking-wider text-[10px] block mb-0.5">
-                            Architecture
+                            {t("work.solution")}
                           </span>
-                          <span className="text-gray-600 dark:text-gray-400">{project.solution}</span>
+                          <span className="text-gray-600 dark:text-gray-400">{tContent(project.solution)}</span>
                         </div>
                       </div>
 
@@ -156,7 +163,7 @@ export default function Projects() {
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1.5 rounded-full bg-gray-900 dark:bg-white px-4 py-2 text-xs font-bold uppercase tracking-wider text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 transition-all shadow-sm"
                         >
-                          <span>Live Site</span>
+                          <span>{t("work.liveSite")}</span>
                           <ExternalLink className="w-3.5 h-3.5" />
                         </a>
 
@@ -168,7 +175,7 @@ export default function Projects() {
                             className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all"
                           >
                             <Github className="w-3.5 h-3.5" />
-                            <span>Code</span>
+                            <span>{t("work.sourceCode")}</span>
                           </a>
                         )}
                       </div>
@@ -177,7 +184,7 @@ export default function Projects() {
                         to={`/projects/${project.slug}`}
                         className="inline-flex items-center gap-1 text-xs font-bold text-[#1a3a35] dark:text-emerald-400 hover:underline ml-auto"
                       >
-                        <span>Case Study</span>
+                        <span>{t("work.caseStudy")}</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>

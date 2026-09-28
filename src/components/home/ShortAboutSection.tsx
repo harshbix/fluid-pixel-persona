@@ -2,23 +2,26 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Terminal, Palette, Cpu } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "../../context/LanguageContext";
 
 export const ShortAboutSection: React.FC = () => {
+  const { t } = useLanguage();
+
   const pillars = [
     {
       icon: Palette,
-      title: "Frontend Precision",
-      description: "Fast, typography-led interfaces engineered with React, TypeScript, and accessible interaction design.",
+      title: t("about.pillar1Title"),
+      description: t("about.pillar1Desc"),
     },
     {
       icon: Terminal,
-      title: "Full-Stack Logic",
-      description: "Clean modular backend code, type-safe API boundaries, and reliable data flow.",
+      title: t("about.pillar2Title"),
+      description: t("about.pillar2Desc"),
     },
     {
       icon: Cpu,
-      title: "Hardware Discipline",
-      description: "Background in physical workstation configuration and optimizing for real-world device constraints.",
+      title: t("about.pillar3Title"),
+      description: t("about.pillar3Desc"),
     },
   ];
 
@@ -35,19 +38,19 @@ export const ShortAboutSection: React.FC = () => {
             className="space-y-6"
           >
             <div className="inline-block px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-mono font-semibold uppercase tracking-widest text-[#1a3a35] dark:text-emerald-400">
-              <span>ABOUT &bull; JUNIOR JECONIA</span>
+              <span>{t("about.eyebrow")}</span>
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight">
-              Full-stack development with frontend precision.
+              {t("about.title")}
             </h2>
 
             <div className="space-y-4 text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed font-normal">
               <p>
-                I am Junior Jeconia, a developer and computer engineering student based in Dar es Salaam, Tanzania. I build digital systems where performance, typography, and architecture receive equal care.
+                {t("about.bio1")}
               </p>
               <p>
-                From custom hardware workstations at <strong className="text-gray-900 dark:text-white font-semibold">Bixx Tech</strong> to production web applications, my approach is simple: clean typed code, fast real-world load times, and interfaces that feel effortless to use.
+                {t("about.bio2")}
               </p>
             </div>
 
@@ -56,7 +59,7 @@ export const ShortAboutSection: React.FC = () => {
                 to="/about"
                 className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1a3a35] dark:text-emerald-400 hover:underline"
               >
-                <span>Read Full Story &amp; Philosophy</span>
+                <span>{t("about.learnMore")}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
